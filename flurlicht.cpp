@@ -1,6 +1,10 @@
 #include "flurlicht.h"
-#include "rpi_ws281x/ws2811.h"
 #include <iostream>
+//extern "C" {
+#include "pigpio/pigpio.h"
+#include "rpi_ws281x/ws2811.h"
+//}
+
 
 flurlicht::flurlicht()
 {
@@ -36,6 +40,8 @@ flurlicht::flurlicht()
     Sensors.back = false;
     Sensors.front = false;
     setNextState(ST_ON);
+    //
+//    gpioInitialise();
 }
 
 
