@@ -3,19 +3,8 @@
 
 #include <iostream>
 extern "C" {
-#include "extern/pigpio/pigpio.h"
-#include "extern/rpi_ws281x/ws2811.h"
+#include <pigpio/pigpio.h>
 }
-
-// defaults for cmdline options
-#define TARGET_FREQ             WS2811_TARGET_FREQ
-#define GPIO_PIN                18
-#define DMA                     10
-//#define STRIP_TYPE            WS2811_STRIP_RGB		// WS2812/SK6812RGB integrated chip+leds
-#define STRIP_TYPE              WS2811_STRIP_GBR		// WS2812/SK6812RGB integrated chip+leds
-//#define STRIP_TYPE            SK6812_STRIP_RGBW		// SK6812RGBW (NOT SK6812RGB)
-
-#define LED_COUNT               (4 * 60)
 
 class flurlicht
 {
