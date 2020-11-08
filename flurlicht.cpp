@@ -1,4 +1,5 @@
 #include "flurlicht.h"
+#include "leds.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -7,6 +8,7 @@ using namespace std;
 
 flurlicht::flurlicht()
 {
+    LEDs LEDs_;
     int led_count = LED_COUNT;
 
     int clear_on_exit = 0;

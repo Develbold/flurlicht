@@ -19,7 +19,7 @@ find_package(Threads REQUIRED)
 add_subdirectory(extern/pigpio/)
 #add_subdirectory(extern/rpi_ws281x/)
 
-add_library(flurlichtlib flurlicht.cpp flurlicht.h)
+add_library(flurlichtlib flurlicht.cpp flurlicht.h leds.cpp leds.h)
 
 set(SOURCE_FILES main.cpp)
 
