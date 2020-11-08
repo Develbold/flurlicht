@@ -35,11 +35,11 @@ flurlicht::flurlicht()
 
 
     };
-    Sensors.back = false;
-    Sensors.front = false;
+    Sensors_.back = false;
+    Sensors_.front = false;
     setNextState(ST_ON);
     //
-    gpioInitialise();
+    initGPIO();
 }
 
 
@@ -109,12 +109,12 @@ flurlicht::States flurlicht::getNextState()
 
 void flurlicht::setNextState(flurlicht::States next)
 {
-    CurrentState = next;
+    CurrentState_ = next;
 }
 
 flurlicht::States flurlicht::getCurrentState()
 {
-    return CurrentState;
+    return CurrentState_;
 }
 
 flurlicht::SensorStates flurlicht::getSensorStates()
@@ -122,25 +122,25 @@ flurlicht::SensorStates flurlicht::getSensorStates()
     SensorStates buffer;
     //buffer.front =this->Sensors.front;
     //buffer.back = this->Sensors.back;
-    buffer.front =this->Sensors.front;
-    buffer.back = this->Sensors.back;
+    buffer.front =Sensors_.front;
+    buffer.back = Sensors_.back;
     return buffer;
 
 }
 
 void flurlicht::setSensorStateFront(bool state)
 {
-    this->Sensors.front = state;
+    Sensors_.front = state;
 }
 
 void flurlicht::setSensorStateBack(bool state)
 {
-    this->Sensors.back = state;
+    Sensors_.back = state;
 }
 
 void flurlicht::setAnimationState(bool state)
 {
-    AnimationState = state;
+    AnimationState_ = state;
 }
 
 
@@ -157,11 +157,11 @@ void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
     {
         state=true;
     }
-    if (gpio == PinFront)
+    if (gpio == PinFront_)
     {
         setSensorStateFront(state);
     }
-    else if (gpio == this->PinBack)
+    else if (gpio == PinBack_)
     {
         setSensorStateBack(state);
     }
@@ -176,17 +176,19 @@ void flurlicht::handleGPIOCallbackExt(int gpio, int level, uint32_t tick, void *
 
 bool flurlicht::initGPIO()
 {
+    gpioInitialise();
     //set mode of GPIO
-    gpioSetMode(this->PinFront, PI_INPUT);
-    gpioSetMode(this->PinBack, PI_INPUT);
+    gpioSetMode(PinFront_, PI_INPUT);
+    gpioSetMode(PinBack_, PI_INPUT);
     //register Callbacks
-    gpioSetAlertFuncEx(this->PinFront, handleGPIOCallbackExt, (void *)this);
-    gpioSetAlertFuncEx(this->PinBack, handleGPIOCallbackExt, (void *)this);
+    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
+    gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
+    cout << "INFO: GPIO intitilaized"<< endl;
     return true;
 }
 
 
 bool flurlicht::getAnimationState()
 {
-    return AnimationState;
+    return this->AnimationState_;
 }

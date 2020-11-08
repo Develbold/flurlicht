@@ -35,27 +35,27 @@ private:
     States getNextState();
     void setNextState(States next);
     States getCurrentState();
-    States CurrentState;
+    States CurrentState_;
     //Sensor handling
     struct SensorStates
     {
         bool front;
         bool back;
     };
-    SensorStates Sensors;
+    SensorStates Sensors_;
     SensorStates getSensorStates();
     void setSensorStateFront(bool state);
     void setSensorStateBack(bool state);
     bool getAnimationState();
     void setAnimationState(bool state);
-    bool AnimationState;
+    bool AnimationState_;
 
     //GPIO stuff
     bool initGPIO();
     void handleGPIOCallback(int gpio, int level, uint32_t tick);
     static void handleGPIOCallbackExt(int gpio, int level, uint32_t tick,void *user);
-    const int PinFront = 14;
-    const int PinBack = 15;
+    const int PinFront_ = 14;
+    const int PinBack_ = 15;
 };
 
 #endif // FLURLICHT_H
