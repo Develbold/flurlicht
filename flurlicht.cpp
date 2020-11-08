@@ -46,19 +46,25 @@ flurlicht::flurlicht()
 
 void flurlicht::run()
 {
-    States NextState = getNextState();
-    setNextState(NextState);
-    switch (NextState)
+    while(true)
     {
-        case ST_OFF:
-        break;
-        case ST_ON:
-        break;
-        case ST_ANIMATION:
-        break;
-        case ST_ERROR:
-            std::cout << "ERROR STATE!" << std::endl;
-        break;
+        States NextState = getNextState();
+        setNextState(NextState);
+        switch (NextState)
+        {
+            case ST_OFF:
+                cout << "INFO: switched to OFF state" << endl;
+            break;
+            case ST_ON:
+                cout << "INFO: switched to ON state" << endl;
+            break;
+            case ST_ANIMATION:
+                cout << "INFO: switched to Animation state" << endl;
+            break;
+            case ST_ERROR:
+                cout << "ERROR: switched to ERROR STATE!" << endl;
+            break;
+        }
     }
 }
 
