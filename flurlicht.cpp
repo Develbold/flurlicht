@@ -38,7 +38,7 @@ flurlicht::flurlicht()
     };
     Sensors_.back = false;
     Sensors_.front = false;
-    setNextState(ST_ON);
+    setNextState(ST_OFF);
     //
     initGPIO();
 }
