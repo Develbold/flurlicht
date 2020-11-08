@@ -1,9 +1,9 @@
 #include "flurlicht.h"
 #include <iostream>
-//extern "C" {
-#include "pigpio/pigpio.h"
-#include "rpi_ws281x/ws2811.h"
-//}
+extern "C" {
+#include "extern/pigpio/pigpio.h"
+#include "extern/rpi_ws281x/ws2811.h"
+}
 
 
 flurlicht::flurlicht()

@@ -1,9 +1,21 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.16)
 
 project(flurlicht LANGUAGES CXX C)
 
+# Define our host system
+SET(CMAKE_SYSTEM_NAME Linux)
+SET(CMAKE_SYSTEM_VERSION 1)
+
+# define cross compile tools folder
+set(RP_TOOLS_DIR "")
+
+
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_subdirectory(extern/pigpio/)
+add_subdirectory(extern/rpi_ws281x/)
 
 add_library(flurlichtlib flurlicht.cpp flurlicht.h)
 
