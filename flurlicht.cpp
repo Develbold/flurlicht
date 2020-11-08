@@ -46,6 +46,7 @@ flurlicht::flurlicht()
 
 void flurlicht::run()
 {
+    cout << "INFO: entered loop" << endl;
     while(true)
     {
         States NextState = getNextState();
@@ -68,6 +69,7 @@ void flurlicht::run()
                 cout << "ERROR: switched to Undefined STATE!" << endl;
         }
     }
+    cout << "INFO: finished loop" << endl;
 }
 
 flurlicht::States flurlicht::getNextState()
