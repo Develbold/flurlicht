@@ -41,7 +41,7 @@ flurlicht::flurlicht()
     Sensors.front = false;
     setNextState(ST_ON);
     //
-//    gpioInitialise();
+    gpioInitialise();
 }
 
 
