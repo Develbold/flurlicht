@@ -120,8 +120,6 @@ flurlicht::States flurlicht::getCurrentState()
 flurlicht::SensorStates flurlicht::getSensorStates()
 {
     SensorStates buffer;
-    //buffer.front =this->Sensors.front;
-    //buffer.back = this->Sensors.back;
     buffer.front =Sensors_.front;
     buffer.back = Sensors_.back;
     return buffer;
