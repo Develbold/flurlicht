@@ -2,7 +2,10 @@
 #define FLURLICHT_H
 
 #include <iostream>
-
+extern "C" {
+#include "extern/pigpio/pigpio.h"
+#include "extern/rpi_ws281x/ws2811.h"
+}
 
 // defaults for cmdline options
 #define TARGET_FREQ             WS2811_TARGET_FREQ
@@ -33,6 +36,7 @@ private:
     void setNextState(States next);
     States getCurrentState();
     States CurrentState;
+    //Sensor handling
     struct SensorStates
     {
         bool front;
@@ -40,9 +44,18 @@ private:
     };
     SensorStates Sensors;
     SensorStates getSensorStates();
+    void setSensorStateFront(bool state);
+    void setSensorStateBack(bool state);
     bool getAnimationState();
     void setAnimationState(bool state);
     bool AnimationState;
+
+    //GPIO stuff
+    bool initGPIO();
+    void handleGPIOCallback(int gpio, int level, uint32_t tick);
+    static void handleGPIOCallbackExt(int gpio, int level, uint32_t tick,void *user);
+    const int PinFront = 14;
+    const int PinBack = 15;
 };
 
 #endif // FLURLICHT_H

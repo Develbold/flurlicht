@@ -1,10 +1,8 @@
 #include "flurlicht.h"
 #include <iostream>
-extern "C" {
-#include "extern/pigpio/pigpio.h"
-#include "extern/rpi_ws281x/ws2811.h"
-}
 
+
+using namespace std;
 
 flurlicht::flurlicht()
 {
@@ -122,16 +120,71 @@ flurlicht::States flurlicht::getCurrentState()
 flurlicht::SensorStates flurlicht::getSensorStates()
 {
     SensorStates buffer;
-    buffer.front =false;
-    buffer.back = false;
+    //buffer.front =this->Sensors.front;
+    //buffer.back = this->Sensors.back;
+    buffer.front =this->Sensors.front;
+    buffer.back = this->Sensors.back;
     return buffer;
 
+}
+
+void flurlicht::setSensorStateFront(bool state)
+{
+    this->Sensors.front = state;
+}
+
+void flurlicht::setSensorStateBack(bool state)
+{
+    this->Sensors.back = state;
 }
 
 void flurlicht::setAnimationState(bool state)
 {
     AnimationState = state;
 }
+
+
+void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
+{
+    bool state;
+    //decode the level to state
+    cout << "movement detected! pin:" << gpio << " level: " << level << endl;
+    if (level==0)
+    {
+        state=false;
+    }
+    else if (level==1)
+    {
+        state=true;
+    }
+    if (gpio == PinFront)
+    {
+        setSensorStateFront(state);
+    }
+    else if (gpio == this->PinBack)
+    {
+        setSensorStateBack(state);
+    }
+}
+
+void flurlicht::handleGPIOCallbackExt(int gpio, int level, uint32_t tick, void *user)
+{
+    flurlicht *mySelf = (flurlicht *) user;
+
+    mySelf->handleGPIOCallback(gpio, level, tick);
+}
+
+bool flurlicht::initGPIO()
+{
+    //set mode of GPIO
+    gpioSetMode(this->PinFront, PI_INPUT);
+    gpioSetMode(this->PinBack, PI_INPUT);
+    //register Callbacks
+    gpioSetAlertFuncEx(this->PinFront, handleGPIOCallbackExt, (void *)this);
+    gpioSetAlertFuncEx(this->PinBack, handleGPIOCallbackExt, (void *)this);
+    return true;
+}
+
 
 bool flurlicht::getAnimationState()
 {
