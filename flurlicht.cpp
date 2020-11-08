@@ -64,6 +64,8 @@ void flurlicht::run()
             case ST_ERROR:
                 cout << "ERROR: switched to ERROR STATE!" << endl;
             break;
+            default:
+                cout << "ERROR: switched to Undefined STATE!" << endl;
         }
     }
 }

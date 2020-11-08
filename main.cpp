@@ -14,6 +14,6 @@ int main()
     flurlicht foo;
     foo.run();
 
-    cout << "Hello World!" << endl;
+    cout << "INFO: finished execution" << endl;
     return 0;
 }
