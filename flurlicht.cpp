@@ -1,6 +1,7 @@
 #include "flurlicht.h"
 #include <iostream>
-
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -55,18 +56,23 @@ void flurlicht::run()
         {
             case ST_OFF:
                 cout << "INFO: switched to OFF state" << endl;
+                sleepPeriod(1000);
             break;
             case ST_ON:
                 cout << "INFO: switched to ON state" << endl;
+                sleepPeriod(1000);
             break;
             case ST_ANIMATION:
                 cout << "INFO: switched to Animation state" << endl;
+                sleepPeriod(1000);
             break;
             case ST_ERROR:
                 cout << "ERROR: switched to ERROR STATE!" << endl;
+                sleepPeriod(1000);
             break;
             default:
                 cout << "ERROR: switched to Undefined STATE!" << endl;
+                sleepPeriod(1000);
         }
     }
     cout << "INFO: finished loop" << endl;
@@ -180,6 +186,11 @@ void flurlicht::handleGPIOCallbackExt(int gpio, int level, uint32_t tick, void *
     flurlicht *mySelf = (flurlicht *) user;
 
     mySelf->handleGPIOCallback(gpio, level, tick);
+}
+
+void flurlicht::sleepPeriod(int period)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(period));
 }
 
 bool flurlicht::initGPIO()

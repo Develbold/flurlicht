@@ -56,6 +56,8 @@ private:
     static void handleGPIOCallbackExt(int gpio, int level, uint32_t tick,void *user);
     const int PinFront_ = 14;
     const int PinBack_ = 15;
+    //misc tools
+    void sleepPeriod(int period);
 };
 
 #endif // FLURLICHT_H
