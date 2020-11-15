@@ -1,6 +1,8 @@
 #ifndef LEDS_H
 #define LEDS_H
 
+#include <memory>
+
 extern "C" {
 #include "rpi_ws281x/ws2811.h"
 }
@@ -19,6 +21,10 @@ class LEDs
 {
 public:
     LEDs();
+    void playAnimation();
+private:
+    std::shared_ptr<ws2811_t> ledstring_;
+    //ws2811_t ledstring_;
 };
 
 #endif // LEDS_H
