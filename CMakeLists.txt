@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(flurlicht LANGUAGES CXX C)
+project(flurlicht LANGUAGES CXX C VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Threads REQUIRED)
 
 add_subdirectory(extern/pigpio)
-#add_subdirectory(extern/rpi_ws281x/)
+add_subdirectory(extern/rpi_ws281x)
 
 include_directories(include)
 include_directories(extern)
@@ -20,4 +20,4 @@ add_library(flurlichtlib ${HEADER_FILES} ${SOURCES})
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE pigpio flurlichtlib Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PRIVATE pigpio flurlichtlib ws2811 Threads::Threads)
