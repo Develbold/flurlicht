@@ -138,7 +138,7 @@ void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
 {
     bool state;
     //decode the level to state
-    BOOST_LOG_TRIVIAL(error) << "movement detected! pin"<< gpio << " level: " << level;
+    BOOST_LOG_TRIVIAL(info) << "movement detected! pin"<< gpio << " level: " << level;
     if (level==0)
     {
         state=false;
