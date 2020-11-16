@@ -15,7 +15,7 @@ LEDs::LEDs()
                         .strip_type = STRIP_TYPE,
                         .brightness = 255,
     };
-
+    ledstring_ = std::make_shared<ws2811_t>();
     ledstring_->freq = TARGET_FREQ;
     ledstring_->dmanum = DMA;
     ledstring_->channel[0]=ChannelBuffer;
