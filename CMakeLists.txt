@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Threads REQUIRED)
-find_package(Boost 1.71.0 COMPONENTS log REQUIRED)
+find_package(Boost 1.67 COMPONENTS log REQUIRED)
 
 add_subdirectory(extern/pigpio)
 add_subdirectory(extern/rpi_ws281x)
