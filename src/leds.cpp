@@ -3,19 +3,15 @@
 #include <vector>
 #include <boost/log/trivial.hpp>
 
-LEDs::LEDs()
+LEDs::LEDs(int pin, int count, int type)
 {
     BOOST_LOG_TRIVIAL(debug) << "calling LEDs constructor";
-    int led_count = LED_COUNT;
-
-    int clear_on_exit = 0;
-
     //init ledstring
     ws2811_channel_t ChannelBuffer = {
-                        .gpionum = GPIO_PIN,
+                        .gpionum = pin,
                         .invert = 0,
-                        .count = LED_COUNT,
-                        .strip_type = STRIP_TYPE,
+                        .count = count,
+                        .strip_type = type,
                         .brightness = 255,
     };
     ledstring_ = std::make_shared<ws2811_t>();

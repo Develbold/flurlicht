@@ -5,6 +5,7 @@
 #include <boost/log/trivial.hpp>
 extern "C" {
 #include <pigpio/pigpio.h>
+#include "rpi_ws281x/ws2811.h"
 }
 
 class flurlicht
@@ -48,6 +49,12 @@ private:
     const int PinBack_ = 15;
     //misc tools
     void sleepPeriod(int period);
+
+    //led configuration
+    const int cLEDCOunt_ = 240;
+    const int cLEDPin_ = 18;
+    const int cLEDStripeType_ = WS2811_STRIP_GBR;
+
 };
 
 #endif // FLURLICHT_H
