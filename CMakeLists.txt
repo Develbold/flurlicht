@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Threads REQUIRED)
+find_package(Boost 1.71.0 COMPONENTS log REQUIRED)
 
 add_subdirectory(extern/pigpio)
 add_subdirectory(extern/rpi_ws281x)
@@ -22,4 +23,4 @@ add_library(flurlichtlib ${HEADER_FILES} ${SOURCES})
 
 add_executable(${PROJECT_NAME} src/main.cpp ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} pigpio ws2811 flurlichtlib Threads::Threads)
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} pigpio ws2811 flurlichtlib Threads::Threads)
