@@ -32,15 +32,15 @@ void flurlicht::run()
         {
             case ST_OFF:
                 BOOST_LOG_TRIVIAL(info) << "switched to OFF state";
-                sleepPeriod(1000);
+                sleepPeriod(100);
             break;
             case ST_ON:
                 BOOST_LOG_TRIVIAL(info) << "switched to ON state";
-                sleepPeriod(1000);
+                sleepPeriod(100);
             break;
             case ST_ANIMATION:
                 BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
-                sleepPeriod(1000);
+                sleepPeriod(100);
             break;
             case ST_ERROR:
                 BOOST_LOG_TRIVIAL(error) << "switched to ERROR state";
