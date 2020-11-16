@@ -8,6 +8,7 @@ using namespace std;
 
 flurlicht::flurlicht()
 {
+    BOOST_LOG_TRIVIAL(debug) << "calling flurlich constructor";
     LEDs LEDs_;
 
     // init GPIO and States
@@ -15,6 +16,7 @@ flurlicht::flurlicht()
     Sensors_.front = false;
     setNextState(ST_OFF);
     initGPIO();
+    BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
 }
 
 

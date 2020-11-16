@@ -1,6 +1,7 @@
 #include <iostream>
 #include "flurlicht.h"
 
+
 using namespace std;
 
 
@@ -9,7 +10,7 @@ using namespace std;
 
 int main()
 {
-
+    BOOST_LOG_TRIVIAL(info) << "Flurlicht started";
 
     flurlicht foo;
     foo.run();

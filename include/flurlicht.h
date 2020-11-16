@@ -2,6 +2,7 @@
 #define FLURLICHT_H
 
 #include <iostream>
+#include <boost/log/trivial.hpp>
 extern "C" {
 #include <pigpio/pigpio.h>
 }

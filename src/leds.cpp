@@ -1,13 +1,16 @@
 #include "leds.h"
 #include <memory>
 #include <vector>
+#include <boost/log/trivial.hpp>
 
 LEDs::LEDs()
 {
+    BOOST_LOG_TRIVIAL(debug) << "calling LEDs constructor";
     int led_count = LED_COUNT;
 
     int clear_on_exit = 0;
 
+    //init ledstring
     ws2811_channel_t ChannelBuffer = {
                         .gpionum = GPIO_PIN,
                         .invert = 0,
@@ -18,25 +21,9 @@ LEDs::LEDs()
     ledstring_ = std::make_shared<ws2811_t>();
     ledstring_->freq = TARGET_FREQ;
     ledstring_->dmanum = DMA;
-    ledstring_->channel[0]=ChannelBuffer;
-
-//    ledstring_ =
-//    {
-//        .freq = TARGET_FREQ,
-//        .dmanum = DMA,
-//        .channel =
-//        {
-//            [0] =
-//            {
-//                .gpionum = GPIO_PIN,
-//                .invert = 0,
-//                .count = LED_COUNT,
-//                .strip_type = STRIP_TYPE,
-//                .brightness = 255,
-//            },
-//        }
-//    };
+    ledstring_->channel[0]=ChannelBuffer;    
     ws2811_init(ledstring_.get());
+    BOOST_LOG_TRIVIAL(debug) << "finished LEDs constructor";
 }
 
 void LEDs::playAnimation()
