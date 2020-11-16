@@ -23,7 +23,7 @@ flurlicht::flurlicht()
 
 void flurlicht::run()
 {
-    cout << "INFO: entered loop" << endl;
+    BOOST_LOG_TRIVIAL(info) << "entered flurlicht loop";
     while(true)
     {
         States NextState = getNextState();
@@ -31,27 +31,27 @@ void flurlicht::run()
         switch (NextState)
         {
             case ST_OFF:
-                cout << "INFO: switched to OFF state" << endl;
+                BOOST_LOG_TRIVIAL(info) << "switched to OFF state";
                 sleepPeriod(1000);
             break;
             case ST_ON:
-                cout << "INFO: switched to ON state" << endl;
+                BOOST_LOG_TRIVIAL(info) << "switched to ON state";
                 sleepPeriod(1000);
             break;
             case ST_ANIMATION:
-                cout << "INFO: switched to Animation state" << endl;
+                BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
                 sleepPeriod(1000);
             break;
             case ST_ERROR:
-                cout << "ERROR: switched to ERROR STATE!" << endl;
+                BOOST_LOG_TRIVIAL(error) << "switched to ERROR state";
                 sleepPeriod(1000);
             break;
             default:
-                cout << "ERROR: switched to Undefined STATE!" << endl;
+                BOOST_LOG_TRIVIAL(error) << "switched to UNDEFINED state";
                 sleepPeriod(1000);
         }
     }
-    cout << "INFO: finished loop" << endl;
+    BOOST_LOG_TRIVIAL(info) << "finished loop";
 }
 
 flurlicht::States flurlicht::getNextState()
@@ -171,6 +171,7 @@ void flurlicht::sleepPeriod(int period)
 
 bool flurlicht::initGPIO()
 {
+    BOOST_LOG_TRIVIAL(info) << "GPIO initialing";
     gpioInitialise();
     //set mode of GPIO
     gpioSetMode(PinFront_, PI_INPUT);
@@ -178,7 +179,7 @@ bool flurlicht::initGPIO()
     //register Callbacks
     gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
     gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
-    cout << "INFO: GPIO intitilaized"<< endl;
+    BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
     return true;
 }
 
