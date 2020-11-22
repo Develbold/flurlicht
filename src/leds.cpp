@@ -29,7 +29,7 @@ void LEDs::playAnimation()
     BOOST_LOG_TRIVIAL(debug) << "brightness " <<ledstring_->channel[0].brightness;
     BOOST_LOG_TRIVIAL(debug) << "count " <<ledstring_->channel[0].count;
     BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
-    ledstring_->channel[0].leds[0]=0;
+    //ledstring_->channel[0].leds[0]=0;
     BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
 
 //    while(animating)
@@ -38,7 +38,7 @@ void LEDs::playAnimation()
         {
             for(ws2811_led_t led=0;led<ledstring_->channel[0].count;led++)
             {
-                ledstring_->channel[0].leds[led]=0;
+                ledstring_->channel[0].leds[led]=bright;
             }
             BOOST_LOG_TRIVIAL(debug) << "render";
             ws2811_render(ledstring_.get());
