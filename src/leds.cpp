@@ -28,9 +28,9 @@ void LEDs::playAnimation()
     BOOST_LOG_TRIVIAL(debug) << "playAnimation";
     BOOST_LOG_TRIVIAL(debug) << "brightness " <<ledstring_->channel[0].brightness;
     BOOST_LOG_TRIVIAL(debug) << "count " <<ledstring_->channel[0].count;
-    BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
+    //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
     //ledstring_->channel[0].leds[0]=0;
-    BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
+    //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
 
 //    while(animating)
 //    {
