@@ -30,10 +30,13 @@ private:
     std::chrono::high_resolution_clock::time_point last_render_time_;
     static const auto cDelta = 10;
     ws2811_led_t step_size_ = 1;
-    const ws2811_led_t cMax_brightness = std::numeric_limits<uint32_t>::max();
+    ws2811_led_t max_steps_;
+    ws2811_led_t current_step_ =0;
+    const ws2811_led_t cMax_brightness_ = std::numeric_limits<uint32_t>::max();
     auto getTime();
     auto getIncrement();
     auto getStepSize();
+    auto calcMaxSteps();
 };
 
 class LEDs

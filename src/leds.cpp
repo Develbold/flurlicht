@@ -66,11 +66,18 @@ auto ANIMATION::getStepSize()
     return step_size_;
 }
 
+auto ANIMATION::calcMaxSteps()
+{
+    return cMax_brightness_/getStepSize();
+}
+
 ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring)
 {
     ledstring_ = ledstring;
     last_render_time_ = getTime();
     step_size_ = getStepSize();
+    max_steps_ = calcMaxSteps();
+    BOOST_LOG_TRIVIAL(debug) << "maximum number of steps: " << max_steps_;
 }
 
 bool ANIMATION::doIncrement()
@@ -89,7 +96,8 @@ bool ANIMATION::doIncrement()
         last_render_time_ = getTime();
         ws2811_wait(ledstring_.get());
         //if max value is reached, signal finish
-        if (ledstring_->channel[0].leds[0] == cMax_brightness)
+        current_step_++;
+        if (current_step_ == max_steps_)
         {
             BOOST_LOG_TRIVIAL(debug) << "reached max increment, animation finished";
             return false;
