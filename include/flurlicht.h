@@ -55,7 +55,7 @@ private:
     //led configuration
     const int cLEDCOunt_ = 240;
     const int cLEDPin_ = 18;
-    const int cLEDStripeType_ = WS2811_STRIP_GBR;
+    const int cLEDStripeType_ = SK6812_STRIP;
     std::unique_ptr<LEDs> LEDs_;
 
 };
