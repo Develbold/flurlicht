@@ -32,13 +32,15 @@ bool LEDs::playAnimation()
     //ledstring_->channel[0].leds[0]=0;
     //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
     ANIMATION Animation(ledstring_);
+    bool state = true;
 
 
 
-    while(Animation.doIncrement())
+    while(state)
     {
-
+        state = Animation.doIncrement();
     }
+    BOOST_LOG_TRIVIAL(debug) << "playAnimation finished";
     return true;
 }
 
@@ -89,6 +91,7 @@ bool ANIMATION::doIncrement()
         //if max value is reached, signal finish
         if (ledstring_->channel[0].leds[0] == cMax_brightness)
         {
+            BOOST_LOG_TRIVIAL(debug) << "reached max increment, animation finished";
             return false;
         }
     }
