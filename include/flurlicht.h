@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <boost/log/trivial.hpp>
+#include <memory>
+#include "leds.h"
 extern "C" {
 #include <pigpio/pigpio.h>
 #include "rpi_ws281x/ws2811.h"
@@ -54,6 +56,7 @@ private:
     const int cLEDCOunt_ = 240;
     const int cLEDPin_ = 18;
     const int cLEDStripeType_ = WS2811_STRIP_GBR;
+    std::unique_ptr<LEDs> LEDs_;
 
 };
 

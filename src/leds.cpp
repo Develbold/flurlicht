@@ -18,24 +18,43 @@ LEDs::LEDs(int pin, int count, int type)
     ledstring_->freq = TARGET_FREQ;
     ledstring_->dmanum = DMA;
     ledstring_->channel[0]=ChannelBuffer;    
-    ws2811_init(ledstring_.get());
+    return_state_ = ws2811_init(ledstring_.get());
+    BOOST_LOG_TRIVIAL(debug) << "ws2811 return value:" << return_state_;
     BOOST_LOG_TRIVIAL(debug) << "finished LEDs constructor";
 }
 
 void LEDs::playAnimation()
 {
-    bool animating = true;
+    BOOST_LOG_TRIVIAL(debug) << "playAnimation";
+    BOOST_LOG_TRIVIAL(debug) << "brightness " <<ledstring_->channel[0].brightness;
+    BOOST_LOG_TRIVIAL(debug) << "count " <<ledstring_->channel[0].count;
+    BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
+    ledstring_->channel[0].leds[0]=0;
+    BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
 
 //    while(animating)
 //    {
-        for(auto bright=0;bright<ledstring_->channel[0].brightness;bright++)
+        for(uint8_t bright=0;bright<ledstring_->channel[0].brightness;bright++)
         {
-            for(auto led=0;led<ledstring_->channel[0].count;led++)
+            for(ws2811_led_t led=0;led<ledstring_->channel[0].count;led++)
             {
-                ledstring_->channel[0].leds[led]=bright;
+                ledstring_->channel[0].leds[led]=0;
             }
+            BOOST_LOG_TRIVIAL(debug) << "render";
             ws2811_render(ledstring_.get());
             ws2811_wait(ledstring_.get());
         }
-//    }
+        //    }
+}
+
+bool LEDs::returnWorkingState()
+{
+    if (return_state_ == WS2811_SUCCESS)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

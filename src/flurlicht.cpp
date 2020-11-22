@@ -23,33 +23,43 @@ flurlicht::flurlicht()
 void flurlicht::run()
 {
     BOOST_LOG_TRIVIAL(info) << "entered flurlicht loop";
-    while(true)
+    if (LEDs_->returnWorkingState())
     {
-        States NextState = getNextState();
-        setNextState(NextState);
-        switch (NextState)
+        while(true)
         {
-            case ST_OFF:
-                BOOST_LOG_TRIVIAL(info) << "switched to OFF state";
-                sleepPeriod(100);
-            break;
-            case ST_ON:
-                BOOST_LOG_TRIVIAL(info) << "switched to ON state";
-                sleepPeriod(100);
-            break;
-            case ST_ANIMATION:
-                BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
-                sleepPeriod(100);
-            break;
-            case ST_ERROR:
-                BOOST_LOG_TRIVIAL(error) << "switched to ERROR state";
-                sleepPeriod(1000);
-            break;
-            default:
-                BOOST_LOG_TRIVIAL(error) << "switched to UNDEFINED state";
-                sleepPeriod(1000);
+            States NextState = getNextState();
+            setNextState(NextState);
+            switch (NextState)
+            {
+                case ST_OFF:
+                    BOOST_LOG_TRIVIAL(info) << "switched to OFF state";
+                    sleepPeriod(100);
+                break;
+                case ST_ON:
+                    BOOST_LOG_TRIVIAL(info) << "switched to ON state";
+                    sleepPeriod(100);
+                break;
+                case ST_ANIMATION:
+                    BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
+
+                    LEDs_->playAnimation();
+                    sleepPeriod(100);
+                break;
+                case ST_ERROR:
+                    BOOST_LOG_TRIVIAL(error) << "switched to ERROR state";
+                    sleepPeriod(1000);
+                break;
+                default:
+                    BOOST_LOG_TRIVIAL(error) << "switched to UNDEFINED state";
+                    sleepPeriod(1000);
+            }
         }
     }
+    else
+    {
+        BOOST_LOG_TRIVIAL(info) << "LED state bad, aborting";
+    }
+
     BOOST_LOG_TRIVIAL(info) << "finished loop";
 }
 
