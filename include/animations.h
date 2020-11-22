@@ -1,0 +1,32 @@
+#ifndef ANIMATIONS_H
+#define ANIMATIONS_H
+
+#include <memory>
+#include <chrono>
+#include <boost/log/trivial.hpp>
+
+extern "C" {
+#include "rpi_ws281x/ws2811.h"
+}
+
+class ANIMATION
+{
+public:
+    ANIMATION(std::shared_ptr<ws2811_t> ledstring);
+    bool doIncrement();
+    void doDecrement();
+
+private:
+    std::shared_ptr<ws2811_t> ledstring_;
+    std::chrono::high_resolution_clock::time_point last_render_time_;
+    static const auto cDelta = 10;
+    ws2811_led_t step_size_ = 1;
+    ws2811_led_t max_steps_;
+    ws2811_led_t current_step_ =0;
+    const ws2811_led_t cMax_brightness_ = std::numeric_limits<uint32_t>::max();
+    auto getTime();
+    auto getIncrement();
+    auto getStepSize();
+    auto calcMaxSteps();
+};
+#endif // ANIMATIONS_H

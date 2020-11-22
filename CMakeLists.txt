@@ -17,8 +17,8 @@ include_directories(include)
 include_directories(extern)
 
 
-set(HEADER_FILES include/flurlicht.h include/leds.h)
-set(SOURCES src/flurlicht.cpp src/leds.cpp)
+set(HEADER_FILES include/flurlicht.h include/leds.h include/animations.h)
+set(SOURCES src/flurlicht.cpp src/leds.cpp src/animations.cpp)
 
 add_library(flurlichtlib ${HEADER_FILES} ${SOURCES})
 
