@@ -9,6 +9,8 @@ extern "C" {
 #include "rpi_ws281x/ws2811.h"
 }
 
+#define MAX_BRIGHTNESS 255
+
 class ANIMATION
 {
 public:
@@ -24,7 +26,7 @@ private:
     ws2811_led_t max_steps_;
     ws2811_led_t current_step_ =0;
     //const ws2811_led_t cMax_brightness_ = std::numeric_limits<uint32_t>::max();
-    const ws2811_led_t cMax_brightness_ = 255;
+    const ws2811_led_t cMax_brightness_ = MAX_BRIGHTNESS;
     auto getTime();
     auto getIncrement();
     auto getStepSize();
