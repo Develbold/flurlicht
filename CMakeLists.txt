@@ -20,8 +20,8 @@ include_directories(extern)
 set(HEADER_FILES include/flurlicht.h include/leds.h include/animations.h)
 set(SOURCES src/flurlicht.cpp src/leds.cpp src/animations.cpp)
 
-add_library(flurlichtlib ${HEADER_FILES} ${SOURCES})
+#add_library(flurlichtlib ${HEADER_FILES} ${SOURCES})
 
 add_executable(${PROJECT_NAME} src/main.cpp ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} Boost::log  pigpio ws2811 flurlichtlib Threads::Threads)
+target_link_libraries(${PROJECT_NAME} Boost::log  pigpio ws2811 Threads::Threads)
