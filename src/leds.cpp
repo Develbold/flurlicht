@@ -34,7 +34,7 @@ void LEDs::playAnimation()
 
 //    while(animating)
 //    {
-        for(uint8_t bright=0;bright<ledstring_->channel[0].brightness;bright++)
+        for(uint32_t bright=0;bright<std::numeric_limits<uint32_t>::max();bright++)
         {
             for(ws2811_led_t led=0;led<ledstring_->channel[0].count;led++)
             {
