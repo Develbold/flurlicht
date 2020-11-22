@@ -1,5 +1,4 @@
 #include "flurlicht.h"
-#include "leds.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -9,7 +8,7 @@ using namespace std;
 flurlicht::flurlicht()
 {
     BOOST_LOG_TRIVIAL(debug) << "calling flurlich constructor";
-    LEDs LEDs_(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
+    LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
 
     // init GPIO and States
     Sensors_.back = false;
