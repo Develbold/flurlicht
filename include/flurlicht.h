@@ -40,7 +40,7 @@ private:
     void setSensorStateFront(bool state);
     void setSensorStateBack(bool state);
     bool getAnimationState();
-    void setAnimationState(bool state);
+    //void setAnimationState(bool state);
     bool AnimationState_;
 
     //GPIO stuff

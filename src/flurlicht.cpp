@@ -27,6 +27,7 @@ void flurlicht::run()
     {
         while(true)
         {
+            BOOST_LOG_TRIVIAL(debug) << "getting next state";
             States NextState = getNextState();
             setNextState(NextState);
             switch (NextState)
@@ -42,7 +43,7 @@ void flurlicht::run()
                 case ST_ANIMATION:
                     BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
 
-                    setAnimationState(LEDs_->playAnimation());
+                    LEDs_->playAnimation();
                     //sleepPeriod(10);
                 break;
                 case ST_ERROR:
@@ -137,10 +138,10 @@ void flurlicht::setSensorStateBack(bool state)
     Sensors_.back = state;
 }
 
-void flurlicht::setAnimationState(bool state)
-{
-    AnimationState_ = state;
-}
+//void flurlicht::setAnimationState(bool state)
+//{
+//    AnimationState_ = state;
+//}
 
 
 void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
@@ -197,5 +198,5 @@ bool flurlicht::initGPIO()
 
 bool flurlicht::getAnimationState()
 {
-    return AnimationState_;
+    return LEDs_->getAnimationRunning();
 }

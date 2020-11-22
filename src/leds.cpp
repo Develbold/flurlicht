@@ -7,6 +7,7 @@
 LEDs::LEDs(int pin, int count, int type)
 {
     BOOST_LOG_TRIVIAL(debug) << "calling LEDs constructor";
+    setAnimationState(false);
     //init ledstring
     ws2811_channel_t ChannelBuffer = {
                         .gpionum = pin,
@@ -24,7 +25,7 @@ LEDs::LEDs(int pin, int count, int type)
     BOOST_LOG_TRIVIAL(debug) << "finished LEDs constructor";
 }
 
-bool LEDs::playAnimation()
+void LEDs::playAnimation()
 {
     BOOST_LOG_TRIVIAL(debug) << "playAnimation";
     //BOOST_LOG_TRIVIAL(debug) << "brightness " <<ledstring_->channel[0].brightness;
@@ -33,16 +34,13 @@ bool LEDs::playAnimation()
     //ledstring_->channel[0].leds[0]=0;
     //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
     ANIMATION Animation(ledstring_);
-    bool state = true;
+    setAnimationState(true);
 
-
-
-    while(state)
+    while(getAnimationRunning())
     {
-        state = Animation.doIncrement();
+        setAnimationState(Animation.doIncrement());
     }
     BOOST_LOG_TRIVIAL(debug) << "playAnimation finished";
-    return true;
 }
 
 bool LEDs::returnWorkingState()
@@ -55,4 +53,14 @@ bool LEDs::returnWorkingState()
     {
         return false;
     }
+}
+
+bool LEDs::getAnimationRunning()
+{
+    return animation_running_;
+}
+
+void LEDs::setAnimationState(bool state)
+{
+    animation_running_ = state;
 }

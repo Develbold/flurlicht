@@ -21,12 +21,15 @@ class LEDs
 {
 public:
     LEDs(int pin, int count, int type);
-    bool playAnimation();
+    void playAnimation();
     bool returnWorkingState();
+    bool getAnimationRunning();
 
 private:
     std::shared_ptr<ws2811_t> ledstring_;
     ws2811_return_t return_state_;
+    bool animation_running_;
+    void setAnimationState(bool state);
     //ws2811_t ledstring_;
 };
 
