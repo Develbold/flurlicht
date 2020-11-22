@@ -26,26 +26,20 @@ LEDs::LEDs(int pin, int count, int type)
 bool LEDs::playAnimation()
 {
     BOOST_LOG_TRIVIAL(debug) << "playAnimation";
-    BOOST_LOG_TRIVIAL(debug) << "brightness " <<ledstring_->channel[0].brightness;
-    BOOST_LOG_TRIVIAL(debug) << "count " <<ledstring_->channel[0].count;
+    //BOOST_LOG_TRIVIAL(debug) << "brightness " <<ledstring_->channel[0].brightness;
+    //BOOST_LOG_TRIVIAL(debug) << "count " <<ledstring_->channel[0].count;
     //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
     //ledstring_->channel[0].leds[0]=0;
     //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
+    ANIMATION Animation(ledstring_);
 
-//    while(animating)
-//    {
-        for(uint32_t bright=0;bright<std::numeric_limits<uint32_t>::max();bright++)
-        {
-            for(ws2811_led_t led=0;led<ledstring_->channel[0].count;led++)
-            {
-                ledstring_->channel[0].leds[led]=bright;
-            }
-            //BOOST_LOG_TRIVIAL(debug) << "render";
-            ws2811_render(ledstring_.get());
-            ws2811_wait(ledstring_.get());
-        }
-        //    }
-        return true;
+
+
+    while(Animation.doIncrement())
+    {
+
+    }
+    return true;
 }
 
 bool LEDs::returnWorkingState()
@@ -58,4 +52,45 @@ bool LEDs::returnWorkingState()
     {
         return false;
     }
+}
+
+auto ANIMATION::getTime()
+{
+    return std::chrono::high_resolution_clock::now();
+}
+
+auto ANIMATION::getStepSize()
+{
+    return step_size_;
+}
+
+ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring)
+{
+    ledstring_ = ledstring;
+    last_render_time_ = getTime();
+    step_size_ = getStepSize();
+}
+
+bool ANIMATION::doIncrement()
+{
+    //check if it is time to render
+    auto time_delta = std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - last_render_time_);
+
+    if (time_delta.count()>cDelta)
+    {
+        for(ws2811_led_t led=0;led<ledstring_->channel[0].count;led++)
+        {
+            ledstring_->channel[0].leds[led]+=getStepSize();
+        }
+        //BOOST_LOG_TRIVIAL(debug) << "render";
+        ws2811_render(ledstring_.get());
+        last_render_time_ = getTime();
+        ws2811_wait(ledstring_.get());
+        //if max value is reached, signal finish
+        if (ledstring_->channel[0].leds[0] == cMax_brightness)
+        {
+            return false;
+        }
+    }
+    return true;
 }
