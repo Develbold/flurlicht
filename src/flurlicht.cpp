@@ -42,7 +42,7 @@ void flurlicht::run()
                 case ST_ANIMATION:
                     BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
 
-                    LEDs_->playAnimation();
+                    setAnimationState(LEDs_->playAnimation());
                     //sleepPeriod(10);
                 break;
                 case ST_ERROR:
@@ -186,8 +186,8 @@ bool flurlicht::initGPIO()
     gpioSetMode(PinFront_, PI_INPUT);
     gpioSetMode(PinBack_, PI_INPUT);
     //register Callbacks
-    //gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
-    //gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
+    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
+    gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
     setSensorStateBack(true);
     setSensorStateFront(true);
     BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
@@ -197,5 +197,5 @@ bool flurlicht::initGPIO()
 
 bool flurlicht::getAnimationState()
 {
-    return this->AnimationState_;
+    return AnimationState_;
 }

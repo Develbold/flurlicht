@@ -23,7 +23,7 @@ LEDs::LEDs(int pin, int count, int type)
     BOOST_LOG_TRIVIAL(debug) << "finished LEDs constructor";
 }
 
-void LEDs::playAnimation()
+bool LEDs::playAnimation()
 {
     BOOST_LOG_TRIVIAL(debug) << "playAnimation";
     BOOST_LOG_TRIVIAL(debug) << "brightness " <<ledstring_->channel[0].brightness;
@@ -40,11 +40,12 @@ void LEDs::playAnimation()
             {
                 ledstring_->channel[0].leds[led]=bright;
             }
-            BOOST_LOG_TRIVIAL(debug) << "render";
+            //BOOST_LOG_TRIVIAL(debug) << "render";
             ws2811_render(ledstring_.get());
             ws2811_wait(ledstring_.get());
         }
         //    }
+        return true;
 }
 
 bool LEDs::returnWorkingState()

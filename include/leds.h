@@ -21,7 +21,7 @@ class LEDs
 {
 public:
     LEDs(int pin, int count, int type);
-    void playAnimation();
+    bool playAnimation();
     bool returnWorkingState();
 
 private:
