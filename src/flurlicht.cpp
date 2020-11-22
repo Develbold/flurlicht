@@ -43,7 +43,7 @@ void flurlicht::run()
                     BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
 
                     LEDs_->playAnimation();
-                    sleepPeriod(100);
+                    //sleepPeriod(10);
                 break;
                 case ST_ERROR:
                     BOOST_LOG_TRIVIAL(error) << "switched to ERROR state";
