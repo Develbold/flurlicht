@@ -52,7 +52,8 @@ bool ANIMATION::doIncrement()
         ws2811_wait(ledstring_.get());
         //if max value is reached, signal finish
         current_step_++;
-        if (current_step_ == max_steps_)
+        BOOST_LOG_TRIVIAL(debug) << "current step:" << current_step_;
+        if (current_step_ >= max_steps_)
         {
             BOOST_LOG_TRIVIAL(debug) << "reached max increment, animation finished";
             return false;
