@@ -15,6 +15,16 @@ auto ANIMATION::calcMaxSteps()
     return cMax_brightness_/getStepSize();
 }
 
+auto ANIMATION::getCurrentStep()
+{
+    return current_step_;
+}
+
+ws2811_led_t ANIMATION::calcNextBrightness()
+{
+    return getStepSize()*getCurrentStep();
+}
+
 ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring)
 {
     ledstring_ = ledstring;
@@ -31,9 +41,10 @@ bool ANIMATION::doIncrement()
 
     if (time_delta.count()>cDelta)
     {
+        auto next_brightness = calcNextBrightness();
         for(ws2811_led_t led=0;led<ledstring_->channel[0].count;led++)
         {
-            ledstring_->channel[0].leds[led]+=getStepSize();
+            ledstring_->channel[0].leds[led] = next_brightness;
         }
         //BOOST_LOG_TRIVIAL(debug) << "render";
         ws2811_render(ledstring_.get());

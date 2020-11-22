@@ -28,5 +28,7 @@ private:
     auto getIncrement();
     auto getStepSize();
     auto calcMaxSteps();
+    auto getCurrentStep();
+    ws2811_led_t calcNextBrightness();
 };
 #endif // ANIMATIONS_H
