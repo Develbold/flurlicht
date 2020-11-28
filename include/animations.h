@@ -11,8 +11,7 @@ class ANIMATION_ALLFADE: ANIMATION
 public:
     ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring);
     ~ANIMATION_ALLFADE();
-    bool doIncrement() override;
-    bool doDecrement() override;
+    bool doIncrement(fades_t direction) override;
 };
 
 class ANIMATION_BLINK: ANIMATION
@@ -20,8 +19,7 @@ class ANIMATION_BLINK: ANIMATION
 public:
     ANIMATION_BLINK(std::shared_ptr<ws2811_t> ledstring);
     ~ANIMATION_BLINK();
-    bool doIncrement() override;
-    bool doDecrement() override;
+    bool doIncrement(fades_t direction) override;
 };
 #endif // ANIMATIONS_H
 

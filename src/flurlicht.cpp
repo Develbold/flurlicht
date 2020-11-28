@@ -34,6 +34,7 @@ void flurlicht::run()
             {
                 case ST_OFF:
                     BOOST_LOG_TRIVIAL(info) << "switched to OFF state";
+                    LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
                     sleepPeriod(100);
                 break;
                 case ST_ON:
@@ -43,7 +44,7 @@ void flurlicht::run()
                 case ST_ANIMATION:
                     BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
 
-                    LEDs_->playAnimation();
+                    LEDs_->playAnimation(ANIMATION::fades_t::FADE_IN);
                     //sleepPeriod(10);
                 break;
                 case ST_ERROR:

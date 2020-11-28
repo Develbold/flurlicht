@@ -16,8 +16,10 @@ class ANIMATION
 public:
     ANIMATION(std::shared_ptr<ws2811_t> ledstring);
     virtual ~ANIMATION();
-    virtual bool doIncrement()=0;
-    virtual bool doDecrement()=0;
+
+    typedef enum {FADE_IN,FADE_OUT} fades_t;
+    virtual bool doIncrement(fades_t direction)=0;
+
 
 protected:
     typedef ws2811_led_t led_t;

@@ -2,6 +2,7 @@
 #define LEDS_H
 
 #include <memory>
+#include "animations_base.h"
 
 extern "C" {
 #include "rpi_ws281x/ws2811.h"
@@ -21,7 +22,7 @@ class LEDs
 {
 public:
     LEDs(int pin, int count, int type);
-    void playAnimation();
+    void playAnimation(ANIMATION::fades_t direction);
     bool returnWorkingState();
     bool getAnimationRunning();
 

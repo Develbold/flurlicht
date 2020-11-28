@@ -10,7 +10,7 @@ ANIMATION_ALLFADE::~ANIMATION_ALLFADE()
     //~ANIMATION();
 }
 
-bool ANIMATION_ALLFADE::doIncrement()
+bool ANIMATION_ALLFADE::doIncrement(fades_t direction)
 {
     if (checkRenderTimeValid())
     {
@@ -28,7 +28,30 @@ bool ANIMATION_ALLFADE::doIncrement()
     return true;
 }
 
-bool ANIMATION_ALLFADE::doDecrement()
+ANIMATION_BLINK::ANIMATION_BLINK(std::shared_ptr<ws2811_t> ledstring): ANIMATION(ledstring)
 {
-    return false;
+
+}
+
+ANIMATION_BLINK::~ANIMATION_BLINK()
+{
+    //~ANIMATION();
+}
+
+bool ANIMATION_BLINK::doIncrement(fades_t direction)
+{
+    if (checkRenderTimeValid())
+    {
+        setAllLEDsOneValue(0);
+        renderLEDs();
+        resetLastRenderTime();
+        //if max value is reached, signal finish
+        current_step_++;
+        if (current_step_ >= max_steps_)
+        {
+            BOOST_LOG_TRIVIAL(debug) << "reached max increment, animation finished";
+            return false;
+        }
+    }
+    return true;
 }

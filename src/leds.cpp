@@ -25,7 +25,7 @@ LEDs::LEDs(int pin, int count, int type)
     BOOST_LOG_TRIVIAL(debug) << "finished LEDs constructor";
 }
 
-void LEDs::playAnimation()
+void LEDs::playAnimation(ANIMATION::fades_t direction)
 {
     BOOST_LOG_TRIVIAL(debug) << "playAnimation";
     //BOOST_LOG_TRIVIAL(debug) << "brightness " <<ledstring_->channel[0].brightness;
@@ -34,12 +34,21 @@ void LEDs::playAnimation()
     //ledstring_->channel[0].leds[0]=0;
     //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
     //ANIMATION Animation(ledstring_);
-    ANIMATION_ALLFADE Animation(ledstring_);
+    std::shared_ptr<ANIMATION> pAnimation;
+    if (direction == ANIMATION::fades_t::FADE_IN)
+    {
+        std::shared_ptr<ANIMATION_ALLFADE> pAnimation = std::make_shared<ANIMATION_ALLFADE>(ledstring_);
+    }
+    else
+    {
+        std::shared_ptr<ANIMATION_BLINK> pAnimation = std::make_shared<ANIMATION_BLINK>(ledstring_);
+    }
+
     setAnimationState(true);
 
     while(getAnimationRunning())
     {
-        setAnimationState(Animation.doIncrement());
+        setAnimationState(pAnimation->doIncrement(direction));
     }
     BOOST_LOG_TRIVIAL(debug) << "playAnimation finished";
 }
