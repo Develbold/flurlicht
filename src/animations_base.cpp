@@ -20,7 +20,7 @@ auto ANIMATION::getCurrentStep()
     return current_step_;
 }
 
-ws2811_led_t ANIMATION::calcNextBrightness()
+ANIMATION::led_t ANIMATION::calcNextBrightness()
 {
     return getStepSize()*getCurrentStep();
 }
