@@ -71,6 +71,11 @@ flurlicht::States flurlicht::getNextState()
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
 
+    BOOST_LOG_TRIVIAL(debug) << "switching state absed on: STATE:" << CurrentState <<
+                                ", FRONT:" << SensorBuffer.front<<
+                                ", BACK:" << SensorBuffer.back<<
+                                ", ANIMATION:" << AnimationBuffer;
+
     //TODO: Refactor
     if (CurrentState == ST_OFF && SensorBuffer.front == false && SensorBuffer.back == false)
     {
