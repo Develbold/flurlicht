@@ -135,11 +135,13 @@ flurlicht::SensorStates flurlicht::getSensorStates()
 
 void flurlicht::setSensorStateFront(bool state)
 {
+    BOOST_LOG_TRIVIAL(debug) << "GPIO: FRONT: set " << state;
     Sensors_.front = state;
 }
 
 void flurlicht::setSensorStateBack(bool state)
 {
+    BOOST_LOG_TRIVIAL(debug) << "GPIO: BACK: set " << state;
     Sensors_.back = state;
 }
 
