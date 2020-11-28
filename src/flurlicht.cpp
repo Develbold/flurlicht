@@ -38,7 +38,7 @@ void flurlicht::run()
                 break;
                 case ST_ON:
                     BOOST_LOG_TRIVIAL(info) << "switched to ON state";
-                    sleepPeriod(100);
+                    sleepPeriod(5000);
                 break;
                 case ST_ANIMATION:
                     BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
@@ -98,7 +98,7 @@ flurlicht::States flurlicht::getNextState()
     }
     else if (CurrentState == ST_ON && (SensorBuffer.front == false && SensorBuffer.back == false))
     {
-        StateBuffer = ST_ON;
+        StateBuffer = ST_OFF;
     }
     else
     {
