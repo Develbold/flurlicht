@@ -35,10 +35,10 @@ private:
         bool front;
         bool back;
     };
+    typedef enum {FRONT,BACK} sensor_dir_t;
+    void setSensorState(sensor_dir_t dir, bool state);
     SensorStates Sensors_;
     SensorStates getSensorStates();
-    void setSensorStateFront(bool state);
-    void setSensorStateBack(bool state);
     bool getAnimationState();
     //void setAnimationState(bool state);
     bool AnimationState_;

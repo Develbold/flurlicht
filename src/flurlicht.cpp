@@ -134,23 +134,22 @@ flurlicht::SensorStates flurlicht::getSensorStates()
 
 }
 
-void flurlicht::setSensorStateFront(bool state)
+void flurlicht::setSensorState(sensor_dir_t dir, bool state)
 {
-    BOOST_LOG_TRIVIAL(debug) << "GPIO: FRONT: set " << state;
-    Sensors_.front = state;
+    switch (dir)
+    {
+        case FRONT:
+            Sensors_.front = state;
+        break;
+        case BACK:
+            Sensors_.back = state;
+        break;
+    default:
+        BOOST_LOG_TRIVIAL(debug) << "unknown dir ";
+    }
+
+
 }
-
-void flurlicht::setSensorStateBack(bool state)
-{
-    BOOST_LOG_TRIVIAL(debug) << "GPIO: BACK: set " << state;
-    Sensors_.back = state;
-}
-
-//void flurlicht::setAnimationState(bool state)
-//{
-//    AnimationState_ = state;
-//}
-
 
 void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
 {
@@ -171,11 +170,11 @@ void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
     }
     if (gpio == PinFront_)
     {
-        setSensorStateFront(state);
+        setSensorState(FRONT,state);
     }
     else if (gpio == PinBack_)
     {
-        setSensorStateBack(state);
+        setSensorState(BACK,state);
     }
     else
     {
@@ -205,8 +204,8 @@ bool flurlicht::initGPIO()
     //register Callbacks
     gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
     gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
-    setSensorStateBack(false);
-    setSensorStateFront(false);
+    setSensorState(FRONT,false);
+    setSensorState(BACK,false);
     BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
     return true;
 }
