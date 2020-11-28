@@ -37,10 +37,12 @@ void LEDs::playAnimation(ANIMATION::fades_t direction)
     std::shared_ptr<ANIMATION> pAnimation;
     if (direction == ANIMATION::fades_t::FADE_IN)
     {
+        BOOST_LOG_TRIVIAL(debug) << "created ANIMATION_ALLFADE";
         std::shared_ptr<ANIMATION_ALLFADE> pAnimation = std::make_shared<ANIMATION_ALLFADE>(ledstring_);
     }
     else
     {
+        BOOST_LOG_TRIVIAL(debug) << "created ANIMATION_BLINK";
         std::shared_ptr<ANIMATION_BLINK> pAnimation = std::make_shared<ANIMATION_BLINK>(ledstring_);
     }
 
