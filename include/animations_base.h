@@ -15,10 +15,11 @@ class ANIMATION
 {
 public:
     ANIMATION(std::shared_ptr<ws2811_t> ledstring);
-    bool doIncrement();
-    void doDecrement();
+    virtual ~ANIMATION();
+    virtual bool doIncrement()=0;
+    virtual bool doDecrement()=0;
 
-private:
+protected:
     std::shared_ptr<ws2811_t> ledstring_;
     std::chrono::high_resolution_clock::time_point last_render_time_;
     static const auto cDelta = 10;
@@ -27,12 +28,14 @@ private:
     ws2811_led_t current_step_ =0;
     //const ws2811_led_t cMax_brightness_ = std::numeric_limits<uint32_t>::max();
     const ws2811_led_t cMax_brightness_ = MAX_BRIGHTNESS;
-    auto getTime();
+    std::chrono::high_resolution_clock::time_point getTime();
     auto getIncrement();
     auto getStepSize();
     auto calcMaxSteps();
     auto getCurrentStep();
     ws2811_led_t calcNextBrightness();
+    //set leds
+    void setAllLEDsOneValue(auto value);
 };
 #endif // ANIMATIONS_BASE_H
 

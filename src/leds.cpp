@@ -33,7 +33,8 @@ void LEDs::playAnimation()
     //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
     //ledstring_->channel[0].leds[0]=0;
     //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
-    ANIMATION Animation(ledstring_);
+    //ANIMATION Animation(ledstring_);
+    ANIMATION_ALLFADE Animation(ledstring_);
     setAnimationState(true);
 
     while(getAnimationRunning())
