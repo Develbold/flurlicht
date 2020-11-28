@@ -48,6 +48,7 @@ void LEDs::playAnimation(ANIMATION::fades_t direction)
 
     setAnimationState(true);
 
+    BOOST_LOG_TRIVIAL(debug) << "starting animation";
     while(getAnimationRunning())
     {
         setAnimationState(pAnimation->doIncrement(direction));
