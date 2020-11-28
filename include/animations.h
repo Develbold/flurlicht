@@ -6,7 +6,7 @@
 #include <boost/log/trivial.hpp>
 #include "animations_base.h"
 
-class ANIMATION_ALLFADE: ANIMATION
+class ANIMATION_ALLFADE: public ANIMATION
 {
 public:
     ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring);
