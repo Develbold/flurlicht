@@ -162,6 +162,10 @@ void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
     {
         state=true;
     }
+    else
+    {
+        BOOST_LOG_TRIVIAL(error) << "GPIO: unknown level";
+    }
     if (gpio == PinFront_)
     {
         setSensorStateFront(state);
@@ -169,6 +173,10 @@ void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
     else if (gpio == PinBack_)
     {
         setSensorStateBack(state);
+    }
+    else
+    {
+        BOOST_LOG_TRIVIAL(error) << "GPIO: unknown pin";
     }
 }
 
