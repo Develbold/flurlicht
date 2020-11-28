@@ -205,8 +205,8 @@ bool flurlicht::initGPIO()
     //register Callbacks
     gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
     gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
-    setSensorStateBack(true);
-    setSensorStateFront(true);
+    setSensorStateBack(false);
+    setSensorStateFront(false);
     BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
     return true;
 }
