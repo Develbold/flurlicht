@@ -20,10 +20,10 @@ private:
     void readSensors();
     enum States
     {
-        ST_OFF,
-        ST_ANIMATION,
-        ST_ON,
-        ST_ERROR
+        ST_OFF=0,
+        ST_ANIMATION=2,
+        ST_ON=1,
+        ST_ERROR=-1
     };
     States getNextState();
     void setNextState(States next);
