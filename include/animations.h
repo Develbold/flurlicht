@@ -14,7 +14,7 @@ public:
     bool doIncrement(fades_t direction) override;
 };
 
-class ANIMATION_BLINK: ANIMATION
+class ANIMATION_BLINK: public ANIMATION
 {
 public:
     ANIMATION_BLINK(std::shared_ptr<ws2811_t> ledstring);
