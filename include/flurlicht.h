@@ -7,6 +7,7 @@
 #include <boost/thread/mutex.hpp>
 
 #include "flurlicht_events.h"
+#include "flurlicht_gpio.h"
 #include "leds.h"
 
 extern "C" {
@@ -21,6 +22,8 @@ public:
     void run();
 
 private:
+    FLURLICHT_GPIO Gpio_;
+
     void readSensors();
     enum States
     {
@@ -39,26 +42,12 @@ private:
     void handleANIMATIONState();
     void handleERRORState();
     //Sensor handling
-    struct SensorStates
-    {
-        bool front;
-        bool back;
-    };
     typedef enum {FRONT,BACK} sensor_dir_t;
-    void setSensorState(sensor_dir_t dir, bool state);
-    SensorStates Sensors_;
-    SensorStates getSensorStates();
     bool getAnimationState();
-    //void setAnimationState(bool state);
     bool AnimationState_;
 
     //GPIO stuff
-    const int PinFront_ = 14;
-    const int PinBack_ = 15;
     FLURLICHT_EVENTS Events_;
-    bool initGPIO();
-    void handleGPIOCallback(int gpio, int level, uint32_t tick);
-    static void handleGPIOCallbackExt(int gpio, int level, uint32_t tick,void *user);
 
     //misc tools
     void sleepPeriod(int period);

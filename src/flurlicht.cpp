@@ -14,14 +14,10 @@ flurlicht::flurlicht()
     LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
 
     // init GPIO and States
-    Sensors_.back = false;
-    Sensors_.front = false;
+    Gpio_.initGPIO();
     setNextState(ST_OFF);
-    initGPIO();
     BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
 }
-
-
 
 void flurlicht::run()
 {
@@ -67,7 +63,7 @@ void flurlicht::run()
 
 flurlicht::States flurlicht::getNextState()
 {
-    SensorStates SensorBuffer = getSensorStates();
+    FLURLICHT_GPIO::sensor_states_t SensorBuffer = Gpio_.getSensorStates();
     States StateBuffer;
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
@@ -175,99 +171,10 @@ void flurlicht::handleERRORState()
     BOOST_LOG_TRIVIAL(info) << "finished ERROR state";
 }
 
-flurlicht::SensorStates flurlicht::getSensorStates()
-{
-    SensorStates buffer;
-    buffer.front =Sensors_.front;
-    buffer.back = Sensors_.back;
-    return buffer;
-
-}
-
-void flurlicht::setSensorState(sensor_dir_t dir, bool state)
-{
-        switch (dir)
-        {
-            case FRONT:
-        {
-                if (Events_.lockFront())
-                {
-                    Sensors_.front = state;
-                }
-                break;
-        }
-            case BACK:
-        {
-                if (Events_.lockBack())
-                {
-                    Sensors_.back = state;
-                }
-            break;
-        }
-        default:
-            BOOST_LOG_TRIVIAL(debug) << "unknown dir ";
-        }
-}
-
-void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
-{
-    bool state;
-    //decode the level to state
-    BOOST_LOG_TRIVIAL(info) << "movement detected! pin"<< gpio << " level: " << level;
-    if (level==0)
-    {
-        state=false;
-    }
-    else if (level==1)
-    {
-        state=true;
-    }
-    else
-    {
-        BOOST_LOG_TRIVIAL(error) << "GPIO: unknown level";
-    }
-    if (gpio == PinFront_)
-    {
-        setSensorState(FRONT,state);
-    }
-    else if (gpio == PinBack_)
-    {
-        setSensorState(BACK,state);
-    }
-    else
-    {
-        BOOST_LOG_TRIVIAL(error) << "GPIO: unknown pin";
-    }
-}
-
-void flurlicht::handleGPIOCallbackExt(int gpio, int level, uint32_t tick, void *user)
-{
-    flurlicht *mySelf = (flurlicht *) user;
-
-    mySelf->handleGPIOCallback(gpio, level, tick);
-}
-
 void flurlicht::sleepPeriod(int period)
 {
     std::this_thread::sleep_for(std::chrono::milliseconds(period));
 }
-
-bool flurlicht::initGPIO()
-{
-    BOOST_LOG_TRIVIAL(info) << "GPIO initialing";
-    gpioInitialise();
-    //set mode of GPIO
-    gpioSetMode(PinFront_, PI_INPUT);
-    gpioSetMode(PinBack_, PI_INPUT);
-    //register Callbacks
-//    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
-    gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
-    setSensorState(FRONT,false);
-    setSensorState(BACK,false);
-    BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
-    return true;
-}
-
 
 bool flurlicht::getAnimationState()
 {
