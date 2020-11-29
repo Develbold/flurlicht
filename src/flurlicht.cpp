@@ -72,8 +72,10 @@ flurlicht::States flurlicht::getNextState()
     bool AnimationBuffer = getAnimationState();
 
     //after all input data is collected free the locks
-    events_->unlockAll();
-    events_->unlockAllQueued();
+    Gpio_->flushStates();
+    Gpio_->unblockStates();
+    //events_->unlockAll();
+    //events_->unlockAllQueued();
 
     BOOST_LOG_TRIVIAL(debug) << "switching state absed on: STATE:" << CurrentState <<
                                 ", FRONT:" << SensorBuffer.front<<

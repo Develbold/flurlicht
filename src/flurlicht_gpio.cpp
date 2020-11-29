@@ -14,6 +14,18 @@ FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_GPIO::getSensorStates()
 
 }
 
+void FLURLICHT_GPIO::unblockStates()
+{
+    Sensors_.blocked_back=false;
+    Sensors_.blocked_front=false;
+}
+
+void FLURLICHT_GPIO::flushStates()
+{
+    Sensors_.current.front = Sensors_.next.front;
+    Sensors_.current.back = Sensors_.next.back;
+}
+
 void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true)
 {
         switch (dir)
@@ -23,9 +35,14 @@ void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true
             if (lock)
             {
 
-                if (Events_->lockFront())
+                if (!Sensors_.blocked_front)
                 {
                     Sensors_.current.front = state;
+                    Sensors_.blocked_front =true;
+                }
+                else
+                {
+                    Sensors_.next.front = state;
                 }
             }
             else
@@ -36,9 +53,14 @@ void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true
         {
             if (lock)
             {
-                if (Events_->lockBack())
+                if (!Sensors_.blocked_back)
                 {
                     Sensors_.current.back = state;
+                    Sensors_.blocked_back =true;
+                }
+                else
+                {
+                    Sensors_.next.back = state;
                 }
             }
             else
@@ -129,7 +151,8 @@ bool FLURLICHT_GPIO::initGPIO()
 
 FLURLICHT_GPIO::FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> events)
 {
-    Events_ = events;
+    //Events_ = events;
     setSensorState(FRONT,false,false);
     setSensorState(BACK,false,false);
+    unblockStates();
 }
