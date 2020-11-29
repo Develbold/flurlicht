@@ -131,22 +131,22 @@ bool flurlicht::checkStateValid()
 {
     if(events_->checkAnyLocked())
     {
-        BOOST_LOG_TRIVIAL(debug) << "current state unvalid";
+        //BOOST_LOG_TRIVIAL(debug) << "current state unvalid";
         return false;
     }
     else
     {
-        BOOST_LOG_TRIVIAL(debug) << "current state still valid";
+        //BOOST_LOG_TRIVIAL(debug) << "current state still valid";
         return true;
     }
 }
 
 void flurlicht::handleONState()
 {
-    while(checkStateValid())
-    {
+//    while(checkStateValid())
+//    {
         sleepPeriod(10000);
-    }
+//    }
     BOOST_LOG_TRIVIAL(info) << "finished ON state";
 }
 
@@ -155,7 +155,7 @@ void flurlicht::handleOFFState()
     LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
     while(checkStateValid())
     {
-        sleepPeriod(1000);
+        sleepPeriod(10);
     }
     BOOST_LOG_TRIVIAL(info) << "finished OFF state";
 }
