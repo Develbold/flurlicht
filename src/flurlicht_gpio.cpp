@@ -96,10 +96,33 @@ void FLURLICHT_GPIO::sleepPeriod(int period)
 bool FLURLICHT_GPIO::initGPIO()
 {
     BOOST_LOG_TRIVIAL(info) << "GPIO initialing";
-    gpioInitialise();
+    if(gpioInitialise()==PI_INIT_FAILED)
+    {
+        BOOST_LOG_TRIVIAL(error) << "GPIO init failed";
+        return false;
+    }
     //set mode of GPIO
-    gpioSetMode(PinFront_, PI_INPUT);
-    gpioSetMode(PinBack_, PI_INPUT);
+    if(gpioSetMode(PinFront_, PI_INPUT) !=0)
+    {
+        BOOST_LOG_TRIVIAL(error) << "GPIO mode set failed";
+        return false;
+    }
+    if(gpioSetMode(PinBack_, PI_INPUT) !=0)
+    {
+        BOOST_LOG_TRIVIAL(error) << "GPIO mode set failed";
+        return false;
+    }
+    if(gpioSetPullUpDown(PinFront_,PI_PUD_DOWN) !=0)
+    {
+        BOOST_LOG_TRIVIAL(error) << "GPIO set pulldown failed";
+        return false;
+    }
+    if(gpioSetPullUpDown(PinBack_,PI_PUD_DOWN) !=0)
+    {
+        BOOST_LOG_TRIVIAL(error) << "GPIO set pulldown failed";
+        return false;
+    }
+
     //register Callbacks
 //    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
     gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
