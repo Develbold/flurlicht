@@ -58,7 +58,7 @@ ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring)
     last_render_time_ = getTime();
     step_size_ = getStepSize();
     max_steps_ = calcMaxSteps();
-    //BOOST_LOG_TRIVIAL(debug) << "maximum number of steps: " << max_steps_;
+    BOOST_LOG_TRIVIAL(debug) << "maximum number of steps: " << max_steps_;
 }
 
 ANIMATION::~ANIMATION()

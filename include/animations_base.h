@@ -24,7 +24,7 @@ public:
 protected:
     typedef ws2811_led_t led_t;
 
-    led_t step_size_ = 1;
+    led_t step_size_;
     led_t max_steps_;
     led_t current_step_ =0;
     auto getIncrement();

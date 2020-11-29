@@ -3,6 +3,7 @@
 ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring): ANIMATION(ledstring)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_ALLFADE: constructor called";
+    step_size_ = 255;
 }
 
 ANIMATION_ALLFADE::~ANIMATION_ALLFADE()
@@ -31,6 +32,7 @@ bool ANIMATION_ALLFADE::doIncrement(fades_t direction)
 ANIMATION_BLINK::ANIMATION_BLINK(std::shared_ptr<ws2811_t> ledstring): ANIMATION(ledstring)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_BLINK: constructor called";
+    step_size_ = 255;
 }
 
 ANIMATION_BLINK::~ANIMATION_BLINK()
