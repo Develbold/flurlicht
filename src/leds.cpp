@@ -40,8 +40,8 @@ void LEDs::playAnimation(ANIMATION::fades_t direction)
     {
         BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_ALLFADE";
 //        std::shared_ptr<ANIMATION_ALLFADE> pAnimation = std::make_shared<ANIMATION_ALLFADE>(ledstring_);
-        //pAnimation.push_back(new ANIMATION_ALLFADE(ledstring_));
-        pAnimation.push_back(new ANIMATION_BLINK(ledstring_));
+        pAnimation.push_back(new ANIMATION_ALLFADE(ledstring_));
+        //pAnimation.push_back(new ANIMATION_BLINK(ledstring_));
     }
     else
     {
