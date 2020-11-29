@@ -6,7 +6,7 @@
 #include <memory>
 #include <boost/thread/mutex.hpp>
 
-#include "flurlicht_events.h"
+//#include "flurlicht_events.h"
 #include "leds.h"
 
 extern "C" {
@@ -48,7 +48,7 @@ private:
     //GPIO stuff
     const int PinFront_ = 14;
     const int PinBack_ = 15;
-    std::shared_ptr<FLURLICHT_EVENTS> Events_;
+//    std::shared_ptr<FLURLICHT_EVENTS> Events_;
     void handleGPIOCallback(int gpio, int level, uint32_t tick);
     static void handleGPIOCallbackExt(int gpio, int level, uint32_t tick,void *user);
 
