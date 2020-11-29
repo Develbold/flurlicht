@@ -42,18 +42,15 @@ ANIMATION_BLINK::~ANIMATION_BLINK()
 
 bool ANIMATION_BLINK::doIncrement(fades_t direction)
 {
-    if (checkRenderTimeValid())
+    if (direction == FADE_OUT)
     {
         setAllLEDsOneValue(0);
-        renderLEDs();
-        resetLastRenderTime();
-        //if max value is reached, signal finish
-        current_step_++;
-        if (current_step_ >= max_steps_)
-        {
-            BOOST_LOG_TRIVIAL(debug) << "reached max increment, animation finished";
-            return false;
-        }
     }
+    else
+    {
+        setAllLEDsOneValue(cMax_brightness_);
+    }
+    renderLEDs();
+    resetLastRenderTime();
     return true;
 }

@@ -23,6 +23,7 @@ public:
 
 protected:
     typedef ws2811_led_t led_t;
+    const led_t cMax_brightness_ = MAX_BRIGHTNESS;
 
     led_t step_size_;
     led_t max_steps_;
@@ -41,7 +42,6 @@ protected:
 
 private:
     //leds
-    const led_t cMax_brightness_ = MAX_BRIGHTNESS;
     std::shared_ptr<ws2811_t> ledstring_;
     //timing
     static const auto cDelta_ = 10;
