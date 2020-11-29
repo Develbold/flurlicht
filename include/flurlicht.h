@@ -42,7 +42,7 @@ private:
     void handleANIMATIONState();
     void handleERRORState();
     //Sensor handling
-    typedef enum {FRONT,BACK} sensor_dir_t;
+    //typedef enum {FRONT,BACK} sensor_dir_t;
     bool getAnimationState();
     bool AnimationState_;
 
