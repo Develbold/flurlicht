@@ -7,26 +7,34 @@
 
 bool FLURLICHT_EVENTS::lockFront()
 { 
-    if (mutex_front_.try_lock())
-    {
-        any_mutex_locked = true;
-        BOOST_LOG_TRIVIAL(debug) << "mutex front locked";
-        return true;
-    }
-    BOOST_LOG_TRIVIAL(debug) << "mutex front unavailable";
-    return false;
+//    if (mutex_front_.try_lock())
+//    {
+//        any_mutex_locked = true;
+//        BOOST_LOG_TRIVIAL(debug) << "mutex front locked";
+//        return true;
+//    }
+//    BOOST_LOG_TRIVIAL(debug) << "mutex front unavailable";
+//    return false;
+    mutex_front_.lock();
+    any_mutex_locked = true;
+    BOOST_LOG_TRIVIAL(debug) << "mutex front locked";
+    return true;
 }
 
 bool FLURLICHT_EVENTS::lockBack()
 {
-    if (mutex_back_.try_lock())
-    {
-        any_mutex_locked = true;
-        BOOST_LOG_TRIVIAL(debug) << "mutex back locked";
-        return true;
-    }
-    BOOST_LOG_TRIVIAL(debug) << "mutex back unavailable";
-    return false;
+//    if (mutex_back_.try_lock())
+//    {
+//        any_mutex_locked = true;
+//        BOOST_LOG_TRIVIAL(debug) << "mutex back locked";
+//        return true;
+//    }
+//    BOOST_LOG_TRIVIAL(debug) << "mutex back unavailable";
+//    return false;
+    mutex_back_.lock();
+    any_mutex_locked = true;
+    BOOST_LOG_TRIVIAL(debug) << "mutex back locked";
+    return true;
 }
 
 bool FLURLICHT_EVENTS::checkAnyLocked()
