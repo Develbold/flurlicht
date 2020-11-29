@@ -1,4 +1,5 @@
 #include "flurlicht_events.h"
+#include "flurlicht_tools.h"
 
 #include <chrono>
 #include <boost/thread/mutex.hpp>
@@ -60,4 +61,14 @@ void FLURLICHT_EVENTS::unlockAll()
 {
     unlockFront();
     unlockBack();
+}
+
+void FLURLICHT_EVENTS::unlockAllQueued()
+{
+    while(checkAnyLocked())
+    {
+        unlockAll();
+        FLURLICHT_TOOLS::sleepPeriod(100);
+    }
+    BOOST_LOG_TRIVIAL(debug) << "finished unlock all queued";
 }

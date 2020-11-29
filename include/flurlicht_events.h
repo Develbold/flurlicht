@@ -12,6 +12,7 @@ public:
     bool lockBack();
     bool checkAnyLocked();
     void unlockAll();
+    void unlockAllQueued();
 private:
     void unlockFront();
     void unlockBack();

@@ -88,11 +88,6 @@ void FLURLICHT_GPIO::handleGPIOCallbackExt(int gpio, int level, uint32_t tick, v
     mySelf->handleGPIOCallback(gpio, level, tick);
 }
 
-void FLURLICHT_GPIO::sleepPeriod(int period)
-{
-    std::this_thread::sleep_for(std::chrono::milliseconds(period));
-}
-
 bool FLURLICHT_GPIO::initGPIO()
 {
     BOOST_LOG_TRIVIAL(info) << "GPIO initialing";

@@ -1,4 +1,5 @@
 #include "flurlicht.h"
+#include "flurlicht_tools.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -51,7 +52,7 @@ void flurlicht::run()
                 break;
                 default:
                     BOOST_LOG_TRIVIAL(error) << "switched to UNDEFINED state";
-                    sleepPeriod(1000);
+                    FLURLICHT_TOOLS::sleepPeriod(1000);
             }
         }
     }
@@ -72,6 +73,7 @@ flurlicht::States flurlicht::getNextState()
 
     //after all input data is collected free the locks
     events_->unlockAll();
+    events_->unlockAllQueued();
 
     BOOST_LOG_TRIVIAL(debug) << "switching state absed on: STATE:" << CurrentState <<
                                 ", FRONT:" << SensorBuffer.front<<
@@ -145,7 +147,7 @@ void flurlicht::handleONState()
 {
 //    while(checkStateValid())
 //    {
-        sleepPeriod(10000);
+        FLURLICHT_TOOLS::sleepPeriod(10000);
 //    }
     BOOST_LOG_TRIVIAL(info) << "finished ON state";
 }
@@ -155,7 +157,7 @@ void flurlicht::handleOFFState()
     LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
     while(checkStateValid())
     {
-        sleepPeriod(25);
+        FLURLICHT_TOOLS::sleepPeriod(25);
     }
     BOOST_LOG_TRIVIAL(info) << "finished OFF state";
 }
@@ -170,11 +172,6 @@ void flurlicht::handleANIMATIONState()
 void flurlicht::handleERRORState()
 {
     BOOST_LOG_TRIVIAL(info) << "finished ERROR state";
-}
-
-void flurlicht::sleepPeriod(int period)
-{
-    std::this_thread::sleep_for(std::chrono::milliseconds(period));
 }
 
 bool flurlicht::getAnimationState()
