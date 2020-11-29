@@ -130,24 +130,31 @@ flurlicht::States flurlicht::getCurrentState()
 
 bool flurlicht::checkStateValid()
 {
-
+    return Events_.checkAnyLocked();
 }
 
 void flurlicht::handleONState()
 {
-    sleepPeriod(5000);
-
+    if (checkStateValid())
+    {
+        sleepPeriod(5000);
+    }
 }
 
 void flurlicht::handleOFFState()
 {
-    LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
-    sleepPeriod(100);
+    if (checkStateValid())
+    {
+        LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
+    }
 }
 
 void flurlicht::handleANIMATIONState()
 {
-    LEDs_->playAnimation(ANIMATION::fades_t::FADE_IN);
+    if (checkStateValid())
+    {
+        LEDs_->playAnimation(ANIMATION::fades_t::FADE_IN);
+    }
 }
 
 void flurlicht::handleERRORState()
