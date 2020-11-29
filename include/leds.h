@@ -29,7 +29,7 @@ public:
 private:
     std::shared_ptr<ws2811_t> ledstring_;
     ws2811_return_t return_state_;
-    bool animation_running_;
+    bool animation_running_=false;
     void setAnimationState(bool state);
     //ws2811_t ledstring_;
 };

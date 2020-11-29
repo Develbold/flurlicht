@@ -89,7 +89,15 @@ void FLURLICHT_GPIO::handleGPIOCallback(int gpio, int level, uint32_t tick)
 {
     bool state=false;
     //decode the level to state
-    BOOST_LOG_TRIVIAL(info) << "movement detected! pin"<< gpio << " level: " << level;
+    if(gpio == PinFront_)
+    {
+        BOOST_LOG_TRIVIAL(info) << "change detected! front level: " << level;
+    }
+    else
+    {
+        BOOST_LOG_TRIVIAL(info) << "change detected! back level: " << level;
+    }
+
     if (level==0)
     {
         state=false;
