@@ -154,7 +154,7 @@ bool FLURLICHT_GPIO::initGPIO()
     }
 
     //register Callbacks
-//    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
+    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
     gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
     setSensorState(FRONT,false,false);
     setSensorState(BACK,false,false);
