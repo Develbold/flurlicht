@@ -23,8 +23,15 @@ public:
     {
         bool front;
         bool back;
+    } sensor_states_dirs_t;
+    typedef struct
+    {
+        sensor_states_dirs_t current;
+        sensor_states_dirs_t next;
+        bool blocked_front;
+        bool blocked_back;
     } sensor_states_t;
-    sensor_states_t getSensorStates();
+    sensor_states_dirs_t getSensorStates();
 
 private:
     //Sensor handling

@@ -8,9 +8,9 @@ using namespace std;
 
 
 
-FLURLICHT_GPIO::sensor_states_t FLURLICHT_GPIO::getSensorStates()
+FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_GPIO::getSensorStates()
 {
-    return Sensors_;
+    return Sensors_.current;
 
 }
 
@@ -25,11 +25,11 @@ void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true
 
                 if (Events_->lockFront())
                 {
-                    Sensors_.front = state;
+                    Sensors_.current.front = state;
                 }
             }
             else
-                Sensors_.front = state;
+                Sensors_.current.front = state;
             break;
         }
             case BACK:
@@ -38,11 +38,11 @@ void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true
             {
                 if (Events_->lockBack())
                 {
-                    Sensors_.back = state;
+                    Sensors_.current.back = state;
                 }
             }
             else
-                Sensors_.back = state;
+                Sensors_.current.back = state;
             break;
         }
         default:

@@ -66,7 +66,7 @@ void flurlicht::run()
 
 flurlicht::States flurlicht::getNextState()
 {
-    FLURLICHT_GPIO::sensor_states_t SensorBuffer = Gpio_->getSensorStates();
+    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = Gpio_->getSensorStates();
     States StateBuffer;
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
