@@ -10,10 +10,7 @@ using namespace std;
 
 FLURLICHT_GPIO::sensor_states_t FLURLICHT_GPIO::getSensorStates()
 {
-    sensor_states_t buffer;
-    buffer.front =Sensors_.front;
-    buffer.back = Sensors_.back;
-    return buffer;
+    return Sensors_;
 
 }
 
