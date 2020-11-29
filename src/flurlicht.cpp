@@ -128,9 +128,20 @@ flurlicht::States flurlicht::getCurrentState()
     return CurrentState_;
 }
 
+//return if state is valid based on if mutex is locked
 bool flurlicht::checkStateValid()
 {
-    return !(Events_.checkAnyLocked());
+    bool buffer = Events_.checkAnyLocked();
+    if(buffer)
+    {
+        BOOST_LOG_TRIVIAL(debug) << "current state unvalid";
+        return false;
+    }
+    else
+    {
+        BOOST_LOG_TRIVIAL(debug) << "current state still valid";
+        return true;
+    }
 }
 
 void flurlicht::handleONState()
