@@ -146,7 +146,7 @@ bool flurlicht::checkStateValid()
 
 void flurlicht::handleONState()
 {
-    if (checkStateValid())
+    while(checkStateValid())
     {
         sleepPeriod(10000);
     }
@@ -156,7 +156,7 @@ void flurlicht::handleONState()
 void flurlicht::handleOFFState()
 {
     LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
-    if (checkStateValid())
+    while(checkStateValid())
     {
         sleepPeriod(1000);
     }
