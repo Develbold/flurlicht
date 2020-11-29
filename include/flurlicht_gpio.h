@@ -30,7 +30,7 @@ private:
     //Sensor handling
 
     typedef enum {FRONT,BACK} sensor_dir_t;
-    void setSensorState(sensor_dir_t dir, bool state);
+    void setSensorState(sensor_dir_t dir, bool state, bool lock);
     sensor_states_t Sensors_;
 
 

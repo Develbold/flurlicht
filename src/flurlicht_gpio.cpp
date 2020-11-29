@@ -20,24 +20,35 @@ FLURLICHT_GPIO::sensor_states_t FLURLICHT_GPIO::getSensorStates()
 
 }
 
-void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state)
+void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true)
 {
         switch (dir)
         {
             case FRONT:
         {
+            if (lock)
+            {
+
                 if (Events_.lockFront())
                 {
                     Sensors_.front = state;
                 }
-                break;
+            }
+            else
+                Sensors_.front = state;
+            break;
         }
             case BACK:
         {
+            if (lock)
+            {
                 if (Events_.lockBack())
                 {
                     Sensors_.back = state;
                 }
+            }
+            else
+                Sensors_.back = state;
             break;
         }
         default:
@@ -98,14 +109,14 @@ bool FLURLICHT_GPIO::initGPIO()
     //register Callbacks
 //    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
     gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
-    setSensorState(FRONT,false);
-    setSensorState(BACK,false);
+    setSensorState(FRONT,false,false);
+    setSensorState(BACK,false,false);
     BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
     return true;
 }
 
 FLURLICHT_GPIO::FLURLICHT_GPIO()
 {
-    Sensors_.back = false;
-    Sensors_.front = false;
+    setSensorState(FRONT,false,false);
+    setSensorState(BACK,false,false);
 }
