@@ -143,18 +143,17 @@ void flurlicht::handleONState()
 
 void flurlicht::handleOFFState()
 {
+    LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
     if (checkStateValid())
     {
-        LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
+        sleepPeriod(50);
     }
 }
 
+//finsih this state directly after animation
 void flurlicht::handleANIMATIONState()
 {
-    if (checkStateValid())
-    {
-        LEDs_->playAnimation(ANIMATION::fades_t::FADE_IN);
-    }
+    LEDs_->playAnimation(ANIMATION::fades_t::FADE_IN);
 }
 
 void flurlicht::handleERRORState()
