@@ -2,6 +2,9 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <boost/interprocess/sync/named_mutex.hpp>
+#include <boost/interprocess/creation_tags.hpp>
+#include <boost/thread/mutex.hpp>
 
 using namespace std;
 
@@ -34,22 +37,19 @@ void flurlicht::run()
             {
                 case ST_OFF:
                     BOOST_LOG_TRIVIAL(info) << "switched to OFF state";
-                    LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
-                    sleepPeriod(100);
+                    handleOFFState();
                 break;
                 case ST_ON:
                     BOOST_LOG_TRIVIAL(info) << "switched to ON state";
-                    sleepPeriod(5000);
+                    handleONState();
                 break;
                 case ST_ANIMATION:
                     BOOST_LOG_TRIVIAL(info) << "switched to ANIMATION state";
-
-                    LEDs_->playAnimation(ANIMATION::fades_t::FADE_IN);
-                    //sleepPeriod(10);
+                    handleANIMATIONState();
                 break;
                 case ST_ERROR:
                     BOOST_LOG_TRIVIAL(error) << "switched to ERROR state";
-                    sleepPeriod(1000);
+                    handleERRORState();
                 break;
                 default:
                     BOOST_LOG_TRIVIAL(error) << "switched to UNDEFINED state";
@@ -71,6 +71,9 @@ flurlicht::States flurlicht::getNextState()
     States StateBuffer;
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
+
+    //after all input data is collected free the locks
+    Events_.unlockAll();
 
     BOOST_LOG_TRIVIAL(debug) << "switching state absed on: STATE:" << CurrentState <<
                                 ", FRONT:" << SensorBuffer.front<<
@@ -125,6 +128,33 @@ flurlicht::States flurlicht::getCurrentState()
     return CurrentState_;
 }
 
+bool flurlicht::checkStateValid()
+{
+
+}
+
+void flurlicht::handleONState()
+{
+    sleepPeriod(5000);
+
+}
+
+void flurlicht::handleOFFState()
+{
+    LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
+    sleepPeriod(100);
+}
+
+void flurlicht::handleANIMATIONState()
+{
+    LEDs_->playAnimation(ANIMATION::fades_t::FADE_IN);
+}
+
+void flurlicht::handleERRORState()
+{
+
+}
+
 flurlicht::SensorStates flurlicht::getSensorStates()
 {
     SensorStates buffer;
@@ -136,19 +166,27 @@ flurlicht::SensorStates flurlicht::getSensorStates()
 
 void flurlicht::setSensorState(sensor_dir_t dir, bool state)
 {
-    switch (dir)
-    {
-        case FRONT:
-            Sensors_.front = state;
-        break;
-        case BACK:
-            Sensors_.back = state;
-        break;
-    default:
-        BOOST_LOG_TRIVIAL(debug) << "unknown dir ";
-    }
-
-
+        switch (dir)
+        {
+            case FRONT:
+        {
+                if (Events_.lockFront())
+                {
+                    Sensors_.front = state;
+                }
+                break;
+        }
+            case BACK:
+        {
+                if (Events_.lockBack())
+                {
+                    Sensors_.back = state;
+                }
+            break;
+        }
+        default:
+            BOOST_LOG_TRIVIAL(debug) << "unknown dir ";
+        }
 }
 
 void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
@@ -158,7 +196,7 @@ void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
     BOOST_LOG_TRIVIAL(info) << "movement detected! pin"<< gpio << " level: " << level;
     if (level==0)
     {
-        state=false;
+        //state=false;
     }
     else if (level==1)
     {

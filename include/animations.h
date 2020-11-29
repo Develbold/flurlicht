@@ -21,5 +21,6 @@ public:
     ~ANIMATION_BLINK();
     bool doIncrement(fades_t direction) override;
 };
+
 #endif // ANIMATIONS_H
 

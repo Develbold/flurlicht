@@ -4,7 +4,11 @@
 #include <iostream>
 #include <boost/log/trivial.hpp>
 #include <memory>
+#include <boost/thread/mutex.hpp>
+
+#include "flurlicht_events.h"
 #include "leds.h"
+
 extern "C" {
 #include <pigpio/pigpio.h>
 #include "rpi_ws281x/ws2811.h"
@@ -29,6 +33,11 @@ private:
     void setNextState(States next);
     States getCurrentState();
     States CurrentState_;
+    bool checkStateValid();
+    void handleONState();
+    void handleOFFState();
+    void handleANIMATIONState();
+    void handleERRORState();
     //Sensor handling
     struct SensorStates
     {
@@ -44,11 +53,13 @@ private:
     bool AnimationState_;
 
     //GPIO stuff
+    const int PinFront_ = 14;
+    const int PinBack_ = 15;
+    FLURLICHT_EVENTS Events_;
     bool initGPIO();
     void handleGPIOCallback(int gpio, int level, uint32_t tick);
     static void handleGPIOCallbackExt(int gpio, int level, uint32_t tick,void *user);
-    const int PinFront_ = 14;
-    const int PinBack_ = 15;
+
     //misc tools
     void sleepPeriod(int period);
 
