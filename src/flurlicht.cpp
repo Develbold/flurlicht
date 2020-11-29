@@ -91,14 +91,14 @@ flurlicht::States flurlicht::getNextState()
     {
         StateBuffer = ST_ANIMATION;
     }
-    else if (CurrentState == ST_ANIMATION && AnimationBuffer == false && (SensorBuffer.front == true || SensorBuffer.back == true))
+    else if (CurrentState == ST_ANIMATION && AnimationBuffer == false)
     {
         StateBuffer = ST_ON;
     }
-    else if (CurrentState == ST_ANIMATION && AnimationBuffer == false && SensorBuffer.front == false && SensorBuffer.back == false)
-    {
-        StateBuffer = ST_OFF;
-    }
+//    else if (CurrentState == ST_ANIMATION && AnimationBuffer == false && SensorBuffer.front == false && SensorBuffer.back == false)
+//    {
+//        StateBuffer = ST_OFF;
+//    }
     else if (CurrentState == ST_ON && (SensorBuffer.front == true || SensorBuffer.back == true))
     {
         StateBuffer = ST_ON;
