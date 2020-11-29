@@ -55,7 +55,7 @@ void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true
 
 void FLURLICHT_GPIO::handleGPIOCallback(int gpio, int level, uint32_t tick)
 {
-    bool state;
+    bool state=false;
     //decode the level to state
     BOOST_LOG_TRIVIAL(info) << "movement detected! pin"<< gpio << " level: " << level;
     if (level==0)
