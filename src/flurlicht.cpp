@@ -13,8 +13,10 @@ flurlicht::flurlicht()
     BOOST_LOG_TRIVIAL(debug) << "calling flurlich constructor";
     LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
 
-    // init GPIO and States
-    Gpio_.initGPIO();
+    // init GPIO, Events States
+    events_ = std::make_shared<FLURLICHT_EVENTS>();
+    Gpio_ = std::make_unique<FLURLICHT_GPIO>(events_);
+    Gpio_->initGPIO();
     setNextState(ST_OFF);
     BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
 }
@@ -63,13 +65,13 @@ void flurlicht::run()
 
 flurlicht::States flurlicht::getNextState()
 {
-    FLURLICHT_GPIO::sensor_states_t SensorBuffer = Gpio_.getSensorStates();
+    FLURLICHT_GPIO::sensor_states_t SensorBuffer = Gpio_->getSensorStates();
     States StateBuffer;
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
 
     //after all input data is collected free the locks
-    Events_.unlockAll();
+    events_->unlockAll();
 
     BOOST_LOG_TRIVIAL(debug) << "switching state absed on: STATE:" << CurrentState <<
                                 ", FRONT:" << SensorBuffer.front<<
@@ -127,8 +129,7 @@ flurlicht::States flurlicht::getCurrentState()
 //return if state is valid based on if mutex is locked
 bool flurlicht::checkStateValid()
 {
-    bool buffer = Events_.checkAnyLocked();
-    if(buffer)
+    if(events_->checkAnyLocked())
     {
         BOOST_LOG_TRIVIAL(debug) << "current state unvalid";
         return false;

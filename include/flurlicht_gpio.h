@@ -17,7 +17,7 @@ extern "C" {
 class FLURLICHT_GPIO
 {
 public:
-    FLURLICHT_GPIO();
+    FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> events);
     bool initGPIO();
     typedef struct
     {
@@ -37,7 +37,7 @@ private:
     //GPIO stuff
     const int PinFront_ = 14;
     const int PinBack_ = 15;
-    FLURLICHT_EVENTS Events_;
+    std::shared_ptr<FLURLICHT_EVENTS> Events_;
     void handleGPIOCallback(int gpio, int level, uint32_t tick);
     static void handleGPIOCallbackExt(int gpio, int level, uint32_t tick,void *user);
 

@@ -22,7 +22,7 @@ public:
     void run();
 
 private:
-    FLURLICHT_GPIO Gpio_;
+    std::unique_ptr<FLURLICHT_GPIO> Gpio_;
 
     void readSensors();
     enum States
@@ -46,8 +46,7 @@ private:
     bool getAnimationState();
     bool AnimationState_;
 
-    //GPIO stuff
-    FLURLICHT_EVENTS Events_;
+    std::shared_ptr<FLURLICHT_EVENTS> events_;
 
     //misc tools
     void sleepPeriod(int period);

@@ -26,7 +26,7 @@ void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true
             if (lock)
             {
 
-                if (Events_.lockFront())
+                if (Events_->lockFront())
                 {
                     Sensors_.front = state;
                 }
@@ -39,7 +39,7 @@ void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true
         {
             if (lock)
             {
-                if (Events_.lockBack())
+                if (Events_->lockBack())
                 {
                     Sensors_.back = state;
                 }
@@ -112,8 +112,9 @@ bool FLURLICHT_GPIO::initGPIO()
     return true;
 }
 
-FLURLICHT_GPIO::FLURLICHT_GPIO()
+FLURLICHT_GPIO::FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> events)
 {
+    Events_ = events;
     setSensorState(FRONT,false,false);
     setSensorState(BACK,false,false);
 }
