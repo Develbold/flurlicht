@@ -1,10 +1,7 @@
 #include "flurlicht_gpio.h"
-#include <iostream>
 #include <chrono>
 #include <thread>
-#include <boost/interprocess/sync/named_mutex.hpp>
-#include <boost/interprocess/creation_tags.hpp>
-#include <boost/thread/mutex.hpp>
+
 
 using namespace std;
 
