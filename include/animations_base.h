@@ -14,7 +14,7 @@ extern "C" {
 class ANIMATION
 {
 public:
-    ANIMATION(std::shared_ptr<ws2811_t> ledstring);
+    ANIMATION(std::shared_ptr<ws2811_t> ledstring, int step_size);
     virtual ~ANIMATION();
 
     typedef enum {FADE_IN,FADE_OUT} fades_t;

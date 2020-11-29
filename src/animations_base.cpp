@@ -52,11 +52,12 @@ void ANIMATION::renderLEDs()
     ws2811_wait(ledstring_.get());
 }
 
-ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring)
+ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring, int step_size)
 {
+    BOOST_LOG_TRIVIAL(debug) << "ANIMATION: base constructor called";
     ledstring_ = ledstring;
     last_render_time_ = getTime();
-    step_size_ = getStepSize();
+    step_size_ = step_size;
     max_steps_ = calcMaxSteps();
     BOOST_LOG_TRIVIAL(debug) << "maximum number of steps: " << max_steps_;
 }
