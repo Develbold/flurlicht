@@ -216,7 +216,7 @@ void flurlicht::handleGPIOCallback(int gpio, int level, uint32_t tick)
     BOOST_LOG_TRIVIAL(info) << "movement detected! pin"<< gpio << " level: " << level;
     if (level==0)
     {
-        //state=false;
+        state=false;
     }
     else if (level==1)
     {
@@ -260,7 +260,7 @@ bool flurlicht::initGPIO()
     gpioSetMode(PinFront_, PI_INPUT);
     gpioSetMode(PinBack_, PI_INPUT);
     //register Callbacks
-    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
+//    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
     gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
     setSensorState(FRONT,false);
     setSensorState(BACK,false);
