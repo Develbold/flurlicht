@@ -139,6 +139,7 @@ void flurlicht::handleONState()
     {
         sleepPeriod(5000);
     }
+    BOOST_LOG_TRIVIAL(info) << "finished ON state";
 }
 
 void flurlicht::handleOFFState()
@@ -148,17 +149,19 @@ void flurlicht::handleOFFState()
     {
         sleepPeriod(50);
     }
+    BOOST_LOG_TRIVIAL(info) << "finished OFF state";
 }
 
 //finsih this state directly after animation
 void flurlicht::handleANIMATIONState()
 {
     LEDs_->playAnimation(ANIMATION::fades_t::FADE_IN);
+    BOOST_LOG_TRIVIAL(info) << "finished ANIMATION state";
 }
 
 void flurlicht::handleERRORState()
 {
-
+    BOOST_LOG_TRIVIAL(info) << "finished ERROR state";
 }
 
 flurlicht::SensorStates flurlicht::getSensorStates()
