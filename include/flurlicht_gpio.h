@@ -17,7 +17,8 @@ extern "C" {
 class FLURLICHT_GPIO
 {
 public:
-    FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> events);
+//    FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> events);
+    FLURLICHT_GPIO();
     bool initGPIO();
     typedef struct
     {
@@ -34,6 +35,7 @@ public:
     sensor_states_dirs_t getSensorStates();
     void unblockStates();
     void flushStates();
+    bool checkAnyBLocked();
 
 private:
     //Sensor handling

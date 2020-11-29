@@ -1,5 +1,6 @@
 #include "flurlicht_gpio.h"
 #include <chrono>
+#include <flurlicht_gpio.h>
 #include <thread>
 
 
@@ -18,6 +19,18 @@ void FLURLICHT_GPIO::unblockStates()
 {
     Sensors_.blocked_back=false;
     Sensors_.blocked_front=false;
+}
+
+bool FLURLICHT_GPIO::checkAnyBLocked()
+{
+    if(Sensors_.blocked_back==true||Sensors_.blocked_front==true)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void FLURLICHT_GPIO::flushStates()
@@ -149,7 +162,8 @@ bool FLURLICHT_GPIO::initGPIO()
     return true;
 }
 
-FLURLICHT_GPIO::FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> events)
+//FLURLICHT_GPIO::FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> events)
+FLURLICHT_GPIO::FLURLICHT_GPIO()
 {
     //Events_ = events;
     setSensorState(FRONT,false,false);

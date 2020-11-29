@@ -45,7 +45,7 @@ private:
     bool getAnimationState();
     bool AnimationState_;
 
-    std::shared_ptr<FLURLICHT_EVENTS> events_;
+    //std::shared_ptr<FLURLICHT_EVENTS> events_;
 
     //misc tools
     void sleepPeriod(int period);

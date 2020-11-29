@@ -15,8 +15,9 @@ flurlicht::flurlicht()
     LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
 
     // init GPIO, Events States
-    events_ = std::make_shared<FLURLICHT_EVENTS>();
-    Gpio_ = std::make_unique<FLURLICHT_GPIO>(events_);
+    //events_ = std::make_shared<FLURLICHT_EVENTS>();
+    //Gpio_ = std::make_unique<FLURLICHT_GPIO>(events_);
+    Gpio_ = std::make_unique<FLURLICHT_GPIO>();
     Gpio_->initGPIO();
     setNextState(ST_OFF);
     BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
@@ -133,7 +134,7 @@ flurlicht::States flurlicht::getCurrentState()
 //return if state is valid based on if mutex is locked
 bool flurlicht::checkStateValid()
 {
-    if(events_->checkAnyLocked())
+    if(Gpio_->checkAnyBLocked())
     {
         //BOOST_LOG_TRIVIAL(debug) << "current state unvalid";
         return false;
