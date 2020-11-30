@@ -25,10 +25,12 @@ bool FLURLICHT_GPIO::checkAnyBLocked()
 {
     if(Sensors_.blocked_back==true||Sensors_.blocked_front==true)
     {
+        BOOST_LOG_TRIVIAL(debug) << "Sensor state change is blocked";
         return true;
     }
     else
     {
+        BOOST_LOG_TRIVIAL(debug) << "Sensor state change is unblocked";
         return false;
     }
 }
