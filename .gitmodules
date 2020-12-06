@@ -10,3 +10,6 @@
 [submodule "extern/pigpio"]
 	path = extern/pigpio
 	url = https://github.com/joan2937/pigpio.git
+[submodule "extern/UUGear"]
+	path = extern/UUGear
+	url = https://github.com/uugear/UUGear.git
