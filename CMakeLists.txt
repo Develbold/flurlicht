@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(flurlicht LANGUAGES CXX VERSION 0.1.0)
+project(flurlicht LANGUAGES CXX C VERSION 0.1.0)
 
 SET(BUILD_SHARED_LIBS OFF)
 set(CMAKE_CXX_STANDARD 14)
@@ -9,6 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Threads REQUIRED)
 set(Boost_USE_STATIC_LIBS   ON)
 find_package(Boost 1.67 COMPONENTS log REQUIRED)
+
+find_library(LIBRT rt)
 
 add_subdirectory(extern/pigpio)
 add_subdirectory(extern/rpi_ws281x)
@@ -22,7 +24,9 @@ set(HEADER_FILES include/flurlicht.h
                 include/flurlicht_gpio.h
                 include/leds.h
                 include/animations_base.h
-                include/animations.h)
+                include/animations.h
+                extern/UUGear/RaspberryPi/src/UUGear.h
+                extern/UUGear/RaspberryPi/src/UUGearDaemon.h)
 set(SOURCES src/flurlicht.cpp
             src/flurlicht_tools.cpp
             src/flurlicht_gpio.cpp
@@ -31,7 +35,8 @@ set(SOURCES src/flurlicht.cpp
             src/animations.cpp)
 
 #add_library(flurlichtlib ${HEADER_FILES} ${SOURCES})
+add_library(uugearlib extern/UUGear/RaspberryPi/src/UUGear.h extern/UUGear/RaspberryPi/src/UUGear.c)
 
 add_executable(${PROJECT_NAME} src/main.cpp ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} Boost::log  pigpio ws2811 Threads::Threads)
+target_link_libraries(${PROJECT_NAME} Boost::log  pigpio ws2811 Threads::Threads uugearlib rt)

@@ -24,7 +24,7 @@ int main()
 
     setShowLogs(1);
 
-    arduino = attachUUGearDevice ("UUGear-Arduino-7853-2668");
+    arduino = attachUUGearDevice ((char *)"UUGear-Arduino-7853-2668");
 
     cout << "INFO: finished execution" << endl;
     return 0;
