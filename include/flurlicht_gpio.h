@@ -12,6 +12,8 @@
 extern "C" {
 #include <pigpio/pigpio.h>
 #include "rpi_ws281x/ws2811.h"
+//#include <mqueue.h>
+//#include "UUGear/RaspberryPi/src/UUGear.h"
 }
 
 class FLURLICHT_GPIO
@@ -43,6 +45,9 @@ private:
     typedef enum {FRONT,BACK} sensor_dir_t;
     void setSensorState(sensor_dir_t dir, bool state, bool lock);
     sensor_states_t Sensors_;
+
+//    std::shared_ptr<UUGearDevice> arduino;
+//    UUGearDevice arduino;
 
 
     //GPIO stuff

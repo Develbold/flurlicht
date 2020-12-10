@@ -3,6 +3,10 @@
 //#include <flurlicht_gpio.h>
 #include <thread>
 
+//extern "C" {
+//#include <mqueue.h>
+//#include "UUGear/RaspberryPi/src/UUGear.h"
+//}
 
 using namespace std;
 
@@ -162,6 +166,12 @@ bool FLURLICHT_GPIO::initGPIO()
         BOOST_LOG_TRIVIAL(error) << "GPIO set pulldown failed";
         return false;
     }
+
+//    setupUUGear();
+
+//    setShowLogs(1);
+
+//    arduino = attachUUGearDevice ("UUGear-Arduino-7853-2668");
 
     //register Callbacks
     gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
