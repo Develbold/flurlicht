@@ -29,12 +29,12 @@ bool FLURLICHT_GPIO::checkAnyBLocked()
 {
     if(Sensors_.blocked_back==true||Sensors_.blocked_front==true)
     {
-        BOOST_LOG_TRIVIAL(debug) << "Sensor state change is blocked";
+        // BOOST_LOG_TRIVIAL(debug) << "Sensor state change is blocked";
         return true;
     }
     else
     {
-        BOOST_LOG_TRIVIAL(debug) << "Sensor state change is unblocked";
+        // BOOST_LOG_TRIVIAL(debug) << "Sensor state change is unblocked";
         return false;
     }
 }
@@ -156,7 +156,7 @@ bool FLURLICHT_GPIO::initGPIO()
         BOOST_LOG_TRIVIAL(error) << "GPIO mode set failed";
         return false;
     }
-    if(gpioSetPullUpDown(PinFront_,PI_PUD_DOWN) !=0)
+    if(gpioSetPullUpDown(PinFront_,PI_PUD_OFF) !=0)
     {
         BOOST_LOG_TRIVIAL(error) << "GPIO set pulldown failed";
         return false;
@@ -175,7 +175,7 @@ bool FLURLICHT_GPIO::initGPIO()
 
     //register Callbacks
     gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
-    gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
+    // gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
     setSensorState(FRONT,false,false);
     setSensorState(BACK,false,false);
     BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
