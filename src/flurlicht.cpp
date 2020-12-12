@@ -18,8 +18,8 @@ flurlicht::flurlicht()
     // init GPIO, Events States
     //events_ = std::make_shared<FLURLICHT_EVENTS>();
     //Gpio_ = std::make_unique<FLURLICHT_GPIO>(events_);
-    Gpio_ = std::make_unique<FLURLICHT_GPIO>();
-    Gpio_->initGPIO();
+    //Gpio_ = std::make_unique<FLURLICHT_GPIO>();
+    //Gpio_->initGPIO();
     setNextState(ST_OFF);
     BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
 }
@@ -71,14 +71,15 @@ void flurlicht::run()
 
 flurlicht::States flurlicht::getNextState()
 {
-    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = Gpio_->getSensorStates();
+//    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = Gpio_->getSensorStates();
+    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = arduino_.getSensorStates();
     States StateBuffer;
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
 
     //after all input data is collected free the locks
-    Gpio_->flushStates();
-    Gpio_->unblockStates();
+//    Gpio_->flushStates();
+//    Gpio_->unblockStates();
     //events_->unlockAll();
     //events_->unlockAllQueued();
 
@@ -136,18 +137,10 @@ flurlicht::States flurlicht::getCurrentState()
 }
 
 //return if state is valid based on if mutex is locked
-bool flurlicht::checkStateValid()
+bool flurlicht::checkStateValid(bool state)
 {
-    if(Gpio_->checkAnyBLocked())
-    {
-        //BOOST_LOG_TRIVIAL(debug) << "current state unvalid";
-        return false;
-    }
-    else
-    {
-        //BOOST_LOG_TRIVIAL(debug) << "current state still valid";
-        return true;
-    }
+    FLURLICHT_GPIO::sensor_states_dirs_t buffer = arduino_.getSensorStates();
+    return (buffer.front==state && buffer.back==state);
 }
 
 void flurlicht::handleONState()
@@ -162,7 +155,7 @@ void flurlicht::handleONState()
 void flurlicht::handleOFFState()
 {
     LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
-    while(checkStateValid())
+    while(checkStateValid(false))
     {
         FLURLICHT_TOOLS::sleepPeriod(25);
     }

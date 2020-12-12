@@ -23,7 +23,7 @@ public:
     void run();
 
 private:
-    std::unique_ptr<FLURLICHT_GPIO> Gpio_;
+//    std::unique_ptr<FLURLICHT_GPIO> Gpio_;
 
     void readSensors();
     enum States
@@ -37,7 +37,7 @@ private:
     void setNextState(States next);
     States getCurrentState();
     States CurrentState_;
-    bool checkStateValid();
+    bool checkStateValid(bool state);
     void handleONState();
     void handleOFFState();
     void handleANIMATIONState();
