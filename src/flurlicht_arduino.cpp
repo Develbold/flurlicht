@@ -63,12 +63,14 @@ void FLURLICHT_ARDUINO::readOnce()
           scanning = false;
           if (states_last_.back != states_.back)
           {
-              //TODO add comm
+              BOOST_LOG_TRIVIAL(info) << "change detected! back level: " << states_.back << "," << states_last_.back;
+              updateStates(states_.back,BACK);
               states_last_.back = states_.back;
           };
           if(states_last_.front != states_.front)
           {
-              //TODO add comm
+              BOOST_LOG_TRIVIAL(info) << "change detected! front level: " << states_.front << "," << states_last_.front;
+              updateStates(states_.back,FRONT);
               states_last_.front = states_.front;
           };
 
