@@ -50,6 +50,7 @@ void FLURLICHT_ARDUINO::readOnce()
       // if \n is read, do processing
       if (c=='\n' && line.size() >= 10)
       {
+          cout << "arduino: " << line << endl;
           unsigned first = line.find('A');
           unsigned middle = line.find('B');
           unsigned end = line.find('\n');
@@ -85,11 +86,13 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
     {
         if (dir == sensor_dir_t::FRONT)
         {
+            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time front";
             last_trigger_time_front_=FLURLICHT_TOOLS::getTime();
             states_ext_.front=true;
         }
         else
         {
+            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time back";
             last_trigger_time_back_=FLURLICHT_TOOLS::getTime();
             states_ext_.back=true;
         }
@@ -100,6 +103,7 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
         {
             if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_front_,cCoolOffPeriod_))
             {
+                BOOST_LOG_TRIVIAL(debug) << "clear trigger front";
                 states_ext_.front=false;
             }
         }
@@ -107,6 +111,7 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
         {
             if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_back_,cCoolOffPeriod_))
             {
+                BOOST_LOG_TRIVIAL(debug) << "clear trigger back";
                 states_ext_.back=false;
             }
         }
