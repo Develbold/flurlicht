@@ -25,6 +25,7 @@ set(HEADER_FILES include/flurlicht.h
                 include/animations.h
                 include/flurlicht_events.h
                 include/flurlicht_arduino.h)
+
 set(SOURCES src/flurlicht.cpp
             src/flurlicht_tools.cpp
             src/flurlicht_gpio.cpp
