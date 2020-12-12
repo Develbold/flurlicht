@@ -4,6 +4,7 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include "flurlicht_gpio.h"
+//#include <boost/thread.hpp>
 
 class FLURLICHT_ARDUINO
 {
@@ -20,6 +21,7 @@ private:
 
     bool evaluateTrigger(float voltage);
     void readOnce();
+    void runThread();
 };
 
 #endif // FLURLICHT_ARDUINO_H

@@ -6,6 +6,7 @@
 #include <boost/interprocess/sync/named_mutex.hpp>
 #include <boost/interprocess/creation_tags.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/thread.hpp>
 
 using namespace std;
 
@@ -26,6 +27,9 @@ flurlicht::flurlicht()
 void flurlicht::run()
 {
     BOOST_LOG_TRIVIAL(info) << "entered flurlicht loop";
+
+    arduino_.run();
+
     if (LEDs_->returnWorkingState())
     {
         while(true)

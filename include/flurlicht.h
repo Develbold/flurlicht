@@ -57,6 +57,9 @@ private:
     const int cLEDStripeType_ = SK6812_STRIP;
     std::unique_ptr<LEDs> LEDs_;
 
+    //arduino
+    FLURLICHT_ARDUINO arduino_;
+
 };
 
 #endif // FLURLICHT_H

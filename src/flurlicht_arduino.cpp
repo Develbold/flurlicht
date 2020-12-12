@@ -62,6 +62,15 @@ void FLURLICHT_ARDUINO::readOnce()
 
 }
 
+void FLURLICHT_ARDUINO::runThread()
+{
+    while(true)
+    {
+        readOnce();
+        boost::this_thread::sleep_for(boost::chrono::milliseconds{100});
+    }
+}
+
 FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_ARDUINO::getSensorStates()
 {
     return states_;
@@ -70,11 +79,8 @@ FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_ARDUINO::getSensorStates()
 
 void FLURLICHT_ARDUINO::run()
 {
-    while(true)
-    {
-        readOnce();
-        boost::this_thread::sleep_for(boost::chrono::milliseconds{100});
-    }
+    boost::thread* t = new boost::thread(boost::bind(&FLURLICHT_ARDUINO::runThread,this));
+    t->detach();
 }
 
 bool FLURLICHT_ARDUINO::evaluateTrigger(float voltage)
