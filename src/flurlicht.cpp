@@ -155,10 +155,10 @@ void flurlicht::handleONState()
 void flurlicht::handleOFFState()
 {
     LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
-    while(checkStateValid(false))
-    {
-        FLURLICHT_TOOLS::sleepPeriod(25);
-    }
+//    while(checkStateValid(false))
+//    {
+        FLURLICHT_TOOLS::sleepPeriod(1000);
+//    }
     BOOST_LOG_TRIVIAL(info) << "finished OFF state";
 }
 

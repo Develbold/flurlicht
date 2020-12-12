@@ -50,13 +50,13 @@ void FLURLICHT_ARDUINO::readOnce()
       // if \n is read, do processing
       if (c=='\n' && line.size() >= 10)
       {
-//          cout << "arduino: " << line << endl;
+          cout << "arduino: " << line << endl;
           unsigned first = line.find('A');
           unsigned middle = line.find('B');
           unsigned end = line.find('\n');
           float v1 = stof(line.substr(first+1,middle-first-1));
           float v2 = stof(line.substr(middle+1,end-middle-1));
-//          cout << "V1:" << v1 << " V2:" << v2 << endl;
+          cout << "V1:" << v1 << " V2:" << v2 << endl;
           // now convert from voltage to trigger
           states_.front = evaluateTrigger(v1);
           states_.back = evaluateTrigger(v2);
@@ -71,7 +71,7 @@ void FLURLICHT_ARDUINO::readOnce()
           if(states_last_.front != states_.front)
           {
               BOOST_LOG_TRIVIAL(info) << "change detected! front level: " << states_.front << "," << states_last_.front;
-              updateStates(states_.back,FRONT);
+              updateStates(states_.front,FRONT);
               states_last_.front = states_.front;
           };
 
