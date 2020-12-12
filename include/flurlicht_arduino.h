@@ -13,15 +13,26 @@ public:
 
     FLURLICHT_GPIO::sensor_states_dirs_t getSensorStates();
     void run();
+
 private:
     boost::asio::io_service io_;
     boost::asio::serial_port port_;
 
     FLURLICHT_GPIO::sensor_states_dirs_t states_;
+    FLURLICHT_GPIO::sensor_states_dirs_t states_ext_;
+    FLURLICHT_GPIO::sensor_states_dirs_t states_last_;
+
+    std::chrono::high_resolution_clock::time_point last_trigger_time_front_;
+    std::chrono::high_resolution_clock::time_point last_trigger_time_back_;
+
+    typedef enum {FRONT,BACK} sensor_dir_t;
+
+    const int cCoolOffPeriod_ = 5000;
 
     bool evaluateTrigger(float voltage);
     void readOnce();
     void runThread();
+    void updateStates(bool value, sensor_dir_t dir);
 };
 
 #endif // FLURLICHT_ARDUINO_H

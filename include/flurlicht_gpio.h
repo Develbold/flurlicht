@@ -25,6 +25,7 @@ public:
         bool front=false;
         bool back=false;
     } sensor_states_dirs_t;
+
     typedef struct
     {
         sensor_states_dirs_t current;

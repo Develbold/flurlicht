@@ -1,4 +1,5 @@
 #include "flurlicht_arduino.h"
+#include "flurlicht_tools.h"
 #include <sstream>
 #include <boost/chrono.hpp>
 #include <boost/thread.hpp>
@@ -24,6 +25,9 @@ FLURLICHT_ARDUINO::FLURLICHT_ARDUINO(): port_(io_,"/dev/ttyUSB0")
     port_.set_option( FLOW );
     port_.set_option( PARITY );
     port_.set_option( STOP );
+
+    last_trigger_time_front_= FLURLICHT_TOOLS::getTime();
+    last_trigger_time_back_= FLURLICHT_TOOLS::getTime();
 
 }
 
@@ -57,9 +61,55 @@ void FLURLICHT_ARDUINO::readOnce()
           states_.back = evaluateTrigger(v2);
           line.clear();
           scanning = false;
+          if (states_last_.back != states_.back)
+          {
+              //TODO add comm
+              states_last_.back = states_.back;
+          };
+          if(states_last_.front != states_.front)
+          {
+              //TODO add comm
+              states_last_.front = states_.front;
+          };
+
       }
     }
 
+}
+
+void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
+{
+    if (value == true)
+    {
+        if (dir == sensor_dir_t::FRONT)
+        {
+            last_trigger_time_front_=FLURLICHT_TOOLS::getTime();
+            states_ext_.front=true;
+        }
+        else
+        {
+            last_trigger_time_back_=FLURLICHT_TOOLS::getTime();
+            states_ext_.back=true;
+        }
+    }
+    else
+    {
+        if(dir == sensor_dir_t::FRONT)
+        {
+            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_front_,cCoolOffPeriod_))
+            {
+                states_ext_.front=false;
+            }
+        }
+        else
+        {
+            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_back_,cCoolOffPeriod_))
+            {
+                states_ext_.back=false;
+            }
+        }
+
+    }
 }
 
 void FLURLICHT_ARDUINO::runThread()
@@ -73,7 +123,7 @@ void FLURLICHT_ARDUINO::runThread()
 
 FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_ARDUINO::getSensorStates()
 {
-    return states_;
+    return states_ext_;
 
 }
 
