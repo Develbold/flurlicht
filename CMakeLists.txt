@@ -19,20 +19,20 @@ include_directories(extern)
 
 set(HEADER_FILES include/flurlicht.h
                 include/flurlicht_tools.h
-                include/flurlicht_gpio.h
+#                include/flurlicht_gpio.h
                 include/leds.h
                 include/animations_base.h
                 include/animations.h
-                include/flurlicht_events.h
+#                include/flurlicht_events.h
                 include/flurlicht_arduino.h)
 
 set(SOURCES src/flurlicht.cpp
             src/flurlicht_tools.cpp
-            src/flurlicht_gpio.cpp
+#            src/flurlicht_gpio.cpp
             src/leds.cpp
             src/animations_base.cpp
             src/animations.cpp
-            src/flurlicht_events.cpp
+#            src/flurlicht_events.cpp
             src/flurlicht_arduino.cpp)
 
 #add_library(flurlichtlib ${HEADER_FILES} ${SOURCES})
