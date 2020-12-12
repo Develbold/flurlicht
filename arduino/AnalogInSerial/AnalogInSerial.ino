@@ -20,9 +20,10 @@ void loop() {
   voltage1 = (float)(sensor1 * 5) / 1024;  
 
   // print the results to the serial monitor:                       
+  Serial.print("A");
   Serial.print(voltage0);      
-  Serial.print("\t");      
+  Serial.print("B");      
   Serial.println(voltage1);   
 
-  delay(10);                     
+  delay(20);                     
 }
