@@ -1,6 +1,8 @@
 #include "flurlicht_arduino.h"
 #include <sstream>
-//#include<string.h>
+#include <boost/chrono.hpp>
+#include <boost/thread.hpp>
+
 using namespace::boost::asio;
 using namespace std;
 
@@ -64,6 +66,15 @@ FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_ARDUINO::getSensorStates()
 {
     return states_;
 
+}
+
+void FLURLICHT_ARDUINO::run()
+{
+    while(true)
+    {
+        readOnce();
+        boost::this_thread::sleep_for(boost::chrono::milliseconds{100});
+    }
 }
 
 bool FLURLICHT_ARDUINO::evaluateTrigger(float voltage)

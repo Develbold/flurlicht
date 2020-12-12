@@ -6,6 +6,7 @@
 #include <memory>
 #include <boost/thread/mutex.hpp>
 
+#include "flurlicht_arduino.h"
 #include "flurlicht_events.h"
 #include "flurlicht_gpio.h"
 #include "leds.h"
