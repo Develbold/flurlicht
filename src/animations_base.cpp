@@ -1,17 +1,14 @@
 #include "animations_base.h"
+#include "flurlicht_tools.h"
 
-std::chrono::high_resolution_clock::time_point ANIMATION::getTime()
-{
-    return std::chrono::high_resolution_clock::now();
-}
 
-bool ANIMATION::checkRenderTimeValid()
-{
-    //check if it is time to render
-    auto time_delta = std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - last_render_time_);
+//bool ANIMATION::checkRenderTimeValid()
+//{
+//    //check if it is time to render
+//    auto time_delta = std::chrono::duration_cast<std::chrono::milliseconds>(FLURLICHT_TOOLS::getTime() - last_render_time_);
 
-    return time_delta.count()>cDelta_;
-}
+//    return time_delta.count()>cDelta_;
+//}
 
 auto ANIMATION::getStepSize()
 {
@@ -35,7 +32,7 @@ ANIMATION::led_t ANIMATION::calcNextBrightness()
 
 void ANIMATION::resetLastRenderTime()
 {
-    last_render_time_ = getTime();
+    last_render_time_ = FLURLICHT_TOOLS::getTime();
 }
 
 void ANIMATION::setAllLEDsOneValue(led_t value)
@@ -56,7 +53,7 @@ ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring, int step_size)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION: base constructor called";
     ledstring_ = ledstring;
-    last_render_time_ = getTime();
+    last_render_time_ = FLURLICHT_TOOLS::getTime();
     step_size_ = step_size;
     max_steps_ = calcMaxSteps();
     BOOST_LOG_TRIVIAL(debug) << "maximum number of steps: " << max_steps_;

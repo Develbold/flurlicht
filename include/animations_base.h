@@ -35,18 +35,19 @@ protected:
     led_t calcNextBrightness();
     //timing
     void resetLastRenderTime();
-    bool checkRenderTimeValid();
+    //bool checkRenderTimeValid();
     //set leds
     void setAllLEDsOneValue(led_t value);
     void renderLEDs();
+    std::chrono::high_resolution_clock::time_point last_render_time_;
+    static const auto cDelta_ = 10;
 
 private:
     //leds
     std::shared_ptr<ws2811_t> ledstring_;
     //timing
-    static const auto cDelta_ = 10;
-    std::chrono::high_resolution_clock::time_point getTime();
-    std::chrono::high_resolution_clock::time_point last_render_time_;
+
+
 
 };
 #endif // ANIMATIONS_BASE_H

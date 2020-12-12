@@ -1,4 +1,5 @@
 #include "animations.h"
+#include "flurlicht_tools.h"
 
 ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring): ANIMATION(ledstring,1)
 {
@@ -12,7 +13,7 @@ ANIMATION_ALLFADE::~ANIMATION_ALLFADE()
 
 bool ANIMATION_ALLFADE::doIncrement(fades_t direction)
 {
-    if (checkRenderTimeValid())
+    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,cDelta_))
     {
         setAllLEDsOneValue(calcNextBrightness());
         renderLEDs();
