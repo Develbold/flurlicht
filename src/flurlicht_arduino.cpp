@@ -43,12 +43,13 @@ void FLURLICHT_ARDUINO::readOnce()
     {
       // read one byte
       read(port_,buffer(&c,1));
-
+//      cout << c;
       // if \n is read, do processing
       if (c=='\n')
       {
           //process one line
           read(port_,buffer(&c,1));
+//          cout << c;
           if(c=='0')
           {
               states_.front = false;
@@ -59,6 +60,7 @@ void FLURLICHT_ARDUINO::readOnce()
           }
           //process next line
           read(port_,buffer(&c,1));
+//          cout << c;
           if(c=='0')
           {
               states_.back = false;
@@ -67,7 +69,7 @@ void FLURLICHT_ARDUINO::readOnce()
           {
               states_.back = true;
           }
-          cout << "F:" << states_.front << " B:" << states_.back << endl;
+//          cout << "F:" << states_.front << " B:" << states_.back << endl;
           scanning = false;
           if (states_last_.back != states_.back)
           {
