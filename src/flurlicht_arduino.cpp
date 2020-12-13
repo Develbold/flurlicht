@@ -108,13 +108,17 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
         {
 //            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time front";
             last_trigger_time_front_=FLURLICHT_TOOLS::getTime();
+            mutex_.lock();
             states_ext_.front=true;
+            mutex_.unlock();
         }
         else
         {
 //            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time back";
             last_trigger_time_back_=FLURLICHT_TOOLS::getTime();
+            mutex_.lock();
             states_ext_.back=true;
+            mutex_.unlock();
         }
     }
     else
@@ -124,7 +128,9 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
             if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_front_,cCoolOffPeriod_))
             {
 //                BOOST_LOG_TRIVIAL(debug) << "clear trigger front";
+                mutex_.lock();
                 states_ext_.front=false;
+                mutex_.unlock();
             }
         }
         else
@@ -132,7 +138,9 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
             if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_back_,cCoolOffPeriod_))
             {
 //                BOOST_LOG_TRIVIAL(debug) << "clear trigger back";
+                mutex_.lock();
                 states_ext_.back=false;
+                mutex_.unlock();
             }
         }
 
@@ -159,7 +167,11 @@ void FLURLICHT_ARDUINO::runThread()
 
 FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_ARDUINO::getSensorStates()
 {
-    return states_ext_;
+    FLURLICHT_GPIO::sensor_states_dirs_t buffer;
+    mutex_.lock();
+    buffer = states_ext_;
+    mutex_.unlock();
+    return buffer;
 
 }
 

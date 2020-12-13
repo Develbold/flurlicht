@@ -4,7 +4,7 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include "flurlicht_gpio.h"
-//#include <boost/thread.hpp>
+#include <boost/thread.hpp>
 
 class FLURLICHT_ARDUINO
 {
@@ -26,6 +26,8 @@ private:
     std::chrono::high_resolution_clock::time_point last_trigger_time_back_;
 
     typedef enum {FRONT,BACK} sensor_dir_t;
+
+    boost::mutex mutex_;
 
     const int cCoolOffPeriod_ = 5000;
 
