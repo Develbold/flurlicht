@@ -32,6 +32,8 @@ protected:
     auto getStepSize();
     auto calcMaxSteps();
     auto getCurrentStep();
+    void setTimeDelta(int value);
+    int getTimeDelta();
     led_t calcNextBrightness();
     //timing
     void resetLastRenderTime();
@@ -40,7 +42,6 @@ protected:
     void setAllLEDsOneValue(led_t value);
     void renderLEDs();
     std::chrono::high_resolution_clock::time_point last_render_time_;
-    static const auto cDelta_ = 10;
 
     void setOneLED(unsigned pos, led_t value);
 private:
@@ -48,6 +49,7 @@ private:
     std::shared_ptr<ws2811_t> ledstring_;
     //timing
 
+    int cDelta_;
 
 
 };

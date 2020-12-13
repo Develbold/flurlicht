@@ -14,7 +14,7 @@ ANIMATION_ALLFADE::~ANIMATION_ALLFADE()
 
 bool ANIMATION_ALLFADE::doIncrement(fades_t direction)
 {
-    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,cDelta_))
+    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
     {
         setAllLEDsOneValue(calcNextBrightness());
         renderLEDs();
@@ -58,6 +58,7 @@ bool ANIMATION_BLINK::doIncrement(fades_t direction)
 ANIMATION_RANDOM::ANIMATION_RANDOM(std::shared_ptr<ws2811_t> ledstring): ANIMATION(ledstring,1)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM: constructor called";
+    setTimeDelta(5);
     for(auto led=0;led<ledstring->channel[0].count;led++)
     {
         led_pool_.push_back(led);
@@ -75,7 +76,7 @@ ANIMATION_RANDOM::~ANIMATION_RANDOM()
 
 bool ANIMATION_RANDOM::doIncrement(ANIMATION::fades_t direction)
 {
-    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,cDelta_))
+    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
     {
         // get random led
         auto led = led_pool_.back();

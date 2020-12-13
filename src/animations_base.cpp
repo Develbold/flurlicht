@@ -27,6 +27,16 @@ auto ANIMATION::getCurrentStep()
     return current_step_;
 }
 
+void ANIMATION::setTimeDelta(int value)
+{
+    cDelta_ = value;
+}
+
+int ANIMATION::getTimeDelta()
+{
+    return cDelta_;
+}
+
 ANIMATION::led_t ANIMATION::calcNextBrightness()
 {
     return getStepSize()*getCurrentStep();
@@ -59,6 +69,7 @@ void ANIMATION::renderLEDs()
 ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring, int step_size)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION: base constructor called";
+    setTimeDelta(10);
     ledstring_ = ledstring;
     last_render_time_ = FLURLICHT_TOOLS::getTime();
     step_size_ = step_size;
