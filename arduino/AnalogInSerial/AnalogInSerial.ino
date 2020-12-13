@@ -39,6 +39,9 @@ void loop() {
   }  
 
   // print the results to the serial monitor:                       
+  Serial.print(voltage0);
+  Serial.print("|");  
+  Serial.println(voltage1);
   Serial.print(state0);            
   Serial.println(state1);   
 
