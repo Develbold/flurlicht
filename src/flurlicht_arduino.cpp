@@ -83,7 +83,7 @@ void FLURLICHT_ARDUINO::readOnce()
 //              updateStates(states_.front,FRONT);
               states_last_.front = states_.front;
           };
-          updateStates(states_.back,BACK);
+//          updateStates(states_.back,BACK);
           updateStates(states_.front,FRONT);
       }
     }
@@ -123,7 +123,7 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
         {
             if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_front_,cCoolOffPeriod_))
             {
-                BOOST_LOG_TRIVIAL(debug) << "clear trigger front";
+//                BOOST_LOG_TRIVIAL(debug) << "clear trigger front";
                 states_ext_.front=false;
             }
         }
@@ -131,7 +131,7 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
         {
             if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_back_,cCoolOffPeriod_))
             {
-                BOOST_LOG_TRIVIAL(debug) << "clear trigger back";
+//                BOOST_LOG_TRIVIAL(debug) << "clear trigger back";
                 states_ext_.back=false;
             }
         }
@@ -153,7 +153,7 @@ void FLURLICHT_ARDUINO::runThread()
     while(true)
     {
         readOnce();
-        boost::this_thread::sleep_for(boost::chrono::milliseconds{100});
+//        boost::this_thread::sleep_for(boost::chrono::milliseconds{100});
     }
 }
 
