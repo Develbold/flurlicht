@@ -1,6 +1,8 @@
 #include "animations_base.h"
 #include "flurlicht_tools.h"
 
+#include <animations_base.h>
+
 
 //bool ANIMATION::checkRenderTimeValid()
 //{
@@ -41,6 +43,11 @@ void ANIMATION::setAllLEDsOneValue(led_t value)
     {
         ledstring_->channel[0].leds[led] = value;
     }
+}
+
+void ANIMATION::setOneLED(unsigned pos, led_t value)
+{
+    ledstring_->channel[0].leds[pos] = value;
 }
 
 void ANIMATION::renderLEDs()

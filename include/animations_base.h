@@ -42,6 +42,7 @@ protected:
     std::chrono::high_resolution_clock::time_point last_render_time_;
     static const auto cDelta_ = 10;
 
+    void setOneLED(unsigned pos, led_t value);
 private:
     //leds
     std::shared_ptr<ws2811_t> ledstring_;
