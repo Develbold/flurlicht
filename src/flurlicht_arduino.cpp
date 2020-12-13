@@ -74,16 +74,17 @@ void FLURLICHT_ARDUINO::readOnce()
           if (states_last_.back != states_.back)
           {
               BOOST_LOG_TRIVIAL(info) << "change detected! back level: " << states_.back << "," << states_last_.back;
-              updateStates(states_.back,BACK);
+//              updateStates(states_.back,BACK);
               states_last_.back = states_.back;
           };
           if(states_last_.front != states_.front)
           {
               BOOST_LOG_TRIVIAL(info) << "change detected! front level: " << states_.front << "," << states_last_.front;
-              updateStates(states_.front,FRONT);
+//              updateStates(states_.front,FRONT);
               states_last_.front = states_.front;
           };
-
+          updateStates(states_.back,BACK);
+          updateStates(states_.front,FRONT);
       }
     }
 
@@ -105,13 +106,13 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
     {
         if (dir == sensor_dir_t::FRONT)
         {
-            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time front";
+//            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time front";
             last_trigger_time_front_=FLURLICHT_TOOLS::getTime();
             states_ext_.front=true;
         }
         else
         {
-            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time back";
+//            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time back";
             last_trigger_time_back_=FLURLICHT_TOOLS::getTime();
             states_ext_.back=true;
         }
