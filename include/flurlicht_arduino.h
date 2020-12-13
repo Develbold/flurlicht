@@ -31,8 +31,10 @@ private:
 
     bool evaluateTrigger(float voltage);
     void readOnce();
+    void clearBuffer();
     void runThread();
     void updateStates(bool value, sensor_dir_t dir);
+    bool evalBool(char c);
 };
 
 #endif // FLURLICHT_ARDUINO_H

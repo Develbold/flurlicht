@@ -31,6 +31,8 @@ FLURLICHT_ARDUINO::FLURLICHT_ARDUINO(): port_(io_,"/dev/ttyUSB0")
 
 }
 
+
+
 void FLURLICHT_ARDUINO::readOnce()
 {
     char c;
@@ -41,26 +43,31 @@ void FLURLICHT_ARDUINO::readOnce()
     {
       // read one byte
       read(port_,buffer(&c,1));
-      // insert into line
-      line.insert(line.end(),1,c);
-
-      //cout << line << " size: " << line.size() << endl;
-      //cout << "-" << endl;
 
       // if \n is read, do processing
-      if (c=='\n' && line.size() >= 10)
+      if (c=='\n')
       {
-          cout << "arduino: " << line << endl;
-          unsigned first = line.find('A');
-          unsigned middle = line.find('B');
-          unsigned end = line.find('\n');
-          float v1 = stof(line.substr(first+1,middle-first-1));
-          float v2 = stof(line.substr(middle+1,end-middle-1));
-          cout << "V1:" << v1 << " V2:" << v2 << endl;
-          // now convert from voltage to trigger
-          states_.front = evaluateTrigger(v1);
-          states_.back = evaluateTrigger(v2);
-          line.clear();
+          //process one line
+          read(port_,buffer(&c,1));
+          if(c=='0')
+          {
+              states_.front = false;
+          }
+          else if (c=='1')
+          {
+              states_.front = true;
+          }
+          //process next line
+          read(port_,buffer(&c,1));
+          if(c=='0')
+          {
+              states_.back = false;
+          }
+          else if (c=='1')
+          {
+              states_.back = true;
+          }
+          cout << "F:" << states_.front << " B:" << states_.back << endl;
           scanning = false;
           if (states_last_.back != states_.back)
           {
@@ -78,6 +85,16 @@ void FLURLICHT_ARDUINO::readOnce()
       }
     }
 
+}
+
+void FLURLICHT_ARDUINO::clearBuffer()
+{
+    char c;
+
+    for(auto i=0;i<=20;i++)
+    {
+        read(port_,buffer(&c,1));
+    }
 }
 
 void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
@@ -119,8 +136,17 @@ void FLURLICHT_ARDUINO::updateStates(bool value, sensor_dir_t dir)
     }
 }
 
+//bool FLURLICHT_ARDUINO::evalBool(char c)
+//{
+//    if(c=='0')
+//    {
+//        return
+//    }
+//}
+
 void FLURLICHT_ARDUINO::runThread()
 {
+    clearBuffer();
     while(true)
     {
         readOnce();
