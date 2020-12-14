@@ -85,8 +85,15 @@ auto ANIMATION_RANDOM::doIncrement(ANIMATION::fades_t direction) -> bool
             auto led = led_pool_.back();
             led_pool_.pop_back();
             // set value
-            BOOST_LOG_TRIVIAL(debug) << "one: " << led <<"|"<<cMax_brightness_<<"|"<<led_pool_.size();
-            setOneLED(led,cMax_brightness_);
+            //BOOST_LOG_TRIVIAL(debug) << "one: " << led <<"|"<<cMax_brightness_<<"|"<<led_pool_.size();
+            if (direction==FADE_IN)
+            {
+                setOneLED(led,cMax_brightness_);
+            }
+            else
+            {
+                setOneLED(led,0);
+            }
             renderLEDs();
             resetLastRenderTime();
             //if max value is reached, signal finish
