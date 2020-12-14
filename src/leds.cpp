@@ -25,31 +25,32 @@ LEDs::LEDs(int pin, int count, int type)
     BOOST_LOG_TRIVIAL(debug) << "finished LEDs constructor";
 }
 
-void LEDs::playAnimation(ANIMATION::fades_t direction)
+//TODO use shared pointer
+void LEDs::playAnimation(animations_t type, ANIMATION::fades_t direction)
 {
     BOOST_LOG_TRIVIAL(debug) << "playAnimation";
-    //BOOST_LOG_TRIVIAL(debug) << "brightness " <<ledstring_->channel[0].brightness;
-    //BOOST_LOG_TRIVIAL(debug) << "count " <<ledstring_->channel[0].count;
-    //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
-    //ledstring_->channel[0].leds[0]=0;
-    //BOOST_LOG_TRIVIAL(debug) << "led0 " <<&ledstring_->channel[0].leds[0];
-    //ANIMATION Animation(ledstring_);
+
     std::vector<ANIMATION*> pAnimation;
-//    std::shared_ptr<ANIMATION> pAnimation;
-    if (direction == ANIMATION::fades_t::FADE_IN)
+
+    switch (type)
     {
-        BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_ALLFADE";
-//        std::shared_ptr<ANIMATION_ALLFADE> pAnimation = std::make_shared<ANIMATION_ALLFADE>(ledstring_);
-//        pAnimation.push_back(new ANIMATION_ALLFADE(ledstring_));
-        pAnimation.push_back(new ANIMATION_RANDOM(ledstring_));
-        //pAnimation.push_back(new ANIMATION_BLINK(ledstring_));
+        case BLINK:
+            BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_BLINK";
+            pAnimation.push_back(new ANIMATION_BLINK(ledstring_));
+        break;
+        case ALL:
+            BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_ALLFADE";
+            pAnimation.push_back(new ANIMATION_ALLFADE(ledstring_));
+        break;
+        case RANDOM:
+            BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_ALLFADE";
+            pAnimation.push_back(new ANIMATION_RANDOM(ledstring_));
+        break;
+        default:
+            BOOST_LOG_TRIVIAL(error) << "unknown animations";
+        break;
     }
-    else
-    {
-        BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_BLINK";
-//        std::shared_ptr<ANIMATION_BLINK> pAnimation = std::make_shared<ANIMATION_BLINK>(ledstring_);
-        pAnimation.push_back(new ANIMATION_BLINK(ledstring_));
-    }
+
     BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION finished";
     setAnimationState(true);
 

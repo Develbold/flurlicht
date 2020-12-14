@@ -22,7 +22,14 @@ class LEDs
 {
 public:
     LEDs(int pin, int count, int type);
-    void playAnimation(ANIMATION::fades_t direction);
+    typedef enum
+    {
+        BLINK,
+        ALL,
+        RANDOM
+    } animations_t;
+
+    void playAnimation(animations_t type, ANIMATION::fades_t direction);
     bool returnWorkingState();
     bool getAnimationRunning();
 

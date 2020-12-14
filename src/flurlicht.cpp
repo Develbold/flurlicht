@@ -154,7 +154,7 @@ void flurlicht::handleONState()
 
 void flurlicht::handleOFFState()
 {
-    LEDs_->playAnimation(ANIMATION::fades_t::FADE_OUT);
+    LEDs_->playAnimation(LEDs::BLINK,ANIMATION::fades_t::FADE_OUT);
     while(checkStateValid(false))
     {
         FLURLICHT_TOOLS::sleepPeriod(100);
@@ -165,7 +165,7 @@ void flurlicht::handleOFFState()
 //finsih this state directly after animation
 void flurlicht::handleANIMATIONState()
 {
-    LEDs_->playAnimation(ANIMATION::fades_t::FADE_IN);
+    LEDs_->playAnimation(LEDs::RANDOM,ANIMATION::fades_t::FADE_IN);
     BOOST_LOG_TRIVIAL(info) << "finished ANIMATION state";
 }
 
