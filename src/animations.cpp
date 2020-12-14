@@ -79,21 +79,25 @@ auto ANIMATION_RANDOM::doIncrement(ANIMATION::fades_t direction) -> bool
 {
     if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
     {
-        // get random led
-        auto led = led_pool_.back();
-        led_pool_.pop_back();
-        // set value
-        BOOST_LOG_TRIVIAL(debug) << "one: " << led <<"|"<<cMax_brightness_<<"|"<<led_pool_.size();
-        setOneLED(led,cMax_brightness_);
-        renderLEDs();
-        resetLastRenderTime();
-        //if max value is reached, signal finish
-        current_step_++;
-        if (current_step_ >= max_steps_)
+        if(!led_pool_.empty())
+        {
+            // get random led
+            auto led = led_pool_.back();
+            led_pool_.pop_back();
+            // set value
+            BOOST_LOG_TRIVIAL(debug) << "one: " << led <<"|"<<cMax_brightness_<<"|"<<led_pool_.size();
+            setOneLED(led,cMax_brightness_);
+            renderLEDs();
+            resetLastRenderTime();
+            //if max value is reached, signal finish
+            current_step_++;
+        }
+        else
         {
             BOOST_LOG_TRIVIAL(debug) << "reached max increment, animation finished";
             return false;
         }
+
     }
     return true;
 }
