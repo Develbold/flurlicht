@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <chrono>
+#include <vector>
 #include <boost/log/trivial.hpp>
 
 extern "C" {
@@ -28,6 +29,7 @@ protected:
     led_t step_size_;
     led_t max_steps_;
     led_t current_step_ =0;
+    std::vector<unsigned int> led_pool_;
     auto getIncrement();
     auto getStepSize();
     auto calcMaxSteps();
