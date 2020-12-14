@@ -11,7 +11,7 @@ using namespace std;
 FLURLICHT_ARDUINO::FLURLICHT_ARDUINO(): port_(io_,"/dev/ttyUSB0")
 {
     // Base serial settings
-    serial_port_base::baud_rate BAUD(9600);
+    serial_port_base::baud_rate BAUD(cBaudRate_);
     serial_port_base::flow_control FLOW( serial_port_base::flow_control::none );
     serial_port_base::parity PARITY( serial_port_base::parity::none );
     serial_port_base::stop_bits STOP( serial_port_base::stop_bits::one );
@@ -35,7 +35,7 @@ FLURLICHT_ARDUINO::FLURLICHT_ARDUINO(): port_(io_,"/dev/ttyUSB0")
 
 void FLURLICHT_ARDUINO::readOnce()
 {
-    char c;
+    char c=0;
     std::string line;
     bool scanning = true;
 
@@ -92,7 +92,7 @@ void FLURLICHT_ARDUINO::readOnce()
 
 void FLURLICHT_ARDUINO::clearBuffer()
 {
-    char c;
+    char c=0;
 
     for(auto i=0;i<=20;i++)
     {
@@ -165,7 +165,7 @@ void FLURLICHT_ARDUINO::runThread()
     }
 }
 
-FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_ARDUINO::getSensorStates()
+auto FLURLICHT_ARDUINO::getSensorStates() -> FLURLICHT_GPIO::sensor_states_dirs_t
 {
     FLURLICHT_GPIO::sensor_states_dirs_t buffer;
     mutex_.lock();
@@ -177,11 +177,11 @@ FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_ARDUINO::getSensorStates()
 
 void FLURLICHT_ARDUINO::run()
 {
-    boost::thread* t = new boost::thread(boost::bind(&FLURLICHT_ARDUINO::runThread,this));
+    auto* t = new boost::thread([this] { runThread(); });
     t->detach();
 }
 
-bool FLURLICHT_ARDUINO::evaluateTrigger(float voltage)
+auto FLURLICHT_ARDUINO::evaluateTrigger(float voltage) -> bool
 {
     if (voltage > 2.5)
     {

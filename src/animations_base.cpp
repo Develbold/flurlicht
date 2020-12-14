@@ -3,6 +3,8 @@
 
 #include <animations_base.h>
 
+#include <utility>
+
 
 //bool ANIMATION::checkRenderTimeValid()
 //{
@@ -32,12 +34,12 @@ void ANIMATION::setTimeDelta(int value)
     cDelta_ = value;
 }
 
-int ANIMATION::getTimeDelta()
+auto ANIMATION::getTimeDelta() -> int
 {
     return cDelta_;
 }
 
-ANIMATION::led_t ANIMATION::calcNextBrightness()
+auto ANIMATION::calcNextBrightness() -> ANIMATION::led_t
 {
     return getStepSize()*getCurrentStep();
 }
@@ -70,7 +72,7 @@ ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring, int step_size)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION: base constructor called";
     setTimeDelta(10);
-    ledstring_ = ledstring;
+    ledstring_ = std::move(ledstring);
     last_render_time_ = FLURLICHT_TOOLS::getTime();
     step_size_ = step_size;
     max_steps_ = calcMaxSteps();

@@ -30,6 +30,7 @@ private:
     boost::mutex mutex_;
 
     const int cCoolOffPeriod_ = 5000;
+    const int cBaudRate_ = 9600;
 
     bool evaluateTrigger(float voltage);
     void readOnce();

@@ -1,7 +1,7 @@
 #include "flurlicht.h"
 #include <iostream>
 
-int main()
+auto main() -> int
 {
     BOOST_LOG_TRIVIAL(info) << "Flurlicht started";
 
