@@ -82,6 +82,7 @@ bool ANIMATION_RANDOM::doIncrement(ANIMATION::fades_t direction)
         auto led = led_pool_.back();
         led_pool_.pop_back();
         // set value
+        BOOST_LOG_TRIVIAL(debug) << "one: " << led <<"|"<<cMax_brightness_<<"|"<<led_pool_.size();
         setOneLED(led,cMax_brightness_);
         renderLEDs();
         resetLastRenderTime();
