@@ -1,8 +1,9 @@
 #include "animations.h"
 #include "flurlicht_tools.h"
 #include <random>
+#include <utility>
 
-ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring): ANIMATION(ledstring,1)
+ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring): ANIMATION(std::move(ledstring),1)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_ALLFADE: constructor called";
 }
@@ -12,7 +13,7 @@ ANIMATION_ALLFADE::~ANIMATION_ALLFADE()
     //~ANIMATION();
 }
 
-bool ANIMATION_ALLFADE::doIncrement(fades_t direction)
+auto ANIMATION_ALLFADE::doIncrement(fades_t direction) -> bool
 {
     if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
     {
@@ -30,7 +31,7 @@ bool ANIMATION_ALLFADE::doIncrement(fades_t direction)
     return true;
 }
 
-ANIMATION_BLINK::ANIMATION_BLINK(std::shared_ptr<ws2811_t> ledstring): ANIMATION(ledstring,255)
+ANIMATION_BLINK::ANIMATION_BLINK(std::shared_ptr<ws2811_t> ledstring): ANIMATION(std::move(ledstring),255)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_BLINK: constructor called";
 }
@@ -40,7 +41,7 @@ ANIMATION_BLINK::~ANIMATION_BLINK()
     //~ANIMATION();
 }
 
-bool ANIMATION_BLINK::doIncrement(fades_t direction)
+auto ANIMATION_BLINK::doIncrement(fades_t direction) -> bool
 {
     if (direction == FADE_OUT)
     {
@@ -55,7 +56,7 @@ bool ANIMATION_BLINK::doIncrement(fades_t direction)
     return false;
 }
 
-ANIMATION_RANDOM::ANIMATION_RANDOM(std::shared_ptr<ws2811_t> ledstring): ANIMATION(ledstring,1)
+ANIMATION_RANDOM::ANIMATION_RANDOM(const std::shared_ptr<ws2811_t>& ledstring): ANIMATION(ledstring,1)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM: constructor called";
     setTimeDelta(5);
@@ -74,7 +75,7 @@ ANIMATION_RANDOM::~ANIMATION_RANDOM()
     //~ANIMATION();
 }
 
-bool ANIMATION_RANDOM::doIncrement(ANIMATION::fades_t direction)
+auto ANIMATION_RANDOM::doIncrement(ANIMATION::fades_t direction) -> bool
 {
     if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
     {

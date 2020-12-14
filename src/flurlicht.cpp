@@ -69,7 +69,7 @@ void flurlicht::run()
     BOOST_LOG_TRIVIAL(info) << "finished loop";
 }
 
-flurlicht::States flurlicht::getNextState()
+auto flurlicht::getNextState() -> flurlicht::States
 {
 //    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = Gpio_->getSensorStates();
     FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = arduino_.getSensorStates();
@@ -131,13 +131,13 @@ void flurlicht::setNextState(flurlicht::States next)
     CurrentState_ = next;
 }
 
-flurlicht::States flurlicht::getCurrentState()
+auto flurlicht::getCurrentState() -> flurlicht::States
 {
     return CurrentState_;
 }
 
 //return if state is valid based on if mutex is locked
-bool flurlicht::checkStateValid(bool state)
+auto flurlicht::checkStateValid(bool state) -> bool
 {
     FLURLICHT_GPIO::sensor_states_dirs_t buffer = arduino_.getSensorStates();
     return (buffer.front==state && buffer.back==state);
@@ -174,7 +174,7 @@ void flurlicht::handleERRORState()
     BOOST_LOG_TRIVIAL(info) << "finished ERROR state";
 }
 
-bool flurlicht::getAnimationState()
+auto flurlicht::getAnimationState() -> bool
 {
     return LEDs_->getAnimationRunning();
 }

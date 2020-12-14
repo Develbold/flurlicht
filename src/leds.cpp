@@ -61,7 +61,7 @@ void LEDs::playAnimation(ANIMATION::fades_t direction)
     BOOST_LOG_TRIVIAL(debug) << "playAnimation finished";
 }
 
-bool LEDs::returnWorkingState()
+auto LEDs::returnWorkingState() -> bool
 {
     if (return_state_ == WS2811_SUCCESS)
     {
@@ -73,7 +73,7 @@ bool LEDs::returnWorkingState()
     }
 }
 
-bool LEDs::getAnimationRunning()
+auto LEDs::getAnimationRunning() -> bool
 {
     return animation_running_;
 }
