@@ -10,7 +10,6 @@
 #include "leds.h"
 
 extern "C" {
-#include <pigpio/pigpio.h>
 #include "rpi_ws281x/ws2811.h"
 }
 
