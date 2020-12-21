@@ -6,6 +6,7 @@
 ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring, fades_t direction): ANIMATION(std::move(ledstring),1)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_ALLFADE: constructor called";
+    direction_ = direction;
     // init vector holding the precalculated brighntesses
     for(auto i=0;i<max_steps_;i++)
     {
@@ -29,11 +30,11 @@ ANIMATION_ALLFADE::~ANIMATION_ALLFADE()
 }
 
 // return the next brightness depending on the direction
-ANIMATION::led_t ANIMATION_ALLFADE::calcNextBrightness(fades_t direction)
+ANIMATION::led_t ANIMATION_ALLFADE::calcNextBrightness()
 {
     ANIMATION::led_t buffer;
 
-    if (direction==FADE_IN)
+    if (direction_==FADE_IN)
     {
         buffer= *brightness_it_;
         ++brightness_it_;
@@ -47,9 +48,9 @@ ANIMATION::led_t ANIMATION_ALLFADE::calcNextBrightness(fades_t direction)
 }
 
 // check if animation is finished, depending on direction
-bool ANIMATION_ALLFADE::checkAnimationFinished(fades_t direction)
+bool ANIMATION_ALLFADE::checkAnimationFinished()
 {
-    if (direction==FADE_IN)
+    if (direction_==FADE_IN)
     {
         return brightness_it_==brightness_list_.end();
     }
@@ -63,12 +64,12 @@ auto ANIMATION_ALLFADE::doIncrement(fades_t direction) -> bool
 {
     if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
     {
-        setAllLEDsOneValue(calcNextBrightness(direction));
+        setAllLEDsOneValue(calcNextBrightness());
         renderLEDs();
         resetLastRenderTime();
         //if max value is reached, signal finish
         current_step_++;
-        if (checkAnimationFinished(direction))
+        if (checkAnimationFinished())
         {
             BOOST_LOG_TRIVIAL(debug) << "reached end/begin increment, animation finished";
             return false;

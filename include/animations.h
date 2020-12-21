@@ -19,8 +19,8 @@ private:
     std::list<ANIMATION::led_t>brightness_list_;
     std::list<ANIMATION::led_t>::iterator brightness_it_;
 
-    ANIMATION::led_t calcNextBrightness(fades_t direction);
-    bool checkAnimationFinished(fades_t direction);
+    ANIMATION::led_t calcNextBrightness();
+    bool checkAnimationFinished();
 };
 
 class ANIMATION_BLINK: public ANIMATION

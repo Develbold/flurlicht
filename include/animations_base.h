@@ -22,6 +22,8 @@ public:
     virtual bool doIncrement(fades_t direction)=0;
 
 
+    ANIMATION::fades_t getDirection() const;
+
 protected:
     typedef ws2811_led_t led_t;
     const led_t cMax_brightness_ = MAX_BRIGHTNESS;
@@ -46,13 +48,15 @@ protected:
     std::chrono::high_resolution_clock::time_point last_render_time_;
 
     void setOneLED(unsigned pos, led_t value);
+
+    ANIMATION::fades_t direction_;
+
 private:
     //leds
     std::shared_ptr<ws2811_t> ledstring_;
     //timing
 
     int cDelta_;
-
 
 };
 #endif // ANIMATIONS_BASE_H
