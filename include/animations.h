@@ -6,6 +6,7 @@
 #include <boost/log/trivial.hpp>
 #include "animations_base.h"
 #include <vector>
+#include <list>
 
 class ANIMATION_ALLFADE: public ANIMATION
 {
@@ -13,6 +14,9 @@ public:
     ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring);
     ~ANIMATION_ALLFADE();
     bool doIncrement(fades_t direction) override;
+    ANIMATION::led_t calcNextBrightness();
+    std::list<ANIMATION::led_t>brightness_list_;
+    std::list<ANIMATION::led_t>::iterator brightness_it_;
 };
 
 class ANIMATION_BLINK: public ANIMATION

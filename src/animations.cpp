@@ -6,11 +6,21 @@
 ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring): ANIMATION(std::move(ledstring),1)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_ALLFADE: constructor called";
+    for(auto i=0;i<max_steps_;i++)
+    {
+        auto step = i*getStepSize();
+        brightness_list_.push_back(step);
+    }
 }
 
 ANIMATION_ALLFADE::~ANIMATION_ALLFADE()
 {
     //~ANIMATION();
+}
+
+ANIMATION::led_t ANIMATION_ALLFADE::calcNextBrightness()
+{
+    return getStepSize()*getCurrentStep();
 }
 
 auto ANIMATION_ALLFADE::doIncrement(fades_t direction) -> bool

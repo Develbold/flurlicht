@@ -14,7 +14,7 @@
 //    return time_delta.count()>cDelta_;
 //}
 
-auto ANIMATION::getStepSize()
+unsigned ANIMATION::getStepSize()
 {
     return step_size_;
 }
@@ -24,7 +24,7 @@ auto ANIMATION::calcMaxSteps()
     return cMax_brightness_/getStepSize();
 }
 
-auto ANIMATION::getCurrentStep()
+unsigned ANIMATION::getCurrentStep()
 {
     return current_step_;
 }
@@ -37,11 +37,6 @@ void ANIMATION::setTimeDelta(int value)
 auto ANIMATION::getTimeDelta() -> int
 {
     return cDelta_;
-}
-
-auto ANIMATION::calcNextBrightness() -> ANIMATION::led_t
-{
-    return getStepSize()*getCurrentStep();
 }
 
 void ANIMATION::resetLastRenderTime()

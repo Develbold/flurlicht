@@ -31,12 +31,12 @@ protected:
     led_t current_step_ =0;
     std::vector<unsigned int> led_pool_;
     auto getIncrement();
-    auto getStepSize();
+    unsigned getStepSize();
     auto calcMaxSteps();
-    auto getCurrentStep();
+    unsigned getCurrentStep();
     void setTimeDelta(int value);
     int getTimeDelta();
-    led_t calcNextBrightness();
+//    led_t calcNextBrightness();
     //timing
     void resetLastRenderTime();
     //bool checkRenderTimeValid();
