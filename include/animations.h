@@ -11,12 +11,16 @@
 class ANIMATION_ALLFADE: public ANIMATION
 {
 public:
-    ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring);
+    ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring, fades_t direction);
     ~ANIMATION_ALLFADE();
     bool doIncrement(fades_t direction) override;
-    ANIMATION::led_t calcNextBrightness();
+
+private:
     std::list<ANIMATION::led_t>brightness_list_;
     std::list<ANIMATION::led_t>::iterator brightness_it_;
+
+    ANIMATION::led_t calcNextBrightness(fades_t direction);
+    bool checkAnimationFinished(fades_t direction);
 };
 
 class ANIMATION_BLINK: public ANIMATION

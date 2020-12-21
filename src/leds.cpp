@@ -40,7 +40,7 @@ void LEDs::playAnimation(animations_t type, ANIMATION::fades_t direction)
         break;
         case ALL:
             BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_ALLFADE";
-            pAnimation.push_back(new ANIMATION_ALLFADE(ledstring_));
+            pAnimation.push_back(new ANIMATION_ALLFADE(ledstring_, direction));
         break;
         case RANDOM:
             BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_ALLFADE";

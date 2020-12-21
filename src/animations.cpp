@@ -3,13 +3,23 @@
 #include <random>
 #include <utility>
 
-ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring): ANIMATION(std::move(ledstring),1)
+ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring, fades_t direction): ANIMATION(std::move(ledstring),1)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_ALLFADE: constructor called";
+    // init vector holding the precalculated brighntesses
     for(auto i=0;i<max_steps_;i++)
     {
         auto step = i*getStepSize();
         brightness_list_.push_back(step);
+    }
+    // init the iterator, dependin gon brightness
+    if (direction==FADE_IN)
+    {
+        brightness_it_ = brightness_list_.begin();
+    }
+    else
+    {
+        brightness_it_ = brightness_list_.end();
     }
 }
 
@@ -18,23 +28,49 @@ ANIMATION_ALLFADE::~ANIMATION_ALLFADE()
     //~ANIMATION();
 }
 
-ANIMATION::led_t ANIMATION_ALLFADE::calcNextBrightness()
+// return the next brightness depending on the direction
+ANIMATION::led_t ANIMATION_ALLFADE::calcNextBrightness(fades_t direction)
 {
-    return getStepSize()*getCurrentStep();
+    ANIMATION::led_t buffer;
+
+    if (direction==FADE_IN)
+    {
+        buffer= *brightness_it_;
+        ++brightness_it_;
+    }
+    else
+    {
+        buffer= *brightness_it_;
+        --brightness_it_;
+    }
+    return buffer;
+}
+
+// check if animation is finished, depending on direction
+bool ANIMATION_ALLFADE::checkAnimationFinished(fades_t direction)
+{
+    if (direction==FADE_IN)
+    {
+        return brightness_it_==brightness_list_.end();
+    }
+    else
+    {
+        return brightness_it_==brightness_list_.begin();
+    }
 }
 
 auto ANIMATION_ALLFADE::doIncrement(fades_t direction) -> bool
 {
     if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
     {
-        setAllLEDsOneValue(calcNextBrightness());
+        setAllLEDsOneValue(calcNextBrightness(direction));
         renderLEDs();
         resetLastRenderTime();
         //if max value is reached, signal finish
         current_step_++;
-        if (current_step_ >= max_steps_)
+        if (checkAnimationFinished(direction))
         {
-            BOOST_LOG_TRIVIAL(debug) << "reached max increment, animation finished";
+            BOOST_LOG_TRIVIAL(debug) << "reached end/begin increment, animation finished";
             return false;
         }
     }
