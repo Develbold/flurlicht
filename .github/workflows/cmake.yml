@@ -16,13 +16,13 @@ jobs:
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
     # install dependencies
     - name: boost
-      run: sudo apt-get update && sudo apt-get install -yq libboost-dev libboost-log-dev libboost-regex-dev cpp-9
+      run: sudo apt-get update && sudo apt-get install -yq libboost-dev libboost-log-dev libboost-regex-dev
 
     - name: update submodules
       run: git submodule update --init --recursive
