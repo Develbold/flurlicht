@@ -5,6 +5,8 @@ project(flurlicht LANGUAGES CXX VERSION 0.1.0)
 SET(BUILD_SHARED_LIBS OFF)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#SET (CMAKE_CXX_COMPILER             "/usr/bin/clang++")
+#SET (CMAKE_C_COMPILER             "/usr/bin/clang")
 #set(CMAKE_BUILD_TYPE Debug)
 
 find_package(Threads REQUIRED)
@@ -17,6 +19,17 @@ add_subdirectory(extern/rpi_ws281x_static)
 include_directories(include)
 include_directories(extern)
 include_directories(tests)
+
+#code coverage
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeModules)
+include(CodeCoverage)
+append_coverage_compiler_flags()
+#setup_target_for_coverage_gcovr_html(${PROJECT_NAME}_coverage ${PROJECT_TEST_NAME} coverage)
+SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage
+                              EXECUTABLE runUnitTests
+                              DEPENDENCIES ${PROJECT_NAME})
+#target_link_libraries(${PROJECT_TEST_NAME} gcov)
+
 
 ################################
 # GTest
