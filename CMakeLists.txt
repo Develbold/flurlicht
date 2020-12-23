@@ -16,6 +16,14 @@ add_subdirectory(extern/rpi_ws281x)
 
 include_directories(include)
 include_directories(extern)
+include_directories(tests)
+
+################################
+# GTest
+################################
+ADD_SUBDIRECTORY (extern/googletest)
+enable_testing()
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 
 set(HEADER_FILES include/flurlicht.h
@@ -41,3 +49,12 @@ set(SOURCES src/flurlicht.cpp
 add_executable(${PROJECT_NAME} src/main.cpp ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} Boost::log ws2811 Threads::Threads)
+
+################################
+# Unit Tests
+################################
+# Add test cpp file
+add_executable( runUnitTests tests/runTests.cpp tests/flurlicht_tools_test.cpp ${SOURCES})
+# Link test executable against gtest & gtest_main
+target_link_libraries(runUnitTests gtest gtest_main Boost::log ws2811)
+add_test( runUnitTests runUnitTests )

@@ -22,3 +22,8 @@ auto FLURLICHT_TOOLS::checkRenderTimeValid(std::chrono::high_resolution_clock::t
 
     return time_delta.count()>delta;
 }
+
+int FLURLICHT_TOOLS::test(int value)
+{
+    return value;
+}
