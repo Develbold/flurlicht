@@ -33,7 +33,7 @@ ANIMATION_ALLFADE::~ANIMATION_ALLFADE()
 // return the next brightness depending on the direction
 ANIMATION::led_t ANIMATION_ALLFADE::calcNextBrightness()
 {
-    ANIMATION::led_t buffer;
+    ANIMATION::led_t buffer = 0;
 
     if (direction_==FADE_IN)
     {

@@ -46,7 +46,7 @@ private:
     std::shared_ptr<ws2811_t> ledstring_;
     //timing
 
-    int cDelta_;
+    int cDelta_{};
 
 };
 #endif // ANIMATIONS_BASE_H
