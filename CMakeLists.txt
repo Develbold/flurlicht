@@ -25,6 +25,9 @@ ADD_SUBDIRECTORY (extern/googletest)
 enable_testing()
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
+set(TEST_SOURCES tests/runTests.cpp
+                tests/flurlicht_tools_test.cpp
+                tests/leds_test.cpp)
 
 set(HEADER_FILES include/flurlicht.h
                 include/flurlicht_tools.h
@@ -54,7 +57,7 @@ target_link_libraries(${PROJECT_NAME} Boost::log ws2811 Threads::Threads)
 # Unit Tests
 ################################
 # Add test cpp file
-add_executable( runUnitTests tests/runTests.cpp tests/flurlicht_tools_test.cpp ${SOURCES})
+add_executable( runUnitTests ${TEST_SOURCES} ${SOURCES})
 # Link test executable against gtest & gtest_main
 target_link_libraries(runUnitTests gtest gtest_main Boost::log ws2811)
 add_test( runUnitTests runUnitTests )
