@@ -3,7 +3,7 @@
 #include <random>
 #include <utility>
 
-ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring, fades_t direction): ANIMATION(std::move(ledstring),1)
+ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring, fades_t direction): ANIMATION(std::move(ledstring))
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_ALLFADE: constructor called";
     direction_ = direction;
@@ -69,7 +69,6 @@ auto ANIMATION_ALLFADE::doIncrement(fades_t direction) -> bool
         renderLEDs();
         resetLastRenderTime();
         //if max value is reached, signal finish
-        current_step_++;
         if (checkAnimationFinished())
         {
             BOOST_LOG_TRIVIAL(debug) << "reached end/begin increment, animation finished";
@@ -79,7 +78,7 @@ auto ANIMATION_ALLFADE::doIncrement(fades_t direction) -> bool
     return true;
 }
 
-ANIMATION_BLINK::ANIMATION_BLINK(std::shared_ptr<ws2811_t> ledstring): ANIMATION(std::move(ledstring),255)
+ANIMATION_BLINK::ANIMATION_BLINK(std::shared_ptr<ws2811_t> ledstring): ANIMATION(std::move(ledstring))
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_BLINK: constructor called";
 }
@@ -104,7 +103,7 @@ auto ANIMATION_BLINK::doIncrement(fades_t direction) -> bool
     return false;
 }
 
-ANIMATION_RANDOM::ANIMATION_RANDOM(const std::shared_ptr<ws2811_t>& ledstring): ANIMATION(ledstring,1)
+ANIMATION_RANDOM::ANIMATION_RANDOM(const std::shared_ptr<ws2811_t>& ledstring): ANIMATION(ledstring)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM: constructor called";
     setTimeDelta(5);
@@ -144,8 +143,6 @@ auto ANIMATION_RANDOM::doIncrement(ANIMATION::fades_t direction) -> bool
             }
             renderLEDs();
             resetLastRenderTime();
-            //if max value is reached, signal finish
-            current_step_++;
         }
         else
         {

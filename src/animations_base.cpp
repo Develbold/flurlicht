@@ -40,7 +40,7 @@ void ANIMATION::renderLEDs()
     ws2811_wait(ledstring_.get());
 }
 
-ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring, int step_size)
+ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION: base constructor called";
     setTimeDelta(10);

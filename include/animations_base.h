@@ -15,7 +15,7 @@ extern "C" {
 class ANIMATION
 {
 public:
-    ANIMATION(std::shared_ptr<ws2811_t> ledstring, int step_size);
+    ANIMATION(std::shared_ptr<ws2811_t> ledstring);
     virtual ~ANIMATION();
 
     typedef enum {FADE_IN,FADE_OUT} fades_t;
@@ -25,7 +25,7 @@ protected:
     typedef ws2811_led_t led_t;
     const led_t cMax_brightness_ = MAX_BRIGHTNESS;
 
-    led_t current_step_ =0;
+//    led_t current_step_ =0;
     std::vector<unsigned int> led_pool_;
     auto getIncrement();
     void setTimeDelta(int value);
