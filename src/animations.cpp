@@ -8,9 +8,10 @@ ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring, fades_
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_ALLFADE: constructor called";
     direction_ = direction;
     // init vector holding the precalculated brighntesses
-    for(auto i=0;i<max_steps_;i++)
+    auto step_size = cMax_brightness_/cMax_steps_;
+    for(auto i=0;i<cMax_steps_;i++)
     {
-        auto step = i*getStepSize();
+        auto step = i*step_size;
         brightness_list_.push_back(step);
     }
     // init the iterator, dependin gon brightness

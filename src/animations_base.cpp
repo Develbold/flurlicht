@@ -6,29 +6,6 @@
 #include <utility>
 
 
-//bool ANIMATION::checkRenderTimeValid()
-//{
-//    //check if it is time to render
-//    auto time_delta = std::chrono::duration_cast<std::chrono::milliseconds>(FLURLICHT_TOOLS::getTime() - last_render_time_);
-
-//    return time_delta.count()>cDelta_;
-//}
-
-unsigned ANIMATION::getStepSize()
-{
-    return step_size_;
-}
-
-auto ANIMATION::calcMaxSteps()
-{
-    return cMax_brightness_/getStepSize();
-}
-
-unsigned ANIMATION::getCurrentStep()
-{
-    return current_step_;
-}
-
 void ANIMATION::setTimeDelta(int value)
 {
     cDelta_ = value;
@@ -69,9 +46,6 @@ ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring, int step_size)
     setTimeDelta(10);
     ledstring_ = std::move(ledstring);
     last_render_time_ = FLURLICHT_TOOLS::getTime();
-    step_size_ = step_size;
-    max_steps_ = calcMaxSteps();
-    BOOST_LOG_TRIVIAL(debug) << "maximum number of steps: " << max_steps_;
 }
 
 ANIMATION::~ANIMATION()

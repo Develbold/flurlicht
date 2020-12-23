@@ -16,6 +16,8 @@ public:
     bool doIncrement(fades_t direction) override;
 
 private:
+    const unsigned cMax_steps_ = 15;
+
     std::list<ANIMATION::led_t>brightness_list_;
     std::list<ANIMATION::led_t>::iterator brightness_it_;
 

@@ -21,27 +21,17 @@ public:
     typedef enum {FADE_IN,FADE_OUT} fades_t;
     virtual bool doIncrement(fades_t direction)=0;
 
-
-    ANIMATION::fades_t getDirection() const;
-
 protected:
     typedef ws2811_led_t led_t;
     const led_t cMax_brightness_ = MAX_BRIGHTNESS;
 
-    led_t step_size_;
-    led_t max_steps_;
     led_t current_step_ =0;
     std::vector<unsigned int> led_pool_;
     auto getIncrement();
-    unsigned getStepSize();
-    auto calcMaxSteps();
-    unsigned getCurrentStep();
     void setTimeDelta(int value);
     int getTimeDelta();
-//    led_t calcNextBrightness();
     //timing
     void resetLastRenderTime();
-    //bool checkRenderTimeValid();
     //set leds
     void setAllLEDsOneValue(led_t value);
     void renderLEDs();
