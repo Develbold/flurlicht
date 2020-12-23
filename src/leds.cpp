@@ -10,11 +10,11 @@ LEDs::LEDs(int pin, int count, int type)
     setAnimationState(false);
     //init ledstring
     ws2811_channel_t ChannelBuffer = {
-                        gpionum : pin,
-                        invert : 0,
-                        count : count,
-                        strip_type : type,
-                        brightness : 255,
+                        .gpionum = pin,
+                        .invert = 0,
+                        .count = count,
+                        .strip_type = type,
+                        .brightness = 255,
     };
     ledstring_ = std::make_shared<ws2811_t>();
     ledstring_->freq = TARGET_FREQ;
