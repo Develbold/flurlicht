@@ -71,17 +71,9 @@ void flurlicht::run()
 
 auto flurlicht::getNextState() -> flurlicht::States
 {
-//    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = Gpio_->getSensorStates();
     FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = arduino_.getSensorStates();
-    States StateBuffer;
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
-
-    //after all input data is collected free the locks
-//    Gpio_->flushStates();
-//    Gpio_->unblockStates();
-    //events_->unlockAll();
-    //events_->unlockAllQueued();
 
     BOOST_LOG_TRIVIAL(debug) << "switching state absed on: STATE:" << CurrentState <<
                                 ", FRONT:" << SensorBuffer.front<<
@@ -89,41 +81,42 @@ auto flurlicht::getNextState() -> flurlicht::States
                                 ", ANIMATION:" << AnimationBuffer;
 
     //TODO: Refactor
-    if (CurrentState == ST_OFF && SensorBuffer.front == false && SensorBuffer.back == false)
+    switch (CurrentState)
     {
-        StateBuffer = ST_OFF;
+    case ST_OFF:
+        if(SensorBuffer.front == false && SensorBuffer.back == false)
+        {
+            return ST_OFF;
+        }
+        else
+        {
+            return ST_ANIMATION;
+        }
+        break;
+    case ST_ANIMATION:
+        if (AnimationBuffer)
+        {
+            return ST_ANIMATION;
+        }
+        else
+        {
+            return ST_ON;
+        }
+        break;
+    case ST_ON:
+        if (SensorBuffer.front == false && SensorBuffer.back == false)
+        {
+            return ST_OFF;
+        }
+        else
+        {
+            return ST_ON;
+        }
+        break;
+    default:
+        return ST_ERROR;
+        break;
     }
-    else if (CurrentState == ST_OFF && (SensorBuffer.front == true || SensorBuffer.back == true))
-    {
-        StateBuffer = ST_ANIMATION;
-    }
-    else if (CurrentState == ST_ANIMATION && AnimationBuffer == true)
-    {
-        StateBuffer = ST_ANIMATION;
-    }
-    else if (CurrentState == ST_ANIMATION && AnimationBuffer == false)
-    {
-        StateBuffer = ST_ON;
-    }
-//    else if (CurrentState == ST_ANIMATION && AnimationBuffer == false && SensorBuffer.front == false && SensorBuffer.back == false)
-//    {
-//        StateBuffer = ST_OFF;
-//    }
-    else if (CurrentState == ST_ON && (SensorBuffer.front == true || SensorBuffer.back == true))
-    {
-        StateBuffer = ST_ON;
-    }
-    else if (CurrentState == ST_ON && (SensorBuffer.front == false && SensorBuffer.back == false))
-    {
-        StateBuffer = ST_OFF;
-    }
-    else
-    {
-        StateBuffer = ST_ERROR;
-    }
-
-
-    return StateBuffer;
 }
 
 void flurlicht::setNextState(flurlicht::States next)
