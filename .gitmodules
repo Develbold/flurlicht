@@ -1,18 +1,6 @@
-[submodule "rpi_ws281x"]
-	path = rpi_ws281x
-	url = https://github.com/jgarff/rpi_ws281x.git
-[submodule "pigpio"]
-	path = pigpio
-	url = https://github.com/joan2937/pigpio.git
 [submodule "extern/rpi_ws281x"]
 	path = extern/rpi_ws281x
 	url = https://github.com/jgarff/rpi_ws281x.git
-[submodule "extern/pigpio"]
-	path = extern/pigpio
-	url = https://github.com/joan2937/pigpio.git
-[submodule "extern/SerialPort"]
-	path = extern/SerialPort
-	url = https://github.com/manashmandal/SerialPort.git
 [submodule "extern/googletest"]
 	path = extern/googletest
 	url = https://github.com/google/googletest.git
