@@ -12,7 +12,7 @@ set(Boost_USE_STATIC_LIBS   ON)
 find_package(Boost COMPONENTS log)
 
 #add_subdirectory(extern/pigpio)
-add_subdirectory(extern/rpi_ws281x)
+add_subdirectory(extern/rpi_ws281x_static)
 
 include_directories(include)
 include_directories(extern)

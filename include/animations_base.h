@@ -7,7 +7,7 @@
 #include <boost/log/trivial.hpp>
 
 extern "C" {
-#include "rpi_ws281x/ws2811.h"
+#include "rpi_ws281x_static/ws2811.h"
 }
 
 #define MAX_BRIGHTNESS 255
