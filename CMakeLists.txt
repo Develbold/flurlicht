@@ -27,7 +27,8 @@ append_coverage_compiler_flags()
 #setup_target_for_coverage_gcovr_html(${PROJECT_NAME}_coverage ${PROJECT_TEST_NAME} coverage)
 SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage
                               EXECUTABLE runUnitTests
-                              DEPENDENCIES ${PROJECT_NAME})
+                              DEPENDENCIES ${PROJECT_NAME}
+                              EXCLUDE "/usr/include/*" "boost/" "extern/" "googletest/")
 #target_link_libraries(${PROJECT_TEST_NAME} gcov)
 
 
