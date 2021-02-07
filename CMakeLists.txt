@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #SET (CMAKE_CXX_COMPILER             "/usr/bin/clang++")
 #SET (CMAKE_C_COMPILER             "/usr/bin/clang")
 #set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 
 find_package(Threads REQUIRED)
 set(Boost_USE_STATIC_LIBS   ON)
