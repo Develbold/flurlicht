@@ -41,6 +41,8 @@ auto ANIMATION_RANDOM_GRANULAR::doIncrement(ANIMATION::fades_t direction) -> boo
             if (step >= pwmtable_.size())
             {
                 led_pool_.erase(led_pool_.begin()+led_id);
+                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
+                step=pwmtable_.size();
             }
             else
             {
@@ -54,6 +56,8 @@ auto ANIMATION_RANDOM_GRANULAR::doIncrement(ANIMATION::fades_t direction) -> boo
             if (step <= 0)
             {
                 led_pool_.erase(led_pool_.begin()+led_id);
+                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
+                step=0;
             }
             else
             {
