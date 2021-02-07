@@ -5,6 +5,7 @@
 #include "animations_allfade.h"
 #include "animations_blink.h"
 #include "animations_random.h"
+#include "animations_random_granular.h"
 
 LEDs::LEDs(int pin, int count, int type)
 {
@@ -45,8 +46,12 @@ void LEDs::playAnimation(animations_t type, ANIMATION::fades_t direction)
             pAnimation.push_back(new ANIMATION_ALLFADE(ledstring_, direction));
         break;
         case RANDOM:
-            BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_ALLFADE";
+            BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_RANDOM";
             pAnimation.push_back(new ANIMATION_RANDOM(ledstring_));
+        break;
+        case RANDOM_GRANULAR:
+            BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_RANDOM_GRANULAR";
+            pAnimation.push_back(new ANIMATION_RANDOM_GRANULAR(ledstring_));
         break;
         default:
             BOOST_LOG_TRIVIAL(error) << "unknown animations";
