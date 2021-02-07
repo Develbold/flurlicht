@@ -1,6 +1,6 @@
 #include "animations_random.h"
 #include "flurlicht_tools.h"
-#include <random>
+#include <animations_random.h>
 #include <utility>
 
 
@@ -8,14 +8,8 @@ ANIMATION_RANDOM::ANIMATION_RANDOM(const std::shared_ptr<ws2811_t>& ledstring): 
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM: constructor called";
     setTimeDelta(5);
-    for(auto led=0;led<ledstring->channel[0].count;led++)
-    {
-        led_pool_.push_back(led);
-    }
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-
-    shuffle (led_pool_.begin(), led_pool_.end(), std::default_random_engine(seed));
-
+    initLEDPool();
+    shuffleLEDPool();
 }
 
 ANIMATION_RANDOM::~ANIMATION_RANDOM()

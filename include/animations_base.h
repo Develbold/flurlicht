@@ -27,6 +27,9 @@ protected:
 
 //    led_t current_step_ =0;
     std::vector<unsigned int> led_pool_;
+    unsigned seed_;
+    void initLEDPool();
+    void shuffleLEDPool();
     auto getIncrement();
     void setTimeDelta(int value);
     int getTimeDelta();
@@ -38,6 +41,8 @@ protected:
     std::chrono::high_resolution_clock::time_point last_render_time_;
 
     void setOneLED(unsigned pos, led_t value);
+    led_t getOneLEDBrightness(unsigned pos);
+    int getLEDCount();
 
     ANIMATION::fades_t direction_;
 
