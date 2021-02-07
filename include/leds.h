@@ -32,6 +32,7 @@ public:
     void playAnimation(animations_t type, ANIMATION::fades_t direction);
     bool returnWorkingState();
     bool getAnimationRunning();
+    animations_t getRandomAnimation();
 
 private:
     std::shared_ptr<ws2811_t> ledstring_;
