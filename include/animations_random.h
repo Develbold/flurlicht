@@ -18,5 +18,16 @@ public:
     bool doIncrement(fades_t direction) override;
 };
 
+class ANIMATION_RANDOM_GRANULAR: public ANIMATION
+{
+public:
+    ANIMATION_RANDOM_GRANULAR(const std::shared_ptr<ws2811_t>& ledstring);
+    ~ANIMATION_RANDOM_GRANULAR();
+    bool doIncrement(fades_t direction) override;
+private:
+    int getValidLED(ANIMATION::fades_t direction);
+    const static int cstep_size_{10};
+};
+
 #endif // ANIMATIONS_RANDOM_H
 

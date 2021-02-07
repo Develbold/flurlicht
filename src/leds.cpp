@@ -84,7 +84,7 @@ auto LEDs::getAnimationRunning() -> bool
 // return random animation type
 LEDs::animations_t LEDs::getRandomAnimation()
 {
-    std::vector<LEDs::animations_t> buffer{LEDs::ALL,LEDs::RANDOM};
+    std::vector<animations_t> buffer{ALL,RANDOM,RANDOM_GRANULAR};
     return buffer[rand() % buffer.size()];
 }
 
