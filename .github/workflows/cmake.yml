@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - tests
+      - dev
 
 
 env:
