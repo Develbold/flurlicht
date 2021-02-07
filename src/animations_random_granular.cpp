@@ -42,7 +42,7 @@ auto ANIMATION_RANDOM_GRANULAR::doIncrement(ANIMATION::fades_t direction) -> boo
             {
                 led_pool_.erase(led_pool_.begin()+led_id);
                 BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
-                step=pwmtable_.size();
+                step=pwmtable_.size()-1;
             }
             else
             {
@@ -93,7 +93,7 @@ void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t directio
         }
         else
         {
-            led_pool_.push_back(pwmtable_.size());
+            led_pool_.push_back(pwmtable_.size()-1);
         }
     }
 }
