@@ -18,7 +18,7 @@ public:
     void render(fades_t direction) override;
 private:
 //    int getValidLED(ANIMATION::fades_t direction);
-    std::vector<unsigned> led_pool_;
+    std::vector<uint8_t> led_pool_;
     void initLEDPoolIterators(ANIMATION::fades_t direction);
 };
 
