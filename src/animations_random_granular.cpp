@@ -24,6 +24,7 @@ ANIMATION_RANDOM_GRANULAR::~ANIMATION_RANDOM_GRANULAR()
     //~ANIMATION();
 }
 
+//TODO use iterators instead of array access
 auto ANIMATION_RANDOM_GRANULAR::doIncrement(ANIMATION::fades_t direction) -> bool
 {
 //    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
@@ -62,6 +63,7 @@ auto ANIMATION_RANDOM_GRANULAR::doIncrement(ANIMATION::fades_t direction) -> boo
         }
         // set led brightness
         setOneLED(led_id,pwmtable_.at(step));
+        BOOST_LOG_TRIVIAL(debug) << "LED: " << led_id <<"|"<<step<<"|"<<pwmtable_.at(step);
         // render and update
         renderLEDs();
         resetLastRenderTime();
