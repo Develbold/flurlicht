@@ -67,7 +67,7 @@ auto ANIMATION_RANDOM_GRANULAR::doIncrement(ANIMATION::fades_t direction) -> boo
         }
         // set led brightness
         setOneLED(led_id,pwmtable_.at(step));
-        BOOST_LOG_TRIVIAL(debug) << "LED: " << led_id <<"|"<<step<<"|"<<pwmtable_.at(step)<<"|"<<led_pool_.size();
+//        BOOST_LOG_TRIVIAL(debug) << "LED: " << led_id <<"|"<<step<<"|"<<pwmtable_.at(step)<<"|"<<led_pool_.size();
         // render and update
         renderLEDs();
 //        resetLastRenderTime();
