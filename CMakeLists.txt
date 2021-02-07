@@ -49,6 +49,7 @@ set(HEADER_FILES include/flurlicht.h
                 include/leds.h
                 include/animations_base.h
                 include/animations_random.h
+                include/animations_random_granular.h
                 include/animations_allfade.h
                 include/animations_blink.h
 #                include/flurlicht_events.h
@@ -60,6 +61,7 @@ set(SOURCES src/flurlicht.cpp
             src/leds.cpp
             src/animations_base.cpp
             src/animations_random.cpp
+            src/animations_random_granular.cpp
             src/animations_allfade.cpp
             src/animations_blink.cpp
 #            src/flurlicht_events.cpp
