@@ -18,7 +18,7 @@ public:
     bool doIncrement(fades_t direction) override;
 private:
     int getValidLED(ANIMATION::fades_t direction);
-    const static int cstep_size_{10};
+    const static int cstep_size_{25};
 };
 
 #endif // ANIMATIONS_RANDOM_GRANULAR_H
