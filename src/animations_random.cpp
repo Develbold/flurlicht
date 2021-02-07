@@ -1,14 +1,14 @@
 #include "animations_random.h"
 #include "flurlicht_tools.h"
-#include <animations_random.h>
 #include <utility>
+#include <random>
 
 
 ANIMATION_RANDOM::ANIMATION_RANDOM(const std::shared_ptr<ws2811_t>& ledstring): ANIMATION(ledstring)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM: constructor called";
     setTimeDelta(5);
-    initLEDPool();
+    initLEDPoolByCount();
     shuffleLEDPool();
 }
 
@@ -47,4 +47,17 @@ auto ANIMATION_RANDOM::doIncrement(ANIMATION::fades_t direction) -> bool
 
     }
     return true;
+}
+
+void ANIMATION_RANDOM::initLEDPoolByCount()
+{
+    for(auto led=0;led<getLEDCount();led++)
+    {
+        led_pool_.push_back(led);
+    }
+}
+
+void ANIMATION_RANDOM::shuffleLEDPool()
+{
+    shuffle (led_pool_.begin(), led_pool_.end(), std::default_random_engine(seed_));
 }

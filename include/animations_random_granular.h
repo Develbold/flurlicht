@@ -17,8 +17,9 @@ public:
     ~ANIMATION_RANDOM_GRANULAR();
     bool doIncrement(fades_t direction) override;
 private:
-    int getValidLED(ANIMATION::fades_t direction);
-    const static int cstep_size_{25};
+//    int getValidLED(ANIMATION::fades_t direction);
+    std::vector<unsigned> led_pool_;
+    void initLEDPoolIterators(ANIMATION::fades_t direction);
 };
 
 #endif // ANIMATIONS_RANDOM_GRANULAR_H

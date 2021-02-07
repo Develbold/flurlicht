@@ -1,8 +1,6 @@
 #include "animations_base.h"
 #include "flurlicht_tools.h"
-#include <random>
 #include <animations_base.h>
-
 #include <utility>
 
 
@@ -62,17 +60,4 @@ ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring)
 ANIMATION::~ANIMATION()
 {
 
-}
-
-void ANIMATION::initLEDPool()
-{
-    for(auto led=0;led<getLEDCount();led++)
-    {
-        led_pool_.push_back(led);
-    }
-}
-
-void ANIMATION::shuffleLEDPool()
-{
-    shuffle (led_pool_.begin(), led_pool_.end(), std::default_random_engine(seed_));
 }

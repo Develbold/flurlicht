@@ -7,7 +7,8 @@ ANIMATION_RANDOM_GRANULAR::ANIMATION_RANDOM_GRANULAR(const std::shared_ptr<ws281
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM_GRANULAR: constructor called";
     setTimeDelta(5);
-    initLEDPool();
+    initLEDPoolIterators(FADE_IN);
+    pwmtable_={0, 1, 2, 2, 2, 3, 3, 4, 5, 6, 7, 8, 10, 11, 13, 16, 19, 23, 27, 32, 38, 45, 54, 64, 76, 91, 108, 128, 152, 181, 215, 255};
 //    for(auto led=0;led<ledstring->channel[0].count;led++)
 //    {
 //        led_pool_.push_back(led);
@@ -27,83 +28,66 @@ auto ANIMATION_RANDOM_GRANULAR::doIncrement(ANIMATION::fades_t direction) -> boo
 {
 //    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
 //    {
-        int led = getValidLED(direction);
-        // if no error was returned, proceed
-        if (led > -1)
+    if(!led_pool_.empty())
+    {
+        // get a random led id
+        auto led_id = rand() % led_pool_.size();
+        // get the step for led_id
+        auto step = led_pool_.at(led_id);
+        if (direction==FADE_IN)
         {
-            auto brightness = getOneLEDBrightness(led);
-            // set value
-            if (direction==FADE_IN)
+            step++;
+            if (step >= pwmtable_.size())
             {
-                brightness += cstep_size_;
-                if (brightness > cMax_brightness_)
-                {
-                    brightness = cMax_brightness_;
-                }
-                setOneLED(led,brightness);
+                led_pool_.erase(led_pool_.begin()+led_id);
             }
             else
             {
-                brightness -= cstep_size_;
-                if (brightness < 0)
-                {
-                    brightness = 0;
-                }
-                setOneLED(led,brightness);
+                // store current step
+                led_pool_[led_id]=step;
             }
-            renderLEDs();
-            resetLastRenderTime();
         }
         else
         {
-            BOOST_LOG_TRIVIAL(debug) << "no more LEDs available, animation finished";
-            return false;
+            step--;
+            if (step <= 0)
+            {
+                led_pool_.erase(led_pool_.begin()+led_id);
+            }
+            else
+            {
+                // store current step
+                led_pool_[led_id]=step;
+            }
         }
+        // set led brightness
+        setOneLED(led_id,pwmtable_.at(step));
+        // render and update
+        renderLEDs();
+        resetLastRenderTime();
+    }
+    else
+    {
+        BOOST_LOG_TRIVIAL(debug) << "no more LEDs available, animation finished";
+        return false;
+    }
 
 
  //   }
     return true;
 }
 
-int ANIMATION_RANDOM_GRANULAR::getValidLED(ANIMATION::fades_t direction)
+void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t direction)
 {
-    while(!led_pool_.empty())
+    for(auto led=0;led<getLEDCount();led++)
     {
-        shuffleLEDPool();
-        // get random led
-        auto led = led_pool_.back();
-        // get brightness
-        auto brightness = getOneLEDBrightness(led);
-        //check if max or min brightness is reached
         if (direction==FADE_IN)
         {
-            // if max brightness already reached, delete led
-            // otherwise return led
-            if(brightness==cMax_brightness_)
-            {
-                BOOST_LOG_TRIVIAL(debug) << "LED " << led <<" reached max brightness, LEDs left: "<<led_pool_.size();
-                led_pool_.pop_back();
-            }
-            else
-            {
-                return led;
-            }
+            led_pool_.push_back(0);
         }
         else
         {
-            // if zero brightness already reached, delete led
-            // otherwise return led
-            if(brightness==0)
-            {
-                BOOST_LOG_TRIVIAL(debug) << "LED " << led <<" reached zero brightness, LEDs left: "<<led_pool_.size();
-                led_pool_.pop_back();
-            }
-            else
-            {
-                return led;
-            }
+            led_pool_.push_back(pwmtable_.size());
         }
     }
-    // return negative led as error
-    return -1;
 }
