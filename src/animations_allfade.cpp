@@ -61,20 +61,22 @@ bool ANIMATION_ALLFADE::checkAnimationFinished()
     }
 }
 
-auto ANIMATION_ALLFADE::doIncrement(fades_t direction) -> bool
+void ANIMATION_ALLFADE::render(fades_t direction)
 {
-    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
+    while(true)
     {
-        setAllLEDsOneValue(calcNextBrightness());
-        renderLEDs();
-        resetLastRenderTime();
-        //if max value is reached, signal finish
-        if (checkAnimationFinished())
+        if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
         {
-            BOOST_LOG_TRIVIAL(debug) << "reached end/begin increment, animation finished";
-            return false;
+            setAllLEDsOneValue(calcNextBrightness());
+            renderLEDs();
+            resetLastRenderTime();
+            //if max value is reached, signal finish
+            if (checkAnimationFinished())
+            {
+                BOOST_LOG_TRIVIAL(debug) << "reached end/begin increment, animation finished";
+                break;
+            }
         }
     }
-    return true;
 }
 

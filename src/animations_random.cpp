@@ -17,36 +17,38 @@ ANIMATION_RANDOM::~ANIMATION_RANDOM()
     //~ANIMATION();
 }
 
-auto ANIMATION_RANDOM::doIncrement(ANIMATION::fades_t direction) -> bool
+void ANIMATION_RANDOM::render(ANIMATION::fades_t direction)
 {
-    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
+    while(true)
     {
-        if(!led_pool_.empty())
+        if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
         {
-            // get random led
-            auto led = led_pool_.back();
-            led_pool_.pop_back();
-            // set value
-            //BOOST_LOG_TRIVIAL(debug) << "one: " << led <<"|"<<cMax_brightness_<<"|"<<led_pool_.size();
-            if (direction==FADE_IN)
+            if(!led_pool_.empty())
             {
-                setOneLED(led,cMax_brightness_);
+                // get random led
+                auto led = led_pool_.back();
+                led_pool_.pop_back();
+                // set value
+                //BOOST_LOG_TRIVIAL(debug) << "one: " << led <<"|"<<cMax_brightness_<<"|"<<led_pool_.size();
+                if (direction==FADE_IN)
+                {
+                    setOneLED(led,cMax_brightness_);
+                }
+                else
+                {
+                    setOneLED(led,0);
+                }
+                renderLEDs();
+                resetLastRenderTime();
             }
             else
             {
-                setOneLED(led,0);
+                BOOST_LOG_TRIVIAL(debug) << "reached max increment, animation finished";
+                break;
             }
-            renderLEDs();
-            resetLastRenderTime();
-        }
-        else
-        {
-            BOOST_LOG_TRIVIAL(debug) << "reached max increment, animation finished";
-            return false;
-        }
 
+        }
     }
-    return true;
 }
 
 void ANIMATION_RANDOM::initLEDPoolByCount()

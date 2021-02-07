@@ -14,7 +14,7 @@ class ANIMATION_ALLFADE: public ANIMATION
 public:
     ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring, fades_t direction);
     ~ANIMATION_ALLFADE();
-    bool doIncrement(fades_t direction) override;
+    void render(fades_t direction) override;
 
 private:
     const unsigned cMax_steps_ = 15;

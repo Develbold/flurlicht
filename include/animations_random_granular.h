@@ -15,7 +15,7 @@ class ANIMATION_RANDOM_GRANULAR: public ANIMATION
 public:
     ANIMATION_RANDOM_GRANULAR(const std::shared_ptr<ws2811_t>& ledstring);
     ~ANIMATION_RANDOM_GRANULAR();
-    bool doIncrement(fades_t direction) override;
+    void render(fades_t direction) override;
 private:
 //    int getValidLED(ANIMATION::fades_t direction);
     std::vector<unsigned> led_pool_;

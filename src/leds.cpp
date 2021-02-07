@@ -62,10 +62,13 @@ void LEDs::playAnimation(animations_t type, ANIMATION::fades_t direction)
     setAnimationState(true);
 
     BOOST_LOG_TRIVIAL(debug) << "starting animation";
-    while(getAnimationRunning())
-    {
-        setAnimationState(pAnimation[0]->doIncrement(direction));
-    }
+    setAnimationState(true);
+    pAnimation[0]->render(direction);
+    setAnimationState(false);
+//    while(getAnimationRunning())
+//    {
+//        setAnimationState(pAnimation[0]->doIncrement(direction));
+//    }
     BOOST_LOG_TRIVIAL(debug) << "playAnimation finished";
 }
 

@@ -14,7 +14,7 @@ ANIMATION_BLINK::~ANIMATION_BLINK()
     //~ANIMATION();
 }
 
-auto ANIMATION_BLINK::doIncrement(fades_t direction) -> bool
+void ANIMATION_BLINK::render(fades_t direction)
 {
     if (direction == FADE_OUT)
     {
@@ -26,6 +26,5 @@ auto ANIMATION_BLINK::doIncrement(fades_t direction) -> bool
     }
     renderLEDs();
     resetLastRenderTime();
-    return false;
 }
 

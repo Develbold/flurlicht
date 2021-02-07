@@ -15,7 +15,7 @@ class ANIMATION_RANDOM: public ANIMATION
 public:
     ANIMATION_RANDOM(const std::shared_ptr<ws2811_t>& ledstring);
     ~ANIMATION_RANDOM();
-    bool doIncrement(fades_t direction) override;
+    void render(fades_t direction) override;
 private:
     std::vector<unsigned int> led_pool_;
     void shuffleLEDPool();

@@ -19,7 +19,7 @@ public:
     virtual ~ANIMATION();
 
     typedef enum {FADE_IN,FADE_OUT} fades_t;
-    virtual bool doIncrement(fades_t direction)=0;
+    virtual void render(fades_t direction)=0;
 
 protected:
     typedef ws2811_led_t led_t;
