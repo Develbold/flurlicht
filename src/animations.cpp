@@ -14,7 +14,7 @@ ANIMATION_ALLFADE::ANIMATION_ALLFADE(std::shared_ptr<ws2811_t> ledstring, fades_
         auto step = i*step_size;
         brightness_list_.push_back(step);
     }
-    // init the iterator, dependin gon brightness
+    // init the iterator, depending on brightness
     if (direction==FADE_IN)
     {
         brightness_it_ = brightness_list_.begin();
