@@ -8,6 +8,7 @@
 #include <vector>
 #include <list>
 
+// fade each LED with the same brightness in sync (as ramp)
 class ANIMATION_ALLFADE: public ANIMATION
 {
 public:
@@ -25,6 +26,7 @@ private:
     bool checkAnimationFinished();
 };
 
+// turn on or off all LEDs at the same time
 class ANIMATION_BLINK: public ANIMATION
 {
 public:
@@ -33,6 +35,7 @@ public:
     bool doIncrement(fades_t direction) override;
 };
 
+// turn on or off all LEDs in random order
 class ANIMATION_RANDOM: public ANIMATION
 {
 public:
