@@ -81,6 +81,7 @@ int ANIMATION_RANDOM_GRANULAR::getValidLED(ANIMATION::fades_t direction)
             // otherwise return led
             if(brightness==cMax_brightness_)
             {
+                BOOST_LOG_TRIVIAL(debug) << "LED " << led <<" reached max brightness, LEDs left: "<<led_pool_.size();
                 led_pool_.pop_back();
             }
             else
@@ -90,10 +91,11 @@ int ANIMATION_RANDOM_GRANULAR::getValidLED(ANIMATION::fades_t direction)
         }
         else
         {
-            // if max brightness already reached, delete led
+            // if zero brightness already reached, delete led
             // otherwise return led
             if(brightness==0)
             {
+                BOOST_LOG_TRIVIAL(debug) << "LED " << led <<" reached zero brightness, LEDs left: "<<led_pool_.size();
                 led_pool_.pop_back();
             }
             else
