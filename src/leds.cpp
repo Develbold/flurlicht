@@ -2,7 +2,9 @@
 #include <memory>
 #include <vector>
 #include <boost/log/trivial.hpp>
-#include "animations.h"
+#include "animations_allfade.h"
+#include "animations_blink.h"
+#include "animations_random.h"
 
 LEDs::LEDs(int pin, int count, int type)
 {

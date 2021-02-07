@@ -1,5 +1,5 @@
-#ifndef ANIMATIONS_H
-#define ANIMATIONS_H
+#ifndef ANIMATIONS_ALLFADE_H
+#define ANIMATIONS_ALLFADE_H
 
 #include <memory>
 #include <chrono>
@@ -26,23 +26,5 @@ private:
     bool checkAnimationFinished();
 };
 
-// turn on or off all LEDs at the same time
-class ANIMATION_BLINK: public ANIMATION
-{
-public:
-    ANIMATION_BLINK(std::shared_ptr<ws2811_t> ledstring);
-    ~ANIMATION_BLINK();
-    bool doIncrement(fades_t direction) override;
-};
-
-// turn on or off all LEDs in random order
-class ANIMATION_RANDOM: public ANIMATION
-{
-public:
-    ANIMATION_RANDOM(const std::shared_ptr<ws2811_t>& ledstring);
-    ~ANIMATION_RANDOM();
-    bool doIncrement(fades_t direction) override;
-};
-
-#endif // ANIMATIONS_H
+#endif // ANIMATIONS_ALLFADE_H
 
