@@ -6,3 +6,8 @@
 /cmake_install.cmake
 /build/*
 /extern/rpi_ws281x_static/CMakeFiles/*
+/flurlicht_coverage/
+/flurlicht_coverage.base
+/flurlicht_coverage.capture
+/flurlicht_coverage.info
+/flurlicht_coverage.total
