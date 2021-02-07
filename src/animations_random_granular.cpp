@@ -25,8 +25,8 @@ ANIMATION_RANDOM_GRANULAR::~ANIMATION_RANDOM_GRANULAR()
 
 auto ANIMATION_RANDOM_GRANULAR::doIncrement(ANIMATION::fades_t direction) -> bool
 {
-    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
-    {
+//    if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
+//    {
         int led = getValidLED(direction);
         // if no error was returned, proceed
         if (led > -1)
@@ -61,7 +61,7 @@ auto ANIMATION_RANDOM_GRANULAR::doIncrement(ANIMATION::fades_t direction) -> boo
         }
 
 
-    }
+ //   }
     return true;
 }
 
