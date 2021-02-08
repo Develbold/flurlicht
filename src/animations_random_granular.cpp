@@ -47,11 +47,10 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
             // render and update
             renderLEDs();
 //            BOOST_LOG_TRIVIAL(debug) << "LED count: " << led_count <<"|"<<led_pool_.size();
+            resetLastRenderTime();
         }
-        resetLastRenderTime();
     }
     BOOST_LOG_TRIVIAL(debug) << "no more LEDs available, animation finished";
-    resetLastRenderTime();
 }
 
 //TODO improve handling of reading from empty pool
