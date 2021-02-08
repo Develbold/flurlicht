@@ -140,7 +140,7 @@ void flurlicht::handleONState()
 {
 //    while(checkStateValid())
 //    {
-        FLURLICHT_TOOLS::sleepPeriod(10000);
+        FLURLICHT_TOOLS::sleepPeriod(30000);
 //    }
     BOOST_LOG_TRIVIAL(info) << "finished ON state";
 }
