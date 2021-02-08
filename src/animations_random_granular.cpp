@@ -27,7 +27,7 @@ ANIMATION_RANDOM_GRANULAR::~ANIMATION_RANDOM_GRANULAR()
 //TODO use iterators instead of array access
 void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
 {
-    auto led_count = 1;
+    unsigned long led_count = 1;
     //auto limit = 0;
     while(!led_pool_.empty())
     {
@@ -36,7 +36,7 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
         {
             led_count = led_pool_.size();;
         }
-        for(auto i=0;i<=led_count;i++)
+        for(unsigned long i=0;i<=led_count;i++)
         {
             updateLEDBufferOnceRandomly(direction);
         }
