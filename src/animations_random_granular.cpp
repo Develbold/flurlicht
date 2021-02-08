@@ -51,46 +51,57 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
     resetLastRenderTime();
 }
 
+//TODO improve handling of reading from empty pool
 //choose one random LED and update the Render Buffer
-void ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t direction)
+bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t direction)
 {
-    // get a random led id
-    auto led_id = rand() % led_pool_.size();
-    // get the step for led_id
-    auto step = led_pool_.at(led_id);
-    if (direction==FADE_IN)
+    if (led_pool_.size()!=0)
     {
-        step++;
-        if (step >= pwmtable_.size())
+        // get a random led id
+        auto led_id = rand() % led_pool_.size();
+        // get the step for led_id
+        auto step = led_pool_.at(led_id);
+        if (direction==FADE_IN)
         {
-            led_pool_.erase(led_pool_.begin()+led_id);
-            BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
-            step=pwmtable_.size()-1;
+            step++;
+            if (step >= pwmtable_.size())
+            {
+                led_pool_.erase(led_pool_.begin()+led_id);
+                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
+                step=pwmtable_.size()-1;
+            }
+            else
+            {
+                // store current step
+                led_pool_[led_id]=step;
+            }
         }
         else
         {
-            // store current step
-            led_pool_[led_id]=step;
+            step--;
+            if (step <= 0)
+            {
+                led_pool_.erase(led_pool_.begin()+led_id);
+                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
+                step=0;
+            }
+            else
+            {
+                // store current step
+                led_pool_[led_id]=step;
+            }
         }
+        // set led brightness
+        setOneLED(led_id,pwmtable_.at(step));
+        BOOST_LOG_TRIVIAL(debug) << "LED: " << led_id <<"|"<<step<<"|"<<pwmtable_.at(step)<<"|"<<led_pool_.size();
+        return true;
     }
     else
     {
-        step--;
-        if (step <= 0)
-        {
-            led_pool_.erase(led_pool_.begin()+led_id);
-            BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
-            step=0;
-        }
-        else
-        {
-            // store current step
-            led_pool_[led_id]=step;
-        }
+        BOOST_LOG_TRIVIAL(info) << "recieved empty pool, returning false";
+        return false;
     }
-    // set led brightness
-    setOneLED(led_id,pwmtable_.at(step));
-    //        BOOST_LOG_TRIVIAL(debug) << "LED: " << led_id <<"|"<<step<<"|"<<pwmtable_.at(step)<<"|"<<led_pool_.size();
+
 }
 
 void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t direction)
