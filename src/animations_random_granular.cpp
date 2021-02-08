@@ -120,3 +120,23 @@ void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t directio
         }
     }
 }
+
+//void ANIMATION_RANDOM_GRANULAR::initLEDPool()
+//{
+//    typedef std::pair<int,uint8_t> pair_t;
+//    auto buffer_size = getLEDCount();
+//    std::vector<uint8_t> buffer_steps(buffer_size);
+//    std::vector<uint8_t> buffer_leds(buffer_size);
+//    for(auto led=0;led<getLEDCount();led++)
+//    {
+//        buffer_leds.push_back(led);
+//    }
+//    while(!buffer_leds.empty())
+//    {
+//        auto led = rand() % buffer_leds.size();
+//        auto led_id = buffer_leds.at(led);
+//        auto step = buffer_steps.at(led_id);
+//        pair_t buffer = std::make_pair(led_id,step);
+
+//    }
+//}
