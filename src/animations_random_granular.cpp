@@ -31,21 +31,24 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
     //auto limit = 0;
     while(!led_pool_.empty())
     {
-        //if led count is greater then vector size, set it to vector size
-        if (led_count>=led_pool_.size())
+        if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
         {
-            led_count = led_pool_.size();;
+            //if led count is greater then vector size, set it to vector size
+            if (led_count>=led_pool_.size())
+            {
+                led_count = led_pool_.size();;
+            }
+            for(unsigned long i=0;i<=led_count;i++)
+            {
+                updateLEDBufferOnceRandomly(direction);
+            }
+            //increase amount of leds to be rendered
+            led_count++;
+            // render and update
+            renderLEDs();
+            BOOST_LOG_TRIVIAL(debug) << "LED count: " << led_count <<"|"<<led_pool_.size();
         }
-        for(unsigned long i=0;i<=led_count;i++)
-        {
-            updateLEDBufferOnceRandomly(direction);
-        }
-        //increase amount of leds to be rendered
-        led_count++;
-        // render and update
-        renderLEDs();
-        BOOST_LOG_TRIVIAL(debug) << "LED count: " << led_count <<"|"<<led_pool_.size();
-    //        resetLastRenderTime();
+        resetLastRenderTime();
     }
     BOOST_LOG_TRIVIAL(debug) << "no more LEDs available, animation finished";
     resetLastRenderTime();
