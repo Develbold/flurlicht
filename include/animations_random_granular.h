@@ -20,6 +20,8 @@ private:
 //    int getValidLED(ANIMATION::fades_t direction);
     std::vector<uint8_t> led_pool_;
     void initLEDPoolIterators(ANIMATION::fades_t direction);
+//    void initLEDPool();
+    void updateLEDBufferOnceRandomly(ANIMATION::fades_t direction);
 };
 
 #endif // ANIMATIONS_RANDOM_GRANULAR_H
