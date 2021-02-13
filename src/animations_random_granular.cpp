@@ -61,7 +61,7 @@ ANIMATION_RANDOM_GRANULAR::~ANIMATION_RANDOM_GRANULAR()
 //TODO use iterators instead of array access
 void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
 {
-    unsigned long fail_count = 1;
+    auto fail_count = 1;
     //auto limit = 0;
     // update LED until failcount is same as amount of LEDS
     auto y = 1;
@@ -80,7 +80,7 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
             }
         }
         y++;
-        BOOST_LOG_TRIVIAL(debug) << "LED y: " << y;
+        BOOST_LOG_TRIVIAL(debug) << "LED y: " << y << "|" << fail_count;
         //render and update
         renderLEDs();
     }
