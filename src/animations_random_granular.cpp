@@ -67,9 +67,9 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
     // update LED until failcount is same as amount of LEDS
     while(fail_count!=getLEDCount())
     {
-        auto inc = 1;
+        auto y = 1;
         auto i=0;
-        while(i<=fail_count)
+        while(i<=y)
         {
             if(!updateLEDBufferOnceRandomly(direction))
             {
@@ -80,6 +80,7 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
                 i++;
             }
         }
+        y++;
         //render and update
         renderLEDs();
     }
