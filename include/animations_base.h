@@ -54,7 +54,8 @@ protected:
 //    typedef pwmtable_t::iterator pwmtable_it;
 //    static constexpr pwmtable_t c_pwmtable_={0, 1, 2, 2, 2, 3, 3, 4, 5, 6, 7, 8, 10, 11, 13, 16, 19, 23, 27, 32, 38, 45, 54, 64, 76, 91, 108, 128, 152, 181, 215, 255};
     typedef uint16_t pwm_steps_t;
-    std::array<pwm_steps_t,32> pwmtable_;
+    ANIMATION::pwm_steps_t getPWMValue(int pos);
+    const static unsigned pwm_table_size=32;
 
 private:
     //leds
@@ -62,6 +63,9 @@ private:
     //timing
 
     int cDelta_{};
+    //other
+
+    std::array<pwm_steps_t,pwm_table_size> pwmtable_;
 };
 
 //const std::vector<uint16_t> ANIMATION::pwmtable_({0, 1, 2, 2, 2, 3, 3, 4, 5, 6, 7, 8, 10, 11, 13, 16, 19, 23, 27, 32, 38, 45, 54, 64, 76, 91, 108, 128, 152, 181, 215, 255});

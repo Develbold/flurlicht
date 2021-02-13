@@ -9,7 +9,6 @@ ANIMATION_RANDOM_GRANULAR::ANIMATION_RANDOM_GRANULAR(const std::shared_ptr<ws281
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM_GRANULAR: constructor called";
     setTimeDelta(6);
     initLEDPoolIterators(FADE_IN);
-    pwmtable_={0, 1, 2, 2, 2, 3, 3, 4, 5, 6, 7, 8, 10, 11, 13, 16, 19, 23, 27, 32, 38, 45, 54, 64, 76, 91, 108, 128, 152, 181, 215, 255};
 //    for(auto led=0;led<ledstring->channel[0].count;led++)
 //    {
 //        led_pool_.push_back(led);
@@ -93,6 +92,8 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
      std::cout << std::endl;
 }
 
+
+
 //TODO improve handling of reading from empty pool
 //choose one random LED and update the Render Buffer
 bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t direction)
@@ -115,7 +116,7 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
         // store new step value
         setLEDStep(led_id,step);
         // set led brightness
-        setOneLED(led_id,pwmtable_.at(step));
+        setOneLED(led_id,getPWMValue(step));
 //        //render and update
 //        renderLEDs();
 //        BOOST_LOG_TRIVIAL(debug) << "LED updated: " << led_id <<"|"<<step;
@@ -144,7 +145,7 @@ void ANIMATION_RANDOM_GRANULAR::setLEDStep(unsigned long led, pwm_steps_t step)
 bool ANIMATION_RANDOM_GRANULAR::checkValidLEDToChangeStep(unsigned long id)
 {
     auto buffer = getLEDStep(id);
-    if (buffer==0||buffer==pwmtable_.size())
+    if (buffer==0||buffer==pwm_table_size)
     {
 //        BOOST_LOG_TRIVIAL(debug) << "LED invalid: " << id << "|" << buffer;
         return false;
@@ -166,7 +167,7 @@ void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t directio
         }
         else
         {
-            led_pool_.push_back(pwmtable_.size()-2);
+            led_pool_.push_back(pwm_table_size-2);
         }
     }
 }
