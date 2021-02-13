@@ -122,11 +122,13 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
 
 ANIMATION::pwm_steps_t ANIMATION_RANDOM_GRANULAR::getLEDStep(unsigned long led)
 {
+    BOOST_LOG_TRIVIAL(debug) << "reading step of LED: " << led;
     return led_pool_.at(led);
 }
 
 void ANIMATION_RANDOM_GRANULAR::setLEDStep(unsigned long led, pwm_steps_t step)
 {
+    BOOST_LOG_TRIVIAL(debug) << "setting step of LED: " << led << "|" << step;
     led_pool_[led]=step;
 }
 
