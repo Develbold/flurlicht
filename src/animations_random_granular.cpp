@@ -131,12 +131,12 @@ bool ANIMATION_RANDOM_GRANULAR::checkValidLEDToChangeStep(unsigned long id)
     auto buffer = getLEDStep(id);
     if (buffer==0||buffer==pwmtable_.size())
     {
-        BOOST_LOG_TRIVIAL(debug) << "LED valid: " << id;
+        BOOST_LOG_TRIVIAL(debug) << "LED invalid: " << id << "|" << buffer;
         return false;
     }
     else
     {
-        BOOST_LOG_TRIVIAL(debug) << "LED invalid: " << id << "|" << buffer;
+        BOOST_LOG_TRIVIAL(debug) << "LED valid: " << id;
         return true;
     }
 }
