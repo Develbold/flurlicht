@@ -1,6 +1,7 @@
 #include "animations_random_granular.h"
 #include "flurlicht_tools.h"
 #include <utility>
+#include <iostream>
 
 
 ANIMATION_RANDOM_GRANULAR::ANIMATION_RANDOM_GRANULAR(const std::shared_ptr<ws2811_t>& ledstring): ANIMATION(ledstring)
@@ -51,6 +52,11 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
         }
     }
     BOOST_LOG_TRIVIAL(debug) << "no more LEDs available, animation finished";
+    for(auto led=0;led<getLEDCount();led++)
+    {
+        std::cout << getOneLEDBrightness(led) << "|";
+    }
+     std::cout << std::endl;
 }
 
 //TODO improve handling of reading from empty pool
