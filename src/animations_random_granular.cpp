@@ -8,7 +8,8 @@ ANIMATION_RANDOM_GRANULAR::ANIMATION_RANDOM_GRANULAR(const std::shared_ptr<ws281
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM_GRANULAR: constructor called";
     setTimeDelta(6);
-    initLEDPoolIterators(FADE_IN);
+//    initLEDPoolIterators(FADE_IN);
+    initLEDPool(FADE_IN);
 //    for(auto led=0;led<ledstring->channel[0].count;led++)
 //    {
 //        led_pool_.push_back(led);
@@ -61,26 +62,32 @@ ANIMATION_RANDOM_GRANULAR::~ANIMATION_RANDOM_GRANULAR()
 //TODO use iterators instead of array access
 void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
 {
-    auto fail_count = 1;
-    //auto limit = 0;
     // update LED until failcount is same as amount of LEDS
-    auto y = 1;
-    while(fail_count!=getLEDCount())
+    while(!led_pool_.empty())
     {
-        auto i=0;
-        while(i<=y)
+        unsigned long led_id = rand() % led_pool_.size();
+        auto step = led_pool_[led_id].second;
+        if (direction==FADE_IN)
         {
-            if(!updateLEDBufferOnceRandomly(direction))
-            {
-                fail_count++;
-            }
-            else
-            {
-                i++;
-            }
+            step++;
         }
-        y++;
-        BOOST_LOG_TRIVIAL(debug) << "LED y: " << y << "|" << fail_count;
+        else
+        {
+            step--;
+        }
+        //set LED value
+        setOneLED(led_pool_[led_id].first,getPWMValue(step));
+        // delete element if stepsize was min or max
+        if(step<=0)
+        {
+            led_pool_.erase(led_pool_.begin()+led_id);
+        }
+        else if(step>=pwm_table_size)
+        {
+            led_pool_.erase(led_pool_.begin()+led_id);
+        }
+        //update vector
+        led_pool_[led_id].second = step;
         //render and update
         renderLEDs();
     }
@@ -132,13 +139,13 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
 ANIMATION::pwm_steps_t ANIMATION_RANDOM_GRANULAR::getLEDStep(unsigned long led)
 {
 //    BOOST_LOG_TRIVIAL(debug) << "reading step of LED: " << led;
-    return led_pool_.at(led);
+    return led_pool_[led].second;
 }
 
 void ANIMATION_RANDOM_GRANULAR::setLEDStep(unsigned long led, pwm_steps_t step)
 {
 //    BOOST_LOG_TRIVIAL(debug) << "setting step of LED: " << led << "|" << step;
-    led_pool_[led]=step;
+    led_pool_[led].second=step;
 }
 
 // return false if LED's step is either at 0 or full (=pwmtable_.size())
@@ -157,37 +164,39 @@ bool ANIMATION_RANDOM_GRANULAR::checkValidLEDToChangeStep(unsigned long id)
     }
 }
 
-void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t direction)
-{
-    for(auto led=0;led<getLEDCount();led++)
-    {
-        if (direction==FADE_IN)
-        {
-            led_pool_.push_back(1);
-        }
-        else
-        {
-            led_pool_.push_back(pwm_table_size-2);
-        }
-    }
-}
-
-//void ANIMATION_RANDOM_GRANULAR::initLEDPool()
+//void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t direction)
 //{
-//    typedef std::pair<int,uint8_t> pair_t;
-//    auto buffer_size = getLEDCount();
-//    std::vector<uint8_t> buffer_steps(buffer_size);
-//    std::vector<uint8_t> buffer_leds(buffer_size);
 //    for(auto led=0;led<getLEDCount();led++)
 //    {
-//        buffer_leds.push_back(led);
-//    }
-//    while(!buffer_leds.empty())
-//    {
-//        auto led = rand() % buffer_leds.size();
-//        auto led_id = buffer_leds.at(led);
-//        auto step = buffer_steps.at(led_id);
-//        pair_t buffer = std::make_pair(led_id,step);
-
+//        if (direction==FADE_IN)
+//        {
+//            led_pool_.push_back(1);
+//        }
+//        else
+//        {
+//            led_pool_.push_back(pwm_table_size-2);
+//        }
 //    }
 //}
+
+void ANIMATION_RANDOM_GRANULAR::initLEDPool(ANIMATION::fades_t direction)
+{
+    auto init = 0;
+    if (direction==FADE_IN)
+    {
+        init = 1;
+    }
+    else
+    {
+        init = pwm_table_size-2;
+    }
+
+    //fill
+    for(auto led=0;led<getLEDCount();led++)
+    {
+        auto buffer_pair = std::make_pair(led,init);
+//        buffer_pair.first = led;
+//        buffer_pair.second = step;
+        led_pool_.push_back(buffer_pair);
+    }
+}

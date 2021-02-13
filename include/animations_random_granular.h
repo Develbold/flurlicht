@@ -18,13 +18,16 @@ public:
     void render(fades_t direction) override;
 private:
 //    int getValidLED(ANIMATION::fades_t direction);
-    std::vector<pwm_steps_t> led_pool_;
-    void initLEDPoolIterators(ANIMATION::fades_t direction);
-//    void initLEDPool();
+//    std::vector<pwm_steps_t> led_pool_;
+//    void initLEDPoolIterators(ANIMATION::fades_t direction);
+    void initLEDPool(ANIMATION::fades_t direction);
     bool updateLEDBufferOnceRandomly(ANIMATION::fades_t direction);
     pwm_steps_t getLEDStep(unsigned long id);
     void setLEDStep(unsigned long id, pwm_steps_t step);
     bool checkValidLEDToChangeStep(unsigned long id);
+    //create buffer
+    typedef std::pair<int,uint8_t> pair_t;
+    std::vector<pair_t> led_pool_;
 };
 
 #endif // ANIMATIONS_RANDOM_GRANULAR_H
