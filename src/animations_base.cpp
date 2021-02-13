@@ -44,7 +44,14 @@ int ANIMATION::getLEDCount()
 
 ANIMATION::pwm_steps_t ANIMATION::getPWMValue(int pos)
 {
-    return pwmtable_.at(pos);
+    if(pos >= pwm_table_size)
+    {
+        return pwmtable_.at(pwm_table_size-1);
+    }
+    else
+    {
+     return pwmtable_.at(pos);
+    }
 }
 
 void ANIMATION::renderLEDs()
