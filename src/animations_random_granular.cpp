@@ -147,11 +147,11 @@ void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t directio
     {
         if (direction==FADE_IN)
         {
-            led_pool_.push_back(0);
+            led_pool_.push_back(1);
         }
         else
         {
-            led_pool_.push_back(pwmtable_.size()-1);
+            led_pool_.push_back(pwmtable_.size()-2);
         }
     }
 }
