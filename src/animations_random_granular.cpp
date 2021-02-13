@@ -25,30 +25,51 @@ ANIMATION_RANDOM_GRANULAR::~ANIMATION_RANDOM_GRANULAR()
     //~ANIMATION();
 }
 
+////TODO use iterators instead of array access
+//void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
+//{
+//    unsigned long led_count = 1;
+//    //auto limit = 0;
+//    while(!led_pool_.empty())
+//    {
+//        if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
+//        {
+//            //if led count is greater then vector size, set it to vector size
+//            if (led_count>=led_pool_.size())
+//            {
+//                led_count = led_pool_.size();;
+//            }
+//            for(unsigned long i=0;i<=led_count;i++)
+//            {
+//                updateLEDBufferOnceRandomly(direction);
+//            }
+//            //increase amount of leds to be rendered
+//            led_count++;
+//            // render and update
+//            renderLEDs();
+//            BOOST_LOG_TRIVIAL(debug) << "LED count: " << led_count <<"|"<<led_pool_.size();
+//            resetLastRenderTime();
+//        }
+//    }
+//    BOOST_LOG_TRIVIAL(debug) << "no more LEDs available, animation finished";
+//    for(auto led=0;led<getLEDCount();led++)
+//    {
+//        std::cout << getOneLEDBrightness(led) << "|";
+//    }
+//     std::cout << std::endl;
+//}
+
 //TODO use iterators instead of array access
 void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
 {
-    unsigned long led_count = 1;
+    unsigned long fail_count = 1;
     //auto limit = 0;
-    while(!led_pool_.empty())
+    // update LED until failcount is same as amount of LEDS
+    while(fail_count!=getLEDCount())
     {
-        if (FLURLICHT_TOOLS::checkRenderTimeValid(last_render_time_,getTimeDelta()))
+        if(!updateLEDBufferOnceRandomly(direction))
         {
-            //if led count is greater then vector size, set it to vector size
-            if (led_count>=led_pool_.size())
-            {
-                led_count = led_pool_.size();;
-            }
-            for(unsigned long i=0;i<=led_count;i++)
-            {
-                updateLEDBufferOnceRandomly(direction);
-            }
-            //increase amount of leds to be rendered
-            led_count++;
-            // render and update
-            renderLEDs();
-            BOOST_LOG_TRIVIAL(debug) << "LED count: " << led_count <<"|"<<led_pool_.size();
-            resetLastRenderTime();
+            fail_count++;
         }
     }
     BOOST_LOG_TRIVIAL(debug) << "no more LEDs available, animation finished";
@@ -63,53 +84,35 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
 //choose one random LED and update the Render Buffer
 bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t direction)
 {
-    if (led_pool_.size()!=0)
+    // get a random led id
+    unsigned long led_id = rand() % led_pool_.size();
+    if(checkValidLEDToChangeStep(led_id))
     {
-        // get a random led id
-        unsigned long led_id = rand() % led_pool_.size();
         // get the step for led_id
         pwm_steps_t step = getLEDStep(led_id);
+        //increase or decrease step
         if (direction==FADE_IN)
         {
             step++;
-            if (step >= pwmtable_.size())
-            {
-                led_pool_.erase(led_pool_.begin()+led_id);
-                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
-                step=pwmtable_.size()-1;
-            }
-            else
-            {
-                // store current step
-                setLEDStep(led_id,step);
-            }
         }
         else
         {
             step--;
-            if (step <= 0)
-            {
-                led_pool_.erase(led_pool_.begin()+led_id);
-                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
-                step=0;
-            }
-            else
-            {
-                // store current step
-                setLEDStep(led_id,step);
-            }
         }
+        // store new step value
+        setLEDStep(led_id,step);
         // set led brightness
         setOneLED(led_id,pwmtable_.at(step));
-        BOOST_LOG_TRIVIAL(debug) << "LED: " << led_id <<"|"<<step<<"|"<<pwmtable_.at(step)<<"|"<<led_pool_.size();
+        //render and update
+        renderLEDs();
+        BOOST_LOG_TRIVIAL(debug) << "LED updated: " << led_id <<"|"<<step;
         return true;
     }
     else
     {
-        BOOST_LOG_TRIVIAL(info) << "recieved empty pool, returning false";
-        return false;
+        BOOST_LOG_TRIVIAL(debug) << "LED not updated: " << led_id;
+        return true;
     }
-
 }
 
 ANIMATION::pwm_steps_t ANIMATION_RANDOM_GRANULAR::getLEDStep(unsigned long led)
