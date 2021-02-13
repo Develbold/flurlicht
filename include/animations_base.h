@@ -16,6 +16,7 @@ class ANIMATION
 {
 public:
     ANIMATION(std::shared_ptr<ws2811_t> ledstring);
+    ANIMATION(std::shared_ptr<ws2811_t> ledstring, int time_delta);
     virtual ~ANIMATION();
 
     typedef enum {FADE_IN,FADE_OUT} fades_t;
@@ -32,7 +33,6 @@ protected:
 //    void initLEDPoolByCount();
 //    void initLEDPoolByValue(unsigned int value);
     auto getIncrement();
-    void setTimeDelta(int value);
     int getTimeDelta();
     //timing
     void resetLastRenderTime();
@@ -59,7 +59,6 @@ private:
     //leds
     std::shared_ptr<ws2811_t> ledstring_;
     //timing
-
     int cDelta_{};
 };
 
