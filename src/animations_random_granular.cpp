@@ -68,7 +68,7 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
         // get a random led id
         unsigned long led_id = rand() % led_pool_.size();
         // get the step for led_id
-        pwm_steps_t step = led_pool_.at(led_id);
+        pwm_steps_t step = getLEDStep(led_id);
         if (direction==FADE_IN)
         {
             step++;
@@ -81,7 +81,7 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
             else
             {
                 // store current step
-                led_pool_[led_id]=step;
+                setLEDStep(led_id,step);
             }
         }
         else
@@ -96,7 +96,7 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
             else
             {
                 // store current step
-                led_pool_[led_id]=step;
+                setLEDStep(led_id,step);
             }
         }
         // set led brightness
@@ -110,6 +110,16 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
         return false;
     }
 
+}
+
+ANIMATION::pwm_steps_t ANIMATION_RANDOM_GRANULAR::getLEDStep(unsigned long led)
+{
+    return led_pool_.at(led);
+}
+
+void ANIMATION_RANDOM_GRANULAR::setLEDStep(unsigned long led, pwm_steps_t step)
+{
+    led_pool_[led]=step;
 }
 
 void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t direction)

@@ -22,6 +22,8 @@ private:
     void initLEDPoolIterators(ANIMATION::fades_t direction);
 //    void initLEDPool();
     bool updateLEDBufferOnceRandomly(ANIMATION::fades_t direction);
+    pwm_steps_t getLEDStep(unsigned long id);
+    void setLEDStep(unsigned long id, pwm_steps_t step);
 };
 
 #endif // ANIMATIONS_RANDOM_GRANULAR_H
