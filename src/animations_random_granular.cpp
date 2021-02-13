@@ -63,33 +63,39 @@ ANIMATION_RANDOM_GRANULAR::~ANIMATION_RANDOM_GRANULAR()
 void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
 {
     // update LED until failcount is same as amount of LEDS
+    auto limit = 1;
     while(!led_pool_.empty())
     {
-        unsigned long led_id = rand() % led_pool_.size();
-        auto step = led_pool_[led_id].second;
-        if (direction==FADE_IN)
+        for(auto i=0;i<limit;i++)
         {
-            step++;
+            unsigned long led_id = rand() % led_pool_.size();
+            auto step = led_pool_[led_id].second;
+            if (direction==FADE_IN)
+            {
+                step++;
+            }
+            else
+            {
+                step--;
+            }
+            //set LED value
+            setOneLED(led_pool_[led_id].first,getPWMValue(step));
+            // delete element if stepsize was min or max
+            if(step<=0)
+            {
+                led_pool_.erase(led_pool_.begin()+led_id);
+            }
+            else if(step>=pwm_table_size)
+            {
+                led_pool_.erase(led_pool_.begin()+led_id);
+            }
+            //update vector
+            led_pool_[led_id].second = step;
         }
-        else
-        {
-            step--;
-        }
-        //set LED value
-        setOneLED(led_pool_[led_id].first,getPWMValue(step));
-        // delete element if stepsize was min or max
-        if(step<=0)
-        {
-            led_pool_.erase(led_pool_.begin()+led_id);
-        }
-        else if(step>=pwm_table_size)
-        {
-            led_pool_.erase(led_pool_.begin()+led_id);
-        }
-        //update vector
-        led_pool_[led_id].second = step;
         //render and update
         renderLEDs();
+        //update limit
+        limit++;
     }
     BOOST_LOG_TRIVIAL(debug) << "animation finished";
     for(auto led=0;led<getLEDCount();led++)
