@@ -46,7 +46,7 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
             led_count++;
             // render and update
             renderLEDs();
-//            BOOST_LOG_TRIVIAL(debug) << "LED count: " << led_count <<"|"<<led_pool_.size();
+            BOOST_LOG_TRIVIAL(debug) << "LED count: " << led_count <<"|"<<led_pool_.size();
             resetLastRenderTime();
         }
     }
@@ -60,16 +60,16 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
     if (led_pool_.size()!=0)
     {
         // get a random led id
-        auto led_id = rand() % led_pool_.size();
+        unsigned long led_id = rand() % led_pool_.size();
         // get the step for led_id
-        auto step = led_pool_.at(led_id);
+        pwm_steps_t step = led_pool_.at(led_id);
         if (direction==FADE_IN)
         {
             step++;
             if (step >= pwmtable_.size())
             {
                 led_pool_.erase(led_pool_.begin()+led_id);
-//                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
+                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
                 step=pwmtable_.size()-1;
             }
             else
@@ -84,7 +84,7 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
             if (step <= 0)
             {
                 led_pool_.erase(led_pool_.begin()+led_id);
-//                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
+                BOOST_LOG_TRIVIAL(debug) << "erased: " << led_id;
                 step=0;
             }
             else
@@ -95,7 +95,7 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
         }
         // set led brightness
         setOneLED(led_id,pwmtable_.at(step));
-//        BOOST_LOG_TRIVIAL(debug) << "LED: " << led_id <<"|"<<step<<"|"<<pwmtable_.at(step)<<"|"<<led_pool_.size();
+        BOOST_LOG_TRIVIAL(debug) << "LED: " << led_id <<"|"<<step<<"|"<<pwmtable_.at(step)<<"|"<<led_pool_.size();
         return true;
     }
     else
