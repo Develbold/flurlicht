@@ -24,6 +24,7 @@ private:
     bool updateLEDBufferOnceRandomly(ANIMATION::fades_t direction);
     pwm_steps_t getLEDStep(unsigned long id);
     void setLEDStep(unsigned long id, pwm_steps_t step);
+    bool checkValidLEDToChangeStep(unsigned long id);
 };
 
 #endif // ANIMATIONS_RANDOM_GRANULAR_H

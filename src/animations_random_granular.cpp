@@ -122,6 +122,20 @@ void ANIMATION_RANDOM_GRANULAR::setLEDStep(unsigned long led, pwm_steps_t step)
     led_pool_[led]=step;
 }
 
+// return false if LED's step is either at 0 or full (=pwmtable_.size())
+bool ANIMATION_RANDOM_GRANULAR::checkValidLEDToChangeStep(unsigned long id)
+{
+    auto buffer = getLEDStep(id);
+    if (buffer==0||buffer==pwmtable_.size())
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 void ANIMATION_RANDOM_GRANULAR::initLEDPoolIterators(ANIMATION::fades_t direction)
 {
     for(auto led=0;led<getLEDCount();led++)
