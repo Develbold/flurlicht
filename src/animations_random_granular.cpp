@@ -145,7 +145,7 @@ void ANIMATION_RANDOM_GRANULAR::setLEDStep(unsigned long led, pwm_steps_t step)
 bool ANIMATION_RANDOM_GRANULAR::checkValidLEDToChangeStep(unsigned long id)
 {
     auto buffer = getLEDStep(id);
-    if (buffer==0||buffer==pwm_table_size)
+    if (buffer>=0||buffer<=pwm_table_size)
     {
 //        BOOST_LOG_TRIVIAL(debug) << "LED invalid: " << id << "|" << buffer;
         return false;
