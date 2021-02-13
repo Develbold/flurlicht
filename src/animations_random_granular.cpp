@@ -101,11 +101,11 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
         limit++;
     }
     BOOST_LOG_TRIVIAL(debug) << "animation finished";
-    for(auto led=0;led<getLEDCount();led++)
-    {
-        std::cout << getOneLEDBrightness(led) << "|";
-    }
-     std::cout << std::endl;
+//    for(auto led=0;led<getLEDCount();led++)
+//    {
+//        std::cout << getOneLEDBrightness(led) << "|";
+//    }
+//     std::cout << std::endl;
 }
 
 
