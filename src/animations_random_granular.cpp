@@ -67,10 +67,15 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
     // update LED until failcount is same as amount of LEDS
     while(fail_count!=getLEDCount())
     {
-        if(!updateLEDBufferOnceRandomly(direction))
+        for(auto i=0;i<=fail_count;i++)
         {
-            fail_count++;
+            if(!updateLEDBufferOnceRandomly(direction))
+            {
+                fail_count++;
+            }
         }
+        //render and update
+        renderLEDs();
     }
     BOOST_LOG_TRIVIAL(debug) << "animation finished";
     for(auto led=0;led<getLEDCount();led++)
@@ -103,8 +108,8 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
         setLEDStep(led_id,step);
         // set led brightness
         setOneLED(led_id,pwmtable_.at(step));
-        //render and update
-        renderLEDs();
+//        //render and update
+//        renderLEDs();
 //        BOOST_LOG_TRIVIAL(debug) << "LED updated: " << led_id <<"|"<<step;
         return true;
     }
