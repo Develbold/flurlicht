@@ -68,29 +68,32 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
     {
         for(auto i=0;i<limit;i++)
         {
-            unsigned long led_id = rand() % led_pool_.size();
-            auto step = led_pool_[led_id].second;
-            if (direction==FADE_IN)
+            if(!led_pool_.size()==0)
             {
-                step++;
+                unsigned long led_id = rand() % led_pool_.size();
+                auto step = led_pool_[led_id].second;
+                if (direction==FADE_IN)
+                {
+                    step++;
+                }
+                else
+                {
+                    step--;
+                }
+                //set LED value
+                setOneLED(led_pool_[led_id].first,getPWMValue(step));
+                // delete element if stepsize was min or max
+                if(step<=0)
+                {
+                    led_pool_.erase(led_pool_.begin()+led_id);
+                }
+                else if(step>=pwm_table_size)
+                {
+                    led_pool_.erase(led_pool_.begin()+led_id);
+                }
+                //update vector
+                led_pool_[led_id].second = step;
             }
-            else
-            {
-                step--;
-            }
-            //set LED value
-            setOneLED(led_pool_[led_id].first,getPWMValue(step));
-            // delete element if stepsize was min or max
-            if(step<=0)
-            {
-                led_pool_.erase(led_pool_.begin()+led_id);
-            }
-            else if(step>=pwm_table_size)
-            {
-                led_pool_.erase(led_pool_.begin()+led_id);
-            }
-            //update vector
-            led_pool_[led_id].second = step;
         }
         //render and update
         renderLEDs();
