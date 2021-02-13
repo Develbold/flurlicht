@@ -72,7 +72,7 @@ void ANIMATION_RANDOM_GRANULAR::render(ANIMATION::fades_t direction)
             fail_count++;
         }
     }
-    BOOST_LOG_TRIVIAL(debug) << "no more LEDs available, animation finished";
+    BOOST_LOG_TRIVIAL(debug) << "animation finished";
     for(auto led=0;led<getLEDCount();led++)
     {
         std::cout << getOneLEDBrightness(led) << "|";
@@ -105,12 +105,12 @@ bool ANIMATION_RANDOM_GRANULAR::updateLEDBufferOnceRandomly(ANIMATION::fades_t d
         setOneLED(led_id,pwmtable_.at(step));
         //render and update
         renderLEDs();
-        BOOST_LOG_TRIVIAL(debug) << "LED updated: " << led_id <<"|"<<step;
+//        BOOST_LOG_TRIVIAL(debug) << "LED updated: " << led_id <<"|"<<step;
         return true;
     }
     else
     {
-        BOOST_LOG_TRIVIAL(debug) << "LED not updated: " << led_id;
+//        BOOST_LOG_TRIVIAL(debug) << "LED not updated: " << led_id;
         return true;
     }
 }
@@ -131,12 +131,12 @@ bool ANIMATION_RANDOM_GRANULAR::checkValidLEDToChangeStep(unsigned long id)
     auto buffer = getLEDStep(id);
     if (buffer==0||buffer==pwmtable_.size())
     {
-        BOOST_LOG_TRIVIAL(debug) << "LED invalid: " << id << "|" << buffer;
+//        BOOST_LOG_TRIVIAL(debug) << "LED invalid: " << id << "|" << buffer;
         return false;
     }
     else
     {
-        BOOST_LOG_TRIVIAL(debug) << "LED valid: " << id;
+//        BOOST_LOG_TRIVIAL(debug) << "LED valid: " << id;
         return true;
     }
 }
