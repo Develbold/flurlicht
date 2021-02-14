@@ -27,7 +27,8 @@ public:
         BLINK,
         ALL,
         RANDOM,
-        RANDOM_GRANULAR
+        RANDOM_GRANULAR,
+        SCANNER
     } animations_t;
 
     void playAnimation(animations_t type, ANIMATION::fades_t direction);
