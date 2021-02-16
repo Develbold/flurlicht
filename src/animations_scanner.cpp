@@ -19,7 +19,7 @@ void ANIMATION_SCANNER::render(fades_t direction)
     auto pos_dot = 0;
     auto pos_bar_back = getLEDCount();
     auto pos_bar_front = 0;
-    while(pos_bar_back!=0)
+    while(pos_bar_front!=pos_bar_back)
     {
         // set new postition
         setOneLED(pos_dot,cMax_brightness_);
