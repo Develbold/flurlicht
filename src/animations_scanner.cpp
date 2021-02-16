@@ -14,6 +14,7 @@ ANIMATION_SCANNER::~ANIMATION_SCANNER()
     //~ANIMATION();
 }
 
+//TODO add direction
 void ANIMATION_SCANNER::render(fades_t direction)
 {
     auto pos_dot = 0;
