@@ -4,11 +4,6 @@
 #include <utility>
 
 
-void ANIMATION::setTimeDelta(int value)
-{
-    cDelta_ = value;
-}
-
 auto ANIMATION::getTimeDelta() -> int
 {
     return cDelta_;
@@ -63,11 +58,15 @@ void ANIMATION::renderLEDs()
 ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION: base constructor called";
-    setTimeDelta(10);
     ledstring_ = std::move(ledstring);
     last_render_time_ = FLURLICHT_TOOLS::getTime();
     seed_ = std::chrono::system_clock::now().time_since_epoch().count();
     pwmtable_={0, 1, 2, 2, 2, 3, 3, 4, 5, 6, 7, 8, 10, 11, 13, 16, 19, 23, 27, 32, 38, 45, 54, 64, 76, 91, 108, 128, 152, 181, 215, 255};
+}
+
+ANIMATION::ANIMATION(std::shared_ptr<ws2811_t> ledstring, int time_delta): ANIMATION(ledstring)
+{
+    this->cDelta_=time_delta;
 }
 
 ANIMATION::~ANIMATION()

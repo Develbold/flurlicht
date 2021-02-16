@@ -6,6 +6,7 @@
 #include "animations_blink.h"
 #include "animations_random.h"
 #include "animations_random_granular.h"
+#include "animations_scanner.h"
 
 LEDs::LEDs(int pin, int count, int type)
 {
@@ -53,6 +54,10 @@ void LEDs::playAnimation(animations_t type, ANIMATION::fades_t direction)
             BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_RANDOM_GRANULAR";
             pAnimation.push_back(new ANIMATION_RANDOM_GRANULAR(ledstring_));
         break;
+        case SCANNER:
+            BOOST_LOG_TRIVIAL(debug) << "creating ANIMATION_SCANNER";
+            pAnimation.push_back(new ANIMATION_SCANNER(ledstring_));
+        break;
         default:
             BOOST_LOG_TRIVIAL(error) << "unknown animations";
         break;
@@ -92,7 +97,7 @@ auto LEDs::getAnimationRunning() -> bool
 // return random animation type
 LEDs::animations_t LEDs::getRandomAnimation()
 {
-    std::vector<animations_t> buffer{ALL,RANDOM,RANDOM_GRANULAR};
+    std::vector<animations_t> buffer{ALL,RANDOM,RANDOM_GRANULAR,SCANNER};
     return buffer[rand() % buffer.size()];
 }
 

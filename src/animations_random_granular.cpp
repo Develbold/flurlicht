@@ -4,10 +4,9 @@
 #include <iostream>
 
 
-ANIMATION_RANDOM_GRANULAR::ANIMATION_RANDOM_GRANULAR(const std::shared_ptr<ws2811_t>& ledstring): ANIMATION(ledstring)
+ANIMATION_RANDOM_GRANULAR::ANIMATION_RANDOM_GRANULAR(const std::shared_ptr<ws2811_t>& ledstring): ANIMATION(ledstring,6)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM_GRANULAR: constructor called";
-    setTimeDelta(6);
 //    initLEDPoolIterators(FADE_IN);
     initLEDPool(FADE_IN);
 //    for(auto led=0;led<ledstring->channel[0].count;led++)

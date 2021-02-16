@@ -4,10 +4,9 @@
 #include <random>
 
 
-ANIMATION_RANDOM::ANIMATION_RANDOM(const std::shared_ptr<ws2811_t>& ledstring): ANIMATION(ledstring)
+ANIMATION_RANDOM::ANIMATION_RANDOM(const std::shared_ptr<ws2811_t>& ledstring): ANIMATION(ledstring,5)
 {
     BOOST_LOG_TRIVIAL(debug) << "ANIMATION_RANDOM: constructor called";
-    setTimeDelta(5);
     initLEDPoolByCount();
     shuffleLEDPool();
 }
