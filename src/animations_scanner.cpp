@@ -34,6 +34,7 @@ void ANIMATION_SCANNER::render(fades_t direction)
         renderLEDs();
         //update postition
         pos_dot++;
+        BOOST_LOG_TRIVIAL(debug) << "positions: dot=" << pos_dot << ", pos_bar=" << pos_bar;
     }
 }
 
