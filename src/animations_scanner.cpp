@@ -27,7 +27,7 @@ void ANIMATION_SCANNER::render(fades_t direction)
         // check if dot is same pos as bar
         if(pos_dot==pos_bar)
         {
-            pos_bar = pos_dot;
+            pos_bar = pos_dot-1;
             pos_dot = 0;
         }
         // render LEDs
