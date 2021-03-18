@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG  -rdynamic CMakeFiles/pigpiod.dir/pigpiod.c.o  -o pigpiod  libpigpio.a -lrt -lpthread 

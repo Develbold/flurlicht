@@ -1,0 +1,2 @@
+/usr/bin/ar qc libpigpio.a  CMakeFiles/pigpio.dir/pigpio.c.o CMakeFiles/pigpio.dir/command.c.o
+/usr/bin/ranlib libpigpio.a

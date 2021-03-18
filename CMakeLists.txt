@@ -14,7 +14,7 @@ find_package(Threads REQUIRED)
 set(Boost_USE_STATIC_LIBS   ON)
 find_package(Boost COMPONENTS log regex REQUIRED)
 
-#add_subdirectory(extern/pigpio)
+add_subdirectory(extern/pigpio)
 add_subdirectory(extern/rpi_ws281x_static)
 
 include_directories(include)
@@ -46,7 +46,7 @@ set(TEST_SOURCES tests/runTests.cpp
 
 set(HEADER_FILES include/flurlicht.h
                 include/flurlicht_tools.h
-#                include/flurlicht_gpio.h
+                include/flurlicht_gpio.h
                 include/leds.h
                 include/animations_base.h
                 include/animations_random.h
@@ -59,7 +59,7 @@ set(HEADER_FILES include/flurlicht.h
 
 set(SOURCES src/flurlicht.cpp
             src/flurlicht_tools.cpp
-#            src/flurlicht_gpio.cpp
+            src/flurlicht_gpio.cpp
             src/leds.cpp
             src/animations_base.cpp
             src/animations_random.cpp
@@ -74,7 +74,7 @@ set(SOURCES src/flurlicht.cpp
 
 add_executable(${PROJECT_NAME} src/main.cpp ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} Boost::log ws2811 Threads::Threads)
+target_link_libraries(${PROJECT_NAME} Boost::log ws2811 pigpio Threads::Threads)
 
 ################################
 # Unit Tests
@@ -82,5 +82,5 @@ target_link_libraries(${PROJECT_NAME} Boost::log ws2811 Threads::Threads)
 # Add test cpp file
 add_executable( runUnitTests ${TEST_SOURCES} ${SOURCES})
 # Link test executable against gtest & gtest_main
-target_link_libraries(runUnitTests gtest gtest_main Boost::log ws2811)
+target_link_libraries(runUnitTests gtest gtest_main pigpio Boost::log ws2811)
 add_test( runUnitTests runUnitTests )

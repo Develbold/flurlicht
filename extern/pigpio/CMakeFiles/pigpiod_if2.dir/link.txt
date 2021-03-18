@@ -1,0 +1,2 @@
+/usr/bin/ar qc libpigpiod_if2.a  CMakeFiles/pigpiod_if2.dir/pigpiod_if2.c.o CMakeFiles/pigpiod_if2.dir/command.c.o
+/usr/bin/ranlib libpigpiod_if2.a

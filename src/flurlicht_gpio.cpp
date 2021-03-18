@@ -1,7 +1,8 @@
 #include "flurlicht_gpio.h"
 #include <chrono>
-//#include <flurlicht_gpio.h>
 #include <thread>
+#include "pigpio/pigpio.h"
+#include <pigpio/pigpio.h>
 
 
 using namespace std;

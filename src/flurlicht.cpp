@@ -1,5 +1,6 @@
 #include "flurlicht.h"
 #include "flurlicht_tools.h"
+#include "flurlicht_gpio.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
