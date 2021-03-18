@@ -56,6 +56,7 @@ private:
 
     //arduino
     FLURLICHT_ARDUINO arduino_;
+    FLURLICHT_GPIO Gpio_;
 
 };
 

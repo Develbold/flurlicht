@@ -20,7 +20,7 @@ flurlicht::flurlicht()
     //events_ = std::make_shared<FLURLICHT_EVENTS>();
     //Gpio_ = std::make_unique<FLURLICHT_GPIO>(events_);
     //Gpio_ = std::make_unique<FLURLICHT_GPIO>();
-    //Gpio_->initGPIO();
+    Gpio_.initGPIO();
     setNextState(ST_OFF);
     BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
 }
