@@ -44,6 +44,12 @@ private:
     typedef enum {FRONT,BACK} sensor_dir_t;
     void setSensorState(sensor_dir_t dir, bool state, bool lock);
     sensor_states_t Sensors_;
+    sensor_states_dirs_t states_ext_;
+
+    std::chrono::high_resolution_clock::time_point last_trigger_time_front_;
+    std::chrono::high_resolution_clock::time_point last_trigger_time_back_;
+
+    boost::mutex mutex_;
 
 
     //GPIO stuff
@@ -55,7 +61,8 @@ private:
 
     //misc tools
     void sleepPeriod(int period);
-
+    const int cCoolOffPeriod_ = 5000;
+    void updateStates(bool value, sensor_dir_t dir);
 };
 
 #endif // FLURLICHT_GPIO_H
