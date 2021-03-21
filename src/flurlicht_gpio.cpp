@@ -105,12 +105,12 @@ void FLURLICHT_GPIO::updateStates(bool value)
     }
     else
     {
-            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_,cCoolOffPeriod_))
-            {
+//            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_,cCoolOffPeriod_))
+//            {
 //                BOOST_LOG_TRIVIAL(debug) << "clear trigger front";
                 mutex_.lock();
                 states_ext_=false;
                 mutex_.unlock();
-            }
+//            }
     }
 }
