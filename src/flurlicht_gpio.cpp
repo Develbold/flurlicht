@@ -132,12 +132,12 @@ void FLURLICHT_GPIO::handleGPIOCallback(int gpio, int level, uint32_t tick)
 
 void FLURLICHT_GPIO::handleGPIOCallbackExt(int gpio, int level, uint32_t tick, void *user)
 {
-    FLURLICHT_GPIO *mySelf = (FLURLICHT_GPIO *) user;
+    auto *mySelf = (FLURLICHT_GPIO *) user;
 
     mySelf->handleGPIOCallback(gpio, level, tick);
 }
 
-bool FLURLICHT_GPIO::initGPIO()
+auto FLURLICHT_GPIO::initGPIO() -> bool
 {
     BOOST_LOG_TRIVIAL(info) << "GPIO initialing";
     if(gpioInitialise()==PI_INIT_FAILED)
