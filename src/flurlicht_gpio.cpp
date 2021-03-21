@@ -18,7 +18,7 @@ void FLURLICHT_GPIO::handleGPIOCallback(int gpio, int level, uint32_t tick)
     }
     else
     {
-        BOOST_LOG_TRIVIAL(info) << "change detected! back level: " << level;
+        BOOST_LOG_TRIVIAL(info) << "change detected! (unknown pin)";
     }
 
     if (level==0)
@@ -36,12 +36,7 @@ void FLURLICHT_GPIO::handleGPIOCallback(int gpio, int level, uint32_t tick)
     if (gpio == PinFront_)
     {
 //        setSensorState(FRONT,state);
-        updateStates(state,FRONT);
-    }
-    else if (gpio == PinBack_)
-    {
-        //setSensorState(BACK,state);
-        updateStates(state,BACK);
+        updateStates(state);
     }
     else
     {
@@ -70,17 +65,7 @@ auto FLURLICHT_GPIO::initGPIO() -> bool
         BOOST_LOG_TRIVIAL(error) << "GPIO mode set failed";
         return false;
     }
-    if(gpioSetMode(PinBack_, PI_INPUT) !=0)
-    {
-        BOOST_LOG_TRIVIAL(error) << "GPIO mode set failed";
-        return false;
-    }
     if(gpioSetPullUpDown(PinFront_,PI_PUD_DOWN) !=0)
-    {
-        BOOST_LOG_TRIVIAL(error) << "GPIO set pulldown failed";
-        return false;
-    }
-    if(gpioSetPullUpDown(PinBack_,PI_PUD_DOWN) !=0)
     {
         BOOST_LOG_TRIVIAL(error) << "GPIO set pulldown failed";
         return false;
@@ -88,22 +73,19 @@ auto FLURLICHT_GPIO::initGPIO() -> bool
 
     //register Callbacks
     gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
-    gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
-    updateStates(false,FRONT);
-    updateStates(false,BACK);
+    updateStates(false);
     BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
     return true;
 }
 
 FLURLICHT_GPIO::FLURLICHT_GPIO()
 {
-    last_trigger_time_front_= FLURLICHT_TOOLS::getTime();
-    last_trigger_time_back_= FLURLICHT_TOOLS::getTime();
+    last_trigger_time_= FLURLICHT_TOOLS::getTime();
 }
 
-auto FLURLICHT_GPIO::getSensorStates() -> FLURLICHT_GPIO::sensor_states_dirs_t
+bool FLURLICHT_GPIO::getSensorStates()
 {
-    FLURLICHT_GPIO::sensor_states_dirs_t buffer;
+    bool buffer;
     mutex_.lock();
     buffer = states_ext_;
     mutex_.unlock();
@@ -111,49 +93,24 @@ auto FLURLICHT_GPIO::getSensorStates() -> FLURLICHT_GPIO::sensor_states_dirs_t
 
 }
 
-void FLURLICHT_GPIO::updateStates(bool value, sensor_dir_t dir)
+void FLURLICHT_GPIO::updateStates(bool value)
 {
     if (value == true)
     {
-        if (dir == sensor_dir_t::FRONT)
-        {
 //            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time front";
-            last_trigger_time_front_=FLURLICHT_TOOLS::getTime();
+            last_trigger_time_=FLURLICHT_TOOLS::getTime();
             mutex_.lock();
-            states_ext_.front=true;
+            states_ext_=true;
             mutex_.unlock();
-        }
-        else
-        {
-//            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time back";
-            last_trigger_time_back_=FLURLICHT_TOOLS::getTime();
-            mutex_.lock();
-            states_ext_.back=true;
-            mutex_.unlock();
-        }
     }
     else
     {
-        if(dir == sensor_dir_t::FRONT)
-        {
-            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_front_,cCoolOffPeriod_))
+            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_,cCoolOffPeriod_))
             {
 //                BOOST_LOG_TRIVIAL(debug) << "clear trigger front";
                 mutex_.lock();
-                states_ext_.front=false;
+                states_ext_=false;
                 mutex_.unlock();
             }
-        }
-        else
-        {
-            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_back_,cCoolOffPeriod_))
-            {
-//                BOOST_LOG_TRIVIAL(debug) << "clear trigger back";
-                mutex_.lock();
-                states_ext_.back=false;
-                mutex_.unlock();
-            }
-        }
-
     }
 }
