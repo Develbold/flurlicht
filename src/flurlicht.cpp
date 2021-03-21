@@ -29,8 +29,6 @@ void flurlicht::run()
 {
     BOOST_LOG_TRIVIAL(info) << "entered flurlicht loop";
 
-//    arduino_.run();
-
     if (LEDs_->returnWorkingState())
     {
         while(true)
@@ -72,21 +70,19 @@ void flurlicht::run()
 
 auto flurlicht::getNextState() -> flurlicht::States
 {
-//    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = arduino_.getSensorStates();
-    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = Gpio_.getSensorStates();
+    bool SensorBuffer = Gpio_.getSensorStates();
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
 
-    BOOST_LOG_TRIVIAL(debug) << "switching state absed on: STATE:" << CurrentState <<
-                                ", FRONT:" << SensorBuffer.front<<
-                                ", BACK:" << SensorBuffer.back<<
+    BOOST_LOG_TRIVIAL(debug) << "switching state based on: STATE:" << CurrentState <<
+                                ", FRONT:" << SensorBuffer<<
                                 ", ANIMATION:" << AnimationBuffer;
 
     //TODO: Refactor
     switch (CurrentState)
     {
     case ST_OFF:
-        if(SensorBuffer.front == false && SensorBuffer.back == false)
+        if(SensorBuffer == false)
         {
             return ST_OFF;
         }
@@ -106,7 +102,7 @@ auto flurlicht::getNextState() -> flurlicht::States
         }
         break;
     case ST_ON:
-        if (SensorBuffer.front == false && SensorBuffer.back == false)
+        if (SensorBuffer == false)
         {
             return ST_OFF;
         }
@@ -134,9 +130,8 @@ auto flurlicht::getCurrentState() -> flurlicht::States
 //return if state is valid based on if mutex is locked
 auto flurlicht::checkStateValid(bool state) -> bool
 {
-//    FLURLICHT_GPIO::sensor_states_dirs_t buffer = arduino_.getSensorStates();
-    FLURLICHT_GPIO::sensor_states_dirs_t buffer = Gpio_.getSensorStates();
-    return (buffer.front==state && buffer.back==state);
+    bool buffer = Gpio_.getSensorStates();
+    return (buffer==state);
 }
 
 void flurlicht::handleONState()
@@ -162,7 +157,7 @@ void flurlicht::handleOFFState()
 void flurlicht::handleANIMATIONState()
 {
     LEDs_->playAnimation(LEDs_->getRandomAnimation(),ANIMATION::fades_t::FADE_IN);
-    LEDs_->playAnimation(LEDs::SCANNER,ANIMATION::fades_t::FADE_IN);
+//    LEDs_->playAnimation(LEDs::SCANNER,ANIMATION::fades_t::FADE_IN);
     BOOST_LOG_TRIVIAL(info) << "finished ANIMATION state";
 }
 

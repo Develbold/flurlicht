@@ -17,52 +17,40 @@ extern "C" {
 class FLURLICHT_GPIO
 {
 public:
-//    FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> events);
     FLURLICHT_GPIO();
     bool initGPIO();
-    typedef struct
-    {
-        bool front=false;
-        bool back=false;
-    } sensor_states_dirs_t;
 
     typedef struct
     {
-        sensor_states_dirs_t current;
-        sensor_states_dirs_t next;
-        bool blocked_front=false;
-        bool blocked_back=false;
+        bool current;
+        bool next;
+        bool blocked=false;
     } sensor_states_t;
-    sensor_states_dirs_t getSensorStates();
+    bool getSensorStates();
     void unblockStates();
     void flushStates();
     bool checkAnyBLocked();
 
 private:
     //Sensor handling
-
-    typedef enum {FRONT,BACK} sensor_dir_t;
-    void setSensorState(sensor_dir_t dir, bool state, bool lock);
     sensor_states_t Sensors_;
-    sensor_states_dirs_t states_ext_;
+    bool states_ext_;
 
-    std::chrono::high_resolution_clock::time_point last_trigger_time_front_;
-    std::chrono::high_resolution_clock::time_point last_trigger_time_back_;
+    std::chrono::high_resolution_clock::time_point last_trigger_time_;
 
     boost::mutex mutex_;
 
 
     //GPIO stuff
     const int PinFront_ = 14;
-    const int PinBack_ = 15;
-//    std::shared_ptr<FLURLICHT_EVENTS> Events_;
+//    const int PinBack_ = 15;
     void handleGPIOCallback(int gpio, int level, uint32_t tick);
     static void handleGPIOCallbackExt(int gpio, int level, uint32_t tick,void *user);
 
     //misc tools
     void sleepPeriod(int period);
     const int cCoolOffPeriod_ = 5000;
-    void updateStates(bool value, sensor_dir_t dir);
+    void updateStates(bool value);
 };
 
 #endif // FLURLICHT_GPIO_H
