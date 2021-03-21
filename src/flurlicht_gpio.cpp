@@ -2,7 +2,6 @@
 #include <chrono>
 #include <thread>
 #include "pigpio/pigpio.h"
-#include <pigpio/pigpio.h>
 #include "flurlicht_tools.h"
 
 
