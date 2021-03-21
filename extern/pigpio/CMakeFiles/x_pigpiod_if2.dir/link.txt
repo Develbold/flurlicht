@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG  -rdynamic CMakeFiles/x_pigpiod_if2.dir/x_pigpiod_if2.c.o  -o x_pigpiod_if2  libpigpiod_if2.a -lrt -lpthread 

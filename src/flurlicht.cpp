@@ -1,5 +1,6 @@
 #include "flurlicht.h"
 #include "flurlicht_tools.h"
+#include "flurlicht_gpio.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -19,7 +20,7 @@ flurlicht::flurlicht()
     //events_ = std::make_shared<FLURLICHT_EVENTS>();
     //Gpio_ = std::make_unique<FLURLICHT_GPIO>(events_);
     //Gpio_ = std::make_unique<FLURLICHT_GPIO>();
-    //Gpio_->initGPIO();
+    Gpio_.initGPIO();
     setNextState(ST_OFF);
     BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
 }
@@ -28,7 +29,7 @@ void flurlicht::run()
 {
     BOOST_LOG_TRIVIAL(info) << "entered flurlicht loop";
 
-    arduino_.run();
+//    arduino_.run();
 
     if (LEDs_->returnWorkingState())
     {
@@ -71,7 +72,8 @@ void flurlicht::run()
 
 auto flurlicht::getNextState() -> flurlicht::States
 {
-    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = arduino_.getSensorStates();
+//    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = arduino_.getSensorStates();
+    FLURLICHT_GPIO::sensor_states_dirs_t SensorBuffer = Gpio_.getSensorStates();
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
 
@@ -132,7 +134,8 @@ auto flurlicht::getCurrentState() -> flurlicht::States
 //return if state is valid based on if mutex is locked
 auto flurlicht::checkStateValid(bool state) -> bool
 {
-    FLURLICHT_GPIO::sensor_states_dirs_t buffer = arduino_.getSensorStates();
+//    FLURLICHT_GPIO::sensor_states_dirs_t buffer = arduino_.getSensorStates();
+    FLURLICHT_GPIO::sensor_states_dirs_t buffer = Gpio_.getSensorStates();
     return (buffer.front==state && buffer.back==state);
 }
 

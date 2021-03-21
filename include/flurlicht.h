@@ -55,7 +55,8 @@ private:
     std::unique_ptr<LEDs> LEDs_;
 
     //arduino
-    FLURLICHT_ARDUINO arduino_;
+//    FLURLICHT_ARDUINO arduino_;
+    FLURLICHT_GPIO Gpio_;
 
 };
 

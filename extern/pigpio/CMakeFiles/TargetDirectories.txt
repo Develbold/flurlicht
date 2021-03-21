@@ -1,0 +1,17 @@
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/install/strip.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/list_install_components.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/pigpio.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/pigpiod_if.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/install.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/pigpiod_if2.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/x_pigpio.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/package_source.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/install/local.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/x_pigpiod_if.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/x_pigpiod_if2.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/pigs.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/pig2vcd.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/package.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/edit_cache.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/pigpiod.dir
+/home/stephan/workspace/misc_cpp/flurlicht/extern/pigpio/CMakeFiles/rebuild_cache.dir

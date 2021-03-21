@@ -1,7 +1,9 @@
 #include "flurlicht_gpio.h"
 #include <chrono>
-//#include <flurlicht_gpio.h>
 #include <thread>
+#include "pigpio/pigpio.h"
+#include <pigpio/pigpio.h>
+#include "flurlicht_tools.h"
 
 
 using namespace std;
@@ -9,83 +11,83 @@ using namespace std;
 
 
 
-FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_GPIO::getSensorStates()
-{
-    return Sensors_.current;
+//FLURLICHT_GPIO::sensor_states_dirs_t FLURLICHT_GPIO::getSensorStates()
+//{
+//    return Sensors_.current;
 
-}
+//}
 
-void FLURLICHT_GPIO::unblockStates()
-{
-    Sensors_.blocked_back=false;
-    Sensors_.blocked_front=false;
-}
+//void FLURLICHT_GPIO::unblockStates()
+//{
+//    Sensors_.blocked_back=false;
+//    Sensors_.blocked_front=false;
+//}
 
-bool FLURLICHT_GPIO::checkAnyBLocked()
-{
-    if(Sensors_.blocked_back==true||Sensors_.blocked_front==true)
-    {
-        BOOST_LOG_TRIVIAL(debug) << "Sensor state change is blocked";
-        return true;
-    }
-    else
-    {
-        BOOST_LOG_TRIVIAL(debug) << "Sensor state change is unblocked";
-        return false;
-    }
-}
+//bool FLURLICHT_GPIO::checkAnyBLocked()
+//{
+//    if(Sensors_.blocked_back==true||Sensors_.blocked_front==true)
+//    {
+//        BOOST_LOG_TRIVIAL(debug) << "Sensor state change is blocked";
+//        return true;
+//    }
+//    else
+//    {
+//        BOOST_LOG_TRIVIAL(debug) << "Sensor state change is unblocked";
+//        return false;
+//    }
+//}
 
-void FLURLICHT_GPIO::flushStates()
-{
-    Sensors_.current.front = Sensors_.next.front;
-    Sensors_.current.back = Sensors_.next.back;
-}
+//void FLURLICHT_GPIO::flushStates()
+//{
+//    Sensors_.current.front = Sensors_.next.front;
+//    Sensors_.current.back = Sensors_.next.back;
+//}
 
-void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true)
-{
-        switch (dir)
-        {
-            case FRONT:
-        {
-            if (lock)
-            {
+//void FLURLICHT_GPIO::setSensorState(sensor_dir_t dir, bool state, bool lock=true)
+//{
+//        switch (dir)
+//        {
+//            case FRONT:
+//        {
+//            if (lock)
+//            {
 
-                if (!Sensors_.blocked_front)
-                {
-                    Sensors_.current.front = state;
-                    Sensors_.blocked_front =true;
-                }
-                else
-                {
-                    Sensors_.next.front = state;
-                }
-            }
-            else
-                Sensors_.current.front = state;
-            break;
-        }
-            case BACK:
-        {
-            if (lock)
-            {
-                if (!Sensors_.blocked_back)
-                {
-                    Sensors_.current.back = state;
-                    Sensors_.blocked_back =true;
-                }
-                else
-                {
-                    Sensors_.next.back = state;
-                }
-            }
-            else
-                Sensors_.current.back = state;
-            break;
-        }
-        default:
-            BOOST_LOG_TRIVIAL(debug) << "unknown dir ";
-        }
-}
+//                if (!Sensors_.blocked_front)
+//                {
+//                    Sensors_.current.front = state;
+//                    Sensors_.blocked_front =true;
+//                }
+//                else
+//                {
+//                    Sensors_.next.front = state;
+//                }
+//            }
+//            else
+//                Sensors_.current.front = state;
+//            break;
+//        }
+//            case BACK:
+//        {
+//            if (lock)
+//            {
+//                if (!Sensors_.blocked_back)
+//                {
+//                    Sensors_.current.back = state;
+//                    Sensors_.blocked_back =true;
+//                }
+//                else
+//                {
+//                    Sensors_.next.back = state;
+//                }
+//            }
+//            else
+//                Sensors_.current.back = state;
+//            break;
+//        }
+//        default:
+//            BOOST_LOG_TRIVIAL(debug) << "unknown dir ";
+//        }
+//}
 
 void FLURLICHT_GPIO::handleGPIOCallback(int gpio, int level, uint32_t tick)
 {
@@ -114,11 +116,13 @@ void FLURLICHT_GPIO::handleGPIOCallback(int gpio, int level, uint32_t tick)
     }
     if (gpio == PinFront_)
     {
-        setSensorState(FRONT,state);
+//        setSensorState(FRONT,state);
+        updateStates(state,FRONT);
     }
     else if (gpio == PinBack_)
     {
-        setSensorState(BACK,state);
+        //setSensorState(BACK,state);
+        updateStates(state,BACK);
     }
     else
     {
@@ -166,17 +170,81 @@ bool FLURLICHT_GPIO::initGPIO()
     //register Callbacks
     gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
     gpioSetAlertFuncEx(PinBack_, handleGPIOCallbackExt, (void *)this);
-    setSensorState(FRONT,false,false);
-    setSensorState(BACK,false,false);
+    //setSensorState(FRONT,false,false);
+    //setSensorState(BACK,false,false);
+    updateStates(false,FRONT);
+    updateStates(false,BACK);
     BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
     return true;
 }
 
 //FLURLICHT_GPIO::FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> events)
+//FLURLICHT_GPIO::FLURLICHT_GPIO()
+//{
+//    //Events_ = events;
+//    setSensorState(FRONT,false,false);
+//    setSensorState(BACK,false,false);
+//    unblockStates();
+//}
 FLURLICHT_GPIO::FLURLICHT_GPIO()
 {
-    //Events_ = events;
-    setSensorState(FRONT,false,false);
-    setSensorState(BACK,false,false);
-    unblockStates();
+    last_trigger_time_front_= FLURLICHT_TOOLS::getTime();
+    last_trigger_time_back_= FLURLICHT_TOOLS::getTime();
+}
+
+auto FLURLICHT_GPIO::getSensorStates() -> FLURLICHT_GPIO::sensor_states_dirs_t
+{
+    FLURLICHT_GPIO::sensor_states_dirs_t buffer;
+    mutex_.lock();
+    buffer = states_ext_;
+    mutex_.unlock();
+    return buffer;
+
+}
+
+void FLURLICHT_GPIO::updateStates(bool value, sensor_dir_t dir)
+{
+    if (value == true)
+    {
+        if (dir == sensor_dir_t::FRONT)
+        {
+//            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time front";
+            last_trigger_time_front_=FLURLICHT_TOOLS::getTime();
+            mutex_.lock();
+            states_ext_.front=true;
+            mutex_.unlock();
+        }
+        else
+        {
+//            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time back";
+            last_trigger_time_back_=FLURLICHT_TOOLS::getTime();
+            mutex_.lock();
+            states_ext_.back=true;
+            mutex_.unlock();
+        }
+    }
+    else
+    {
+        if(dir == sensor_dir_t::FRONT)
+        {
+            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_front_,cCoolOffPeriod_))
+            {
+//                BOOST_LOG_TRIVIAL(debug) << "clear trigger front";
+                mutex_.lock();
+                states_ext_.front=false;
+                mutex_.unlock();
+            }
+        }
+        else
+        {
+            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_back_,cCoolOffPeriod_))
+            {
+//                BOOST_LOG_TRIVIAL(debug) << "clear trigger back";
+                mutex_.lock();
+                states_ext_.back=false;
+                mutex_.unlock();
+            }
+        }
+
+    }
 }
