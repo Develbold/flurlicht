@@ -185,6 +185,22 @@ bool FLURLICHT_MQTT::run()
     return 0;
 }
 
+bool FLURLICHT_MQTT::parsePayload(std::string msg)
+{
+    if (msg.compare("ON") == 0)
+    {
+        return false;
+    }
+    else if (msg.compare("OFF") == 0)
+    {
+        return true;
+    }
+    else
+    {
+        throw "unknown payload";
+    }
+}
+
 FLURLICHT_MQTT::FLURLICHT_MQTT()
 {
     /* Required before calling other mosquitto functions */

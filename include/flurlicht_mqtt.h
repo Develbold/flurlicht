@@ -4,6 +4,15 @@
 #include "mqtt/async_client.h"
 #include <boost/log/trivial.hpp>
 
+class FLURLICHT_MQTT
+{
+public:
+    FLURLICHT_MQTT();
+    ~FLURLICHT_MQTT();
+    bool run();
+    static bool parsePayload(std::string msg);
+};
+
 // classes taken from the paho example
 
 const std::string SERVER_ADDRESS("tcp://192.168.0.12:1883");
@@ -119,6 +128,7 @@ class mqtt_callback : public virtual mqtt::callback,
         BOOST_LOG_TRIVIAL(info) << "MQTT: Message arrived";
         BOOST_LOG_TRIVIAL(info) << "MQTT: topic: '" << msg->get_topic() << "'";
         BOOST_LOG_TRIVIAL(info) << "MQTT: payload: '" << msg->to_string() << "'\n";
+        FLURLICHT_MQTT::parsePayload(msg->to_string());
     }
 
     void delivery_complete(mqtt::delivery_token_ptr token) override {}
@@ -126,15 +136,6 @@ class mqtt_callback : public virtual mqtt::callback,
 public:
     mqtt_callback(mqtt::async_client& cli, mqtt::connect_options& connOpts)
                 : nretry_(0), cli_(cli), connOpts_(connOpts), subListener_("Subscription") {}
-};
-
-
-class FLURLICHT_MQTT
-{
-public:
-    FLURLICHT_MQTT();
-    ~FLURLICHT_MQTT();
-    bool run();
 };
 
 #endif // FLURLICHT_MQTT_H
