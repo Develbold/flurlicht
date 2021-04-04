@@ -25,7 +25,11 @@ LEDs::LEDs(int pin, int count, int type)
     ledstring_->dmanum = DMA;
     ledstring_->channel[0]=ChannelBuffer;    
     return_state_ = ws2811_init(ledstring_.get());
-    BOOST_LOG_TRIVIAL(debug) << "ws2811 return value:" << return_state_;
+    if (return_state_ != 0)
+    {
+        BOOST_LOG_TRIVIAL(debug) << "ws2811 return value:" << return_state_;
+        throw std::runtime_error("unable to initialize ws2811");
+    }
     BOOST_LOG_TRIVIAL(debug) << "finished LEDs constructor";
 }
 
