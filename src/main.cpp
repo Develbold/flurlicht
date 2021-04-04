@@ -8,7 +8,8 @@ auto main() -> int
 
 //    flurlicht foo;
 //    foo.run();
-    FLURLICHT_MQTT mqtt;
+    std::shared_ptr<FLURLICHT_EVENTS> occupancy = std::make_shared<FLURLICHT_EVENTS>();
+    FLURLICHT_MQTT mqtt(occupancy);
     mqtt.run();
 
     std::cout << "INFO: finished execution" << std::endl;

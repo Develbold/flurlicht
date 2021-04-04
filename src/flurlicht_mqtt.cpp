@@ -12,8 +12,6 @@
 #include "mqtt/async_client.h"
 
 
-
-
 /////////////////////////////////////////////////////////////////////////////
 
 //// Callbacks for the success or failures of requested actions.
@@ -136,6 +134,99 @@
 
 
 
+
+
+bool FLURLICHT_MQTT::parsePayload(std::string msg)
+{
+    if (msg.compare("ON") == 0)
+    {
+        return false;
+    }
+    else if (msg.compare("OFF") == 0)
+    {
+        return true;
+    }
+    else
+    {
+        throw "unknown payload";
+    }
+}
+
+FLURLICHT_MQTT::FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy)
+{
+    occupancy_ = occupancy;
+//    SERVER_ADDRESS  = "tcp://192.168.0.12:1883";
+//    CLIENT_ID       = "paho_cpp_async_subcribe";
+//    TOPIC           = "homeassistant/binary_sensor/0010fa6e384a/pir_front/state";
+//    USER            = "arduino";
+//    PW              = "foobar";
+}
+
+
+void FLURLICHT_MQTT::mqtt_callback::reconnect() {
+    std::this_thread::sleep_for(std::chrono::milliseconds(2500));
+    try {
+        cli_.connect(connOpts_, nullptr, *this);
+    }
+    catch (const mqtt::exception& exc) {
+        BOOST_LOG_TRIVIAL(error) << "MQTT: Error: " << exc.what();
+        exit(1);
+    }
+}
+
+void FLURLICHT_MQTT::mqtt_callback::on_failure(const mqtt::token &tok) {
+    BOOST_LOG_TRIVIAL(error) << "MQTT: Connection attempt failed";
+    if (++nretry_ > N_RETRY_ATTEMPTS)
+        exit(1);
+    reconnect();
+}
+
+void FLURLICHT_MQTT::mqtt_callback::connected(const std::string &cause) {
+    BOOST_LOG_TRIVIAL(info) << "MQTT: Connection success";
+    BOOST_LOG_TRIVIAL(info) << "MQTT: Subscribing to topic '" << parent.TOPIC << "'\n"
+                            << "\tfor client " << parent.CLIENT_ID
+                            << " using QoS" << QOS << "\n"
+                            << "\nPress Q<Enter> to quit\n";
+
+    cli_.subscribe(parent.TOPIC, QOS, nullptr, subListener_);
+}
+
+void FLURLICHT_MQTT::mqtt_callback::connection_lost(const std::string &cause) {
+    BOOST_LOG_TRIVIAL(error) << "MQTT: Connection lost";
+    if (!cause.empty())
+        BOOST_LOG_TRIVIAL(error) << "MQTT: cause: " << cause;
+
+    BOOST_LOG_TRIVIAL(info) << "MQTT: Reconnecting...";
+    nretry_ = 0;
+    reconnect();
+}
+
+void FLURLICHT_MQTT::mqtt_callback::message_arrived(mqtt::const_message_ptr msg) {
+    BOOST_LOG_TRIVIAL(info) << "MQTT: Message arrived";
+    BOOST_LOG_TRIVIAL(info) << "MQTT: topic: '" << msg->get_topic() << "'";
+    BOOST_LOG_TRIVIAL(info) << "MQTT: payload: '" << msg->to_string() << "'\n";
+
+    if(FLURLICHT_MQTT::parsePayload(msg->to_string()))
+    {
+        parent.occupancy_->resetTrigger();
+    }
+}
+
+void FLURLICHT_MQTT::mqtt_action_listener::on_failure(const mqtt::token &tok) {
+    BOOST_LOG_TRIVIAL(info) << name_ << "MQTT: failure";
+    if (tok.get_message_id() != 0)
+        BOOST_LOG_TRIVIAL(info) << "MQTT: for token: [" << tok.get_message_id() << "]";
+}
+
+void FLURLICHT_MQTT::mqtt_action_listener::on_success(const mqtt::token &tok) {
+    BOOST_LOG_TRIVIAL(info) << name_ << "MQTT success";
+    if (tok.get_message_id() != 0)
+        BOOST_LOG_TRIVIAL(info) << "MQTT: for token: [" << tok.get_message_id() << "]";
+    auto top = tok.get_topics();
+    if (top && !top->empty())
+        BOOST_LOG_TRIVIAL(info) << "MQTT: token topic: '" << (*top)[0] << "', ...";
+}
+
 bool FLURLICHT_MQTT::run()
 {
     // A subscriber often wants the server to remember its messages when its
@@ -148,7 +239,7 @@ bool FLURLICHT_MQTT::run()
     connOpts.set_clean_session(false);
 
     // Install the callback(s) before connecting.
-    mqtt_callback cb(cli, connOpts);
+    mqtt_callback cb(*this, cli, connOpts);
     cli.set_callback(cb);
 
     // Start the connection.
@@ -183,29 +274,4 @@ bool FLURLICHT_MQTT::run()
     }
 
     return 0;
-}
-
-bool FLURLICHT_MQTT::parsePayload(std::string msg)
-{
-    if (msg.compare("ON") == 0)
-    {
-        return false;
-    }
-    else if (msg.compare("OFF") == 0)
-    {
-        return true;
-    }
-    else
-    {
-        throw "unknown payload";
-    }
-}
-
-FLURLICHT_MQTT::FLURLICHT_MQTT()
-{
-    /* Required before calling other mosquitto functions */
-}
-
-FLURLICHT_MQTT::~FLURLICHT_MQTT()
-{
 }

@@ -50,6 +50,7 @@ set(HEADER_FILES include/flurlicht.h
                 include/flurlicht_tools.h
                 include/flurlicht_gpio.h
                 include/flurlicht_mqtt.h
+                include/flurlicht_events.h
                 include/leds.h
                 include/animations_base.h
                 include/animations_random.h
@@ -62,6 +63,7 @@ set(SOURCES src/flurlicht.cpp
             src/flurlicht_tools.cpp
             src/flurlicht_gpio.cpp
             src/flurlicht_mqtt.cpp
+            src/flurlicht_events.cpp
             src/leds.cpp
             src/animations_base.cpp
             src/animations_random.cpp

@@ -13,8 +13,6 @@ private:
     boost::mutex lock_;
     std::chrono::high_resolution_clock::time_point last_trigger_time_;
     const int cOccupancyTime_ = 5000;
-
-//    bool getTriggerValidity();
 };
 
 #endif // FLURLICHT_EVENTS_H
