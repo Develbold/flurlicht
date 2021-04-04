@@ -36,7 +36,11 @@ void FLURLICHT_GPIO::handleGPIOCallback(int gpio, int level, uint32_t tick)
     if (gpio == PinFront_)
     {
 //        setSensorState(FRONT,state);
-        updateStates(state);
+//        updateStates(state);
+        if(state==true)
+        {
+            occupancy_->resetTrigger();
+        }
     }
     else
     {
@@ -103,7 +107,7 @@ FLURLICHT_GPIO::FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> occupancy)
 
     //register Callbacks
     gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
-    updateStates(false);
+//    updateStates(false);
     BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
 }
 
@@ -117,24 +121,24 @@ bool FLURLICHT_GPIO::getSensorStates()
 
 }
 
-void FLURLICHT_GPIO::updateStates(bool value)
-{
-    if (value == true)
-    {
-//            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time front";
-            last_trigger_time_=FLURLICHT_TOOLS::getTime();
-            mutex_.lock();
-            states_ext_=true;
-            mutex_.unlock();
-    }
-    else
-    {
-//            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_,cCoolOffPeriod_))
-//            {
-//                BOOST_LOG_TRIVIAL(debug) << "clear trigger front";
-                mutex_.lock();
-                states_ext_=false;
-                mutex_.unlock();
-//            }
-    }
-}
+//void FLURLICHT_GPIO::updateStates(bool value)
+//{
+//    if (value == true)
+//    {
+////            BOOST_LOG_TRIVIAL(debug) << "reset last trigger time front";
+//            last_trigger_time_=FLURLICHT_TOOLS::getTime();
+//            mutex_.lock();
+//            states_ext_=true;
+//            mutex_.unlock();
+//    }
+//    else
+//    {
+////            if (FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_,cCoolOffPeriod_))
+////            {
+////                BOOST_LOG_TRIVIAL(debug) << "clear trigger front";
+//                mutex_.lock();
+//                states_ext_=false;
+//                mutex_.unlock();
+////            }
+//    }
+//}
