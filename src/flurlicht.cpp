@@ -14,16 +14,13 @@ using namespace std;
 flurlicht::flurlicht()
 {
     BOOST_LOG_TRIVIAL(debug) << "calling flurlich constructor";
-    LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
+//    LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
+
 
     // init GPIO, Events States
     //events_ = std::make_shared<FLURLICHT_EVENTS>();
     //Gpio_ = std::make_unique<FLURLICHT_GPIO>(events_);
-    //Gpio_ = std::make_unique<FLURLICHT_GPIO>();
-    if(!Gpio_.initGPIO())
-    {
-        throw std::runtime_error("GPIO init was not succesfull");
-    }
+    Gpio_ = std::make_unique<FLURLICHT_GPIO>();
     setNextState(ST_OFF);
     BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
 }
@@ -73,7 +70,7 @@ void flurlicht::run()
 
 auto flurlicht::getNextState() -> flurlicht::States
 {
-    bool SensorBuffer = Gpio_.getSensorStates();
+    bool SensorBuffer = Gpio_->getSensorStates();
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
 
@@ -133,7 +130,7 @@ auto flurlicht::getCurrentState() -> flurlicht::States
 //return if state is valid based on if mutex is locked
 auto flurlicht::checkStateValid(bool state) -> bool
 {
-    bool buffer = Gpio_.getSensorStates();
+    bool buffer = Gpio_->getSensorStates();
     return (buffer==state);
 }
 

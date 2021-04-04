@@ -51,36 +51,58 @@ void FLURLICHT_GPIO::handleGPIOCallbackExt(int gpio, int level, uint32_t tick, v
     mySelf->handleGPIOCallback(gpio, level, tick);
 }
 
-auto FLURLICHT_GPIO::initGPIO() -> bool
+//auto FLURLICHT_GPIO::initGPIO() -> bool
+//{
+//    BOOST_LOG_TRIVIAL(info) << "GPIO initialing";
+//    if(gpioInitialise()==PI_INIT_FAILED)
+//    {
+//        BOOST_LOG_TRIVIAL(error) << "GPIO init failed";
+//        return false;
+//    }
+//    //set mode of GPIO
+//    if(gpioSetMode(PinFront_, PI_INPUT) !=0)
+//    {
+//        BOOST_LOG_TRIVIAL(error) << "GPIO mode set failed";
+//        return false;
+//    }
+//    if(gpioSetPullUpDown(PinFront_,PI_PUD_DOWN) !=0)
+//    {
+//        BOOST_LOG_TRIVIAL(error) << "GPIO set pulldown failed";
+//        return false;
+//    }
+
+//    //register Callbacks
+//    gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
+//    updateStates(false);
+//    BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
+//    return true;
+//}
+
+FLURLICHT_GPIO::FLURLICHT_GPIO()
 {
     BOOST_LOG_TRIVIAL(info) << "GPIO initialing";
+
+    last_trigger_time_= FLURLICHT_TOOLS::getTime();
+
+
     if(gpioInitialise()==PI_INIT_FAILED)
     {
-        BOOST_LOG_TRIVIAL(error) << "GPIO init failed";
-        return false;
+        throw std::runtime_error("GPIO init was not succesfull");
     }
     //set mode of GPIO
     if(gpioSetMode(PinFront_, PI_INPUT) !=0)
     {
-        BOOST_LOG_TRIVIAL(error) << "GPIO mode set failed";
-        return false;
+        throw std::runtime_error("GPIO mode set failed");
     }
     if(gpioSetPullUpDown(PinFront_,PI_PUD_DOWN) !=0)
     {
-        BOOST_LOG_TRIVIAL(error) << "GPIO set pulldown failed";
-        return false;
+        throw std::runtime_error("GPIO set pulldown failed");
     }
 
     //register Callbacks
     gpioSetAlertFuncEx(PinFront_, handleGPIOCallbackExt, (void *)this);
     updateStates(false);
     BOOST_LOG_TRIVIAL(info) << "GPIO initialized";
-    return true;
-}
-
-FLURLICHT_GPIO::FLURLICHT_GPIO()
-{
-    last_trigger_time_= FLURLICHT_TOOLS::getTime();
 }
 
 bool FLURLICHT_GPIO::getSensorStates()
