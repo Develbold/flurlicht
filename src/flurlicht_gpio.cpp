@@ -78,11 +78,13 @@ void FLURLICHT_GPIO::handleGPIOCallbackExt(int gpio, int level, uint32_t tick, v
 //    return true;
 //}
 
-FLURLICHT_GPIO::FLURLICHT_GPIO()
+FLURLICHT_GPIO::FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> occupancy)
 {
     BOOST_LOG_TRIVIAL(info) << "GPIO initialing";
 
     last_trigger_time_= FLURLICHT_TOOLS::getTime();
+
+    occupancy_ = occupancy;
 
 
     if(gpioInitialise()==PI_INIT_FAILED)

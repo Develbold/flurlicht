@@ -7,6 +7,7 @@
 #include <boost/thread/mutex.hpp>
 #include "leds.h"
 #include "flurlicht_gpio.h"
+#include "flurlicht_events.h"
 
 extern "C" {
 #include "rpi_ws281x_static/ws2811.h"
@@ -49,7 +50,8 @@ private:
     const int cLEDStripeType_ = SK6812_STRIP;
     std::unique_ptr<LEDs> LEDs_;
 
-    FLURLICHT_GPIO Gpio_;
+    std::unique_ptr<FLURLICHT_GPIO> Gpio_;
+    std::shared_ptr<FLURLICHT_EVENTS> occupancy_;
 
 };
 

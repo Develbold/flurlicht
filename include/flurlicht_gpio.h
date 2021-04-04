@@ -5,8 +5,7 @@
 #include <boost/log/trivial.hpp>
 #include <memory>
 #include <boost/thread/mutex.hpp>
-
-//#include "flurlicht_events.h"
+#include "flurlicht_events.h"
 #include "leds.h"
 
 
@@ -17,8 +16,8 @@ extern "C" {
 class FLURLICHT_GPIO
 {
 public:
-    FLURLICHT_GPIO();
-    bool initGPIO();
+    FLURLICHT_GPIO(std::shared_ptr<FLURLICHT_EVENTS> occupancy);
+//    bool initGPIO();
 
     typedef struct
     {
@@ -40,6 +39,7 @@ private:
 
     boost::mutex mutex_;
 
+    std::shared_ptr<FLURLICHT_EVENTS> occupancy_;
 
     //GPIO stuff
     const int PinFront_ = 14;
