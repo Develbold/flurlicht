@@ -14,15 +14,10 @@ using namespace std;
 flurlicht::flurlicht()
 {
     BOOST_LOG_TRIVIAL(debug) << "calling flurlich constructor";
-//    LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
+    LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
 
     occupancy_ = std::make_shared<FLURLICHT_EVENTS>();
 
-
-
-    // init GPIO, Events States
-    //events_ = std::make_shared<FLURLICHT_EVENTS>();
-    //Gpio_ = std::make_unique<FLURLICHT_GPIO>(events_);
     Gpio_ = std::make_unique<FLURLICHT_GPIO>(occupancy_);
     setNextState(ST_OFF);
     BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
