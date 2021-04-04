@@ -152,18 +152,6 @@ bool FLURLICHT_MQTT::parsePayload(std::string msg)
     }
 }
 
-FLURLICHT_MQTT::FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy, std::string topic)
-{
-    occupancy_ = occupancy;
-    TOPIC = topic;
-//    SERVER_ADDRESS  = "tcp://192.168.0.12:1883";
-//    CLIENT_ID       = "paho_cpp_async_subcribe";
-//    TOPIC           = "homeassistant/binary_sensor/0010fa6e384a/pir_front/state";
-//    USER            = "arduino";
-//    PW              = "foobar";
-}
-
-
 void FLURLICHT_MQTT::mqtt_callback::reconnect() {
     std::this_thread::sleep_for(std::chrono::milliseconds(2500));
     try {
@@ -228,20 +216,35 @@ void FLURLICHT_MQTT::mqtt_action_listener::on_success(const mqtt::token &tok) {
         BOOST_LOG_TRIVIAL(info) << "MQTT: token topic: '" << (*top)[0] << "', ...";
 }
 
+FLURLICHT_MQTT::FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy, std::string topic)
+{
+    occupancy_ = occupancy;
+    TOPIC = topic;
+
+    cli_ = std::make_shared<mqtt::async_client>(SERVER_ADDRESS, CLIENT_ID);
+
+    connOpts_= std::make_shared<mqtt::connect_options>(USER,PW);
+    connOpts_->set_clean_session(false);
+    connOpts_->set_connect_timeout(5);
+
+    cb_ = std::make_shared<mqtt_callback>(*this, *cli_, *connOpts_);
+}
+
 bool FLURLICHT_MQTT::run()
 {
     // A subscriber often wants the server to remember its messages when its
     // disconnected. In that case, it needs a unique ClientID and a
     // non-clean session.
 
-    mqtt::async_client cli(SERVER_ADDRESS, CLIENT_ID);
+//    mqtt::async_client cli(SERVER_ADDRESS, CLIENT_ID);
 
-    mqtt::connect_options connOpts(USER,PW);
-    connOpts.set_clean_session(false);
+//    mqtt::connect_options connOpts(USER,PW);
+//    connOpts_->set_clean_session(false);
+//    connOpts_->set_connect_timeout(5);
 
     // Install the callback(s) before connecting.
-    mqtt_callback cb(*this, cli, connOpts);
-    cli.set_callback(cb);
+//    mqtt_callback cb(*this, *cli_, *connOpts_);
+    cli_->set_callback(*cb_);
 
     // Start the connection.
     // When completed, the callback will subscribe to topic.
@@ -249,7 +252,7 @@ bool FLURLICHT_MQTT::run()
     try {
 //        std::cout << "Connecting to the MQTT server..." << std::flush;
        BOOST_LOG_TRIVIAL(info) << "MQTT: Connecting to the MQTT server...";
-       cli.connect(connOpts, nullptr, cb);
+       cli_->connect(*connOpts_, nullptr, *cb_);
     }
     catch (const mqtt::exception& exc) {
         BOOST_LOG_TRIVIAL(error) << "MQTT: Unable to connect to MQTT server: '"
@@ -259,20 +262,20 @@ bool FLURLICHT_MQTT::run()
 
     // Just block till user tells us to quit.
 
-    while (std::tolower(std::cin.get()) != 'q')
-        ;
+//    while (std::tolower(std::cin.get()) != 'q')
+//        ;
 
     // Disconnect
 
-    try {
-        BOOST_LOG_TRIVIAL(info) << "MQTT: Disconnecting from the MQTT server...";
-        cli.disconnect()->wait();
-        BOOST_LOG_TRIVIAL(info) << "MQTT: OK";
-    }
-    catch (const mqtt::exception& exc) {
-        BOOST_LOG_TRIVIAL(error) << exc << std::endl;
-        return 1;
-    }
+//    try {
+//        BOOST_LOG_TRIVIAL(info) << "MQTT: Disconnecting from the MQTT server...";
+//        cli.disconnect()->wait();
+//        BOOST_LOG_TRIVIAL(info) << "MQTT: OK";
+//    }
+//    catch (const mqtt::exception& exc) {
+//        BOOST_LOG_TRIVIAL(error) << exc << std::endl;
+//        return 1;
+//    }
 
     return 0;
 }

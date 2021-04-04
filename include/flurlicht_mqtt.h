@@ -26,8 +26,6 @@ private:
     static const int	QOS = 1;
     static const int	N_RETRY_ATTEMPTS = 5;
 
-    std::shared_ptr<FLURLICHT_EVENTS> occupancy_;
-
     // Callbacks for the success or failures of requested actions.
     // This could be used to initiate further action, but here we just log the
     // results to the console.
@@ -96,6 +94,11 @@ private:
         mqtt_callback(FLURLICHT_MQTT&  mqtt, mqtt::async_client& cli, mqtt::connect_options& connOpts)
                     : nretry_(0), cli_(cli), connOpts_(connOpts), subListener_("Subscription"), parent(mqtt) {}
     };
+
+    std::shared_ptr<FLURLICHT_EVENTS> occupancy_;
+    std::shared_ptr<mqtt::async_client> cli_;
+    std::shared_ptr<mqtt::connect_options> connOpts_;
+    std::shared_ptr<mqtt_callback> cb_;
 };
 
 // classes taken from the paho example
