@@ -10,7 +10,7 @@
 class FLURLICHT_MQTT
 {
 public:
-    FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy);
+    FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy, std::string topic);
     //~FLURLICHT_MQTT();
     bool run();
     static bool parsePayload(std::string msg);
@@ -18,7 +18,8 @@ public:
 private:
     const std::string SERVER_ADDRESS = "tcp://192.168.0.12:1883";
     const std::string CLIENT_ID = "paho_cpp_async_subcribe";
-    const std::string TOPIC = "homeassistant/binary_sensor/0010fa6e384a/pir_front/state";
+//    const std::string TOPIC = "homeassistant/binary_sensor/0010fa6e384a/pir_front/state";
+    std::string TOPIC;
     const std::string USER = "arduino";
     const std::string PW = "foobar";
 

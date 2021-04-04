@@ -152,9 +152,10 @@ bool FLURLICHT_MQTT::parsePayload(std::string msg)
     }
 }
 
-FLURLICHT_MQTT::FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy)
+FLURLICHT_MQTT::FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy, std::string topic)
 {
     occupancy_ = occupancy;
+    TOPIC = topic;
 //    SERVER_ADDRESS  = "tcp://192.168.0.12:1883";
 //    CLIENT_ID       = "paho_cpp_async_subcribe";
 //    TOPIC           = "homeassistant/binary_sensor/0010fa6e384a/pir_front/state";
