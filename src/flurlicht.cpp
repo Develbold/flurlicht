@@ -73,7 +73,8 @@ void flurlicht::run()
 
 auto flurlicht::getNextState() -> flurlicht::States
 {
-    bool SensorBuffer = Gpio_->getSensorStates();
+//    bool SensorBuffer = Gpio_->getSensorStates();
+    bool SensorBuffer = occupancy_->getOccupancy();
     States CurrentState = getCurrentState();
     bool AnimationBuffer = getAnimationState();
 
@@ -133,7 +134,8 @@ auto flurlicht::getCurrentState() -> flurlicht::States
 //return if state is valid based on if mutex is locked
 auto flurlicht::checkStateValid(bool state) -> bool
 {
-    bool buffer = Gpio_->getSensorStates();
+//    bool buffer = Gpio_->getSensorStates();
+    bool buffer = occupancy_->getOccupancy();
     return (buffer==state);
 }
 
