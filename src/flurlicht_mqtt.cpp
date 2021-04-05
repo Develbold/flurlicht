@@ -25,28 +25,6 @@ bool FLURLICHT_MQTT::parsePayload(std::string msg)
     }
 }
 
-bool FLURLICHT_MQTT::createSensorCallback(std::string topic)
-{
-    BOOST_LOG_TRIVIAL(debug) << "MQTT: creating Callback";
-    // register callback
-    BOOST_LOG_TRIVIAL(debug) << "MQTT: set callback";
-    cli_->set_callback(*cb_);
-
-    BOOST_LOG_TRIVIAL(debug) << "MQTT: try connection";
-    try {
-       BOOST_LOG_TRIVIAL(info) << "MQTT: Connecting to the MQTT server...";
-       cli_->connect(*connOpts_, nullptr, *cb_);
-    }
-    catch (const mqtt::exception& exc) {
-        BOOST_LOG_TRIVIAL(error) << "MQTT: Unable to connect to MQTT server: '"
-            << SERVER_ADDRESS << "'" << exc;
-        return false;
-    }
-
-    BOOST_LOG_TRIVIAL(debug) << "MQTT: done creating sensor callback";
-    return true;
-}
-
 void FLURLICHT_MQTT::mqtt_callback::reconnect() {
     std::this_thread::sleep_for(std::chrono::milliseconds(2500));
     try {
@@ -124,6 +102,21 @@ FLURLICHT_MQTT::FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_OCCUPANCY> occupancy)
 //    connOpts_->set_connect_timeout(5);
 
     cb_ = std::make_shared<mqtt_callback>(*this, *cli_, *connOpts_);
+
+    // register callback
+    BOOST_LOG_TRIVIAL(debug) << "MQTT: set callback";
+    cli_->set_callback(*cb_);
+
+    BOOST_LOG_TRIVIAL(debug) << "MQTT: try connection";
+    try {
+       BOOST_LOG_TRIVIAL(info) << "MQTT: Connecting to the MQTT server...";
+       cli_->connect(*connOpts_, nullptr, *cb_);
+    }
+    catch (const mqtt::exception& exc) {
+        BOOST_LOG_TRIVIAL(error) << "MQTT: Unable to connect to MQTT server: '"
+            << SERVER_ADDRESS << "'" << exc;
+        throw "unable to connect";
+    }
     BOOST_LOG_TRIVIAL(debug) << "MQTT: FLURLICHT_MQTT::FLURLICHT_MQTT done";
 }
 

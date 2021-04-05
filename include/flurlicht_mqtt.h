@@ -13,7 +13,6 @@ public:
     FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_OCCUPANCY> occupancy);
     bool run();
     static bool parsePayload(std::string msg);
-    bool createSensorCallback(std::string topic);
 
 private:
     const std::string SERVER_ADDRESS = "tcp://192.168.0.12:1883";
