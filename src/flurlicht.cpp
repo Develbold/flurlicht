@@ -128,27 +128,19 @@ auto flurlicht::getCurrentState() -> flurlicht::States
     return CurrentState_;
 }
 
-//return if state is valid based on if mutex is locked
-auto flurlicht::checkStateValid(bool state) -> bool
-{
-//    bool buffer = Gpio_->getSensorStates();
-    bool buffer = occupancy_->getOccupancy();
-    return (buffer==state);
-}
-
 void flurlicht::handleONState()
 {
-//    while(checkStateValid())
-//    {
-        FLURLICHT_TOOLS::sleepPeriod(30000);
-//    }
+    while(occupancy_->getOccupancy())
+    {
+        FLURLICHT_TOOLS::sleepPeriod(500);
+    }
     BOOST_LOG_TRIVIAL(info) << "finished ON state";
 }
 
 void flurlicht::handleOFFState()
 {
     LEDs_->playAnimation(LEDs::BLINK,ANIMATION::fades_t::FADE_OUT);
-    while(checkStateValid(false))
+    while(!occupancy_->getOccupancy())
     {
         FLURLICHT_TOOLS::sleepPeriod(100);
     }

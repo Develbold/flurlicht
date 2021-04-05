@@ -33,7 +33,6 @@ private:
     void setNextState(States next);
     States getCurrentState();
     States CurrentState_;
-    bool checkStateValid(bool state);
     void handleONState();
     void handleOFFState();
     void handleANIMATIONState();
