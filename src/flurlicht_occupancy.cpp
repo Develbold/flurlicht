@@ -5,6 +5,7 @@
 FLURLICHT_OCCUPANCY::FLURLICHT_OCCUPANCY()
 {
     BOOST_LOG_TRIVIAL(debug) << "FLURLICHT_OCCUPANCY::FLURLICHT_OCCUPANCY";
+    resetTrigger();
 }
 
 FLURLICHT_OCCUPANCY::~FLURLICHT_OCCUPANCY()
@@ -25,7 +26,7 @@ void FLURLICHT_OCCUPANCY::resetTrigger()
 bool FLURLICHT_OCCUPANCY::getOccupancy()
 {
     lock_.lock();
-    bool buffer = FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_,cOccupancyTime_);
+    bool buffer = !FLURLICHT_TOOLS::checkRenderTimeValid(last_trigger_time_,cOccupancyTime_);
     BOOST_LOG_TRIVIAL(debug) << "OCCUPANCY: " << buffer;
     lock_.unlock();
     return buffer;
