@@ -1,6 +1,6 @@
 #include "flurlicht_events.h"
 #include "flurlicht_tools.h"
-
+#include <boost/log/trivial.hpp>
 
 FLURLICHT_EVENTS::FLURLICHT_EVENTS()
 {
@@ -10,6 +10,7 @@ FLURLICHT_EVENTS::FLURLICHT_EVENTS()
 // set last trigger time to now
 void FLURLICHT_EVENTS::resetTrigger()
 {
+    BOOST_LOG_TRIVIAL(debug) << "OCCUPANCY: reset trigger";
     lock_.lock();
     last_trigger_time_ = FLURLICHT_TOOLS::getTime();
     lock_.unlock();

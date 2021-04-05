@@ -13,11 +13,11 @@ bool FLURLICHT_MQTT::parsePayload(std::string msg)
 {
     if (msg.compare("ON") == 0)
     {
-        return false;
+        return true;
     }
     else if (msg.compare("OFF") == 0)
     {
-        return true;
+        return false;
     }
     else
     {
