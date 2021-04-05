@@ -13,7 +13,7 @@ using namespace std;
 
 flurlicht::flurlicht()
 {
-    BOOST_LOG_TRIVIAL(debug) << "calling flurlich constructor";
+    BOOST_LOG_TRIVIAL(debug) << "flurlicht::flurlicht";
     occupancy_ = std::make_shared<FLURLICHT_OCCUPANCY>();
 
     mqtt_ = std::make_unique<FLURLICHT_MQTT>(occupancy_);
@@ -24,7 +24,7 @@ flurlicht::flurlicht()
 
     Gpio_ = std::make_unique<FLURLICHT_GPIO>(occupancy_);
     setNextState(ST_OFF);
-    BOOST_LOG_TRIVIAL(debug) << "finished flurlicht constructor";
+    BOOST_LOG_TRIVIAL(debug) << "flurlicht::flurlicht done";
 }
 
 void flurlicht::run()
