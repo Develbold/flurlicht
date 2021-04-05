@@ -11,7 +11,6 @@ class FLURLICHT_MQTT
 {
 public:
     FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy);
-    //~FLURLICHT_MQTT();
     bool run();
     static bool parsePayload(std::string msg);
     bool createSensorCallback(std::string topic);
@@ -19,11 +18,9 @@ public:
 private:
     const std::string SERVER_ADDRESS = "tcp://192.168.0.12:1883";
     const std::string CLIENT_ID = "paho_cpp_async_subcribe";
-//    const std::string TOPIC = "homeassistant/binary_sensor/0010fa6e384a/pir_front/state";
-//    std::string TOPIC;
     const std::string USER = "arduino";
     const std::string PW = "foobar";
-
+    const std::vector<std::string> TOPICS = {"homeassistant/binary_sensor/0010fa6e384a/pir_front/state","homeassistant/binary_sensor/0010fa6e384a/pir_back/state"};
     static const int	QOS = 1;
     static const int	N_RETRY_ATTEMPTS = 5;
 
@@ -54,7 +51,6 @@ private:
 
     {
         FLURLICHT_MQTT&  parent;
-        std::string TOPIC;
 
         // Counter for the number of connection retries
         int nretry_;
@@ -99,18 +95,10 @@ private:
     };
 
     std::shared_ptr<FLURLICHT_EVENTS> occupancy_;
-//    std::shared_ptr<mqtt::async_client> cli_;
-//    std::shared_ptr<mqtt::connect_options> connOpts_;
-//    std::shared_ptr<mqtt_callback> cb_;
-    std::vector<std::shared_ptr<mqtt_callback>> callbacks_;
-    std::vector<std::shared_ptr<mqtt::async_client>> clients_;
+    std::shared_ptr<mqtt::async_client> cli_;
+    std::shared_ptr<mqtt::connect_options> connOpts_;
+    std::shared_ptr<mqtt_callback> cb_;
 };
-
-// classes taken from the paho example
-
-
-
-
 
 
 #endif // FLURLICHT_MQTT_H

@@ -18,9 +18,6 @@ flurlicht::flurlicht()
 
     mqtt_ = std::make_unique<FLURLICHT_MQTT>(occupancy_);
     mqtt_->createSensorCallback("homeassistant/binary_sensor/0010fa6e384a/pir_front/state");
-//    sleep(15);
-    BOOST_LOG_TRIVIAL(debug) << "creating second callback";
-    mqtt_->createSensorCallback("homeassistant/binary_sensor/0010fa6e384a/pir_back/state");
 
     sleep(120);
     LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
