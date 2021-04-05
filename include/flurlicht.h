@@ -8,6 +8,7 @@
 #include "leds.h"
 #include "flurlicht_gpio.h"
 #include "flurlicht_events.h"
+#include "flurlicht_mqtt.h"
 
 extern "C" {
 #include "rpi_ws281x_static/ws2811.h"
@@ -52,7 +53,7 @@ private:
 
     std::unique_ptr<FLURLICHT_GPIO> Gpio_;
     std::shared_ptr<FLURLICHT_EVENTS> occupancy_;
-
+    std::unique_ptr<FLURLICHT_MQTT> mqtt_;
 };
 
 

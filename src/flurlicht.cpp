@@ -14,9 +14,16 @@ using namespace std;
 flurlicht::flurlicht()
 {
     BOOST_LOG_TRIVIAL(debug) << "calling flurlich constructor";
-    LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
-
     occupancy_ = std::make_shared<FLURLICHT_EVENTS>();
+
+    mqtt_ = std::make_unique<FLURLICHT_MQTT>(occupancy_);
+    mqtt_->createSensorCallback("homeassistant/binary_sensor/0010fa6e384a/pir_front/state");
+//    sleep(15);
+    BOOST_LOG_TRIVIAL(debug) << "creating second callback";
+    mqtt_->createSensorCallback("homeassistant/binary_sensor/0010fa6e384a/pir_back/state");
+
+    sleep(120);
+    LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
 
     Gpio_ = std::make_unique<FLURLICHT_GPIO>(occupancy_);
     setNextState(ST_OFF);
