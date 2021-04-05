@@ -14,7 +14,7 @@ using namespace std;
 flurlicht::flurlicht()
 {
     BOOST_LOG_TRIVIAL(debug) << "calling flurlich constructor";
-    occupancy_ = std::make_shared<FLURLICHT_EVENTS>();
+    occupancy_ = std::make_shared<FLURLICHT_OCCUPANCY>();
 
     mqtt_ = std::make_unique<FLURLICHT_MQTT>(occupancy_);
     mqtt_->createSensorCallback("homeassistant/binary_sensor/0010fa6e384a/pir_front/state");

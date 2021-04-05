@@ -113,7 +113,7 @@ void FLURLICHT_MQTT::mqtt_action_listener::on_success(const mqtt::token &tok) {
         BOOST_LOG_TRIVIAL(info) << "MQTT: token topic: '" << (*top)[0] << "', ...";
 }
 
-FLURLICHT_MQTT::FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy)
+FLURLICHT_MQTT::FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_OCCUPANCY> occupancy)
 {
     BOOST_LOG_TRIVIAL(debug) << "MQTT: FLURLICHT_MQTT::FLURLICHT_MQTT";
 

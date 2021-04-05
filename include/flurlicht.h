@@ -7,7 +7,7 @@
 #include <boost/thread/mutex.hpp>
 #include "leds.h"
 #include "flurlicht_gpio.h"
-#include "flurlicht_events.h"
+#include "flurlicht_occupancy.h"
 #include "flurlicht_mqtt.h"
 
 extern "C" {
@@ -52,7 +52,7 @@ private:
     std::unique_ptr<LEDs> LEDs_;
 
     std::unique_ptr<FLURLICHT_GPIO> Gpio_;
-    std::shared_ptr<FLURLICHT_EVENTS> occupancy_;
+    std::shared_ptr<FLURLICHT_OCCUPANCY> occupancy_;
     std::unique_ptr<FLURLICHT_MQTT> mqtt_;
 };
 

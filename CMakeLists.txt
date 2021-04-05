@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #SET (CMAKE_CXX_COMPILER             "/usr/bin/clang++")
 #SET (CMAKE_C_COMPILER             "/usr/bin/clang")
-#set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Release)
 
 find_package(Threads REQUIRED)
 set(Boost_USE_STATIC_LIBS   ON)
@@ -50,7 +50,7 @@ set(HEADER_FILES include/flurlicht.h
                 include/flurlicht_tools.h
                 include/flurlicht_gpio.h
                 include/flurlicht_mqtt.h
-                include/flurlicht_events.h
+                include/flurlicht_occupancy.h
                 include/leds.h
                 include/animations_base.h
                 include/animations_random.h
@@ -63,7 +63,7 @@ set(SOURCES src/flurlicht.cpp
             src/flurlicht_tools.cpp
             src/flurlicht_gpio.cpp
             src/flurlicht_mqtt.cpp
-            src/flurlicht_events.cpp
+            src/flurlicht_occupancy.cpp
             src/leds.cpp
             src/animations_base.cpp
             src/animations_random.cpp

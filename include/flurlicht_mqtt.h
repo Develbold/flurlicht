@@ -5,12 +5,12 @@
 
 #include "mqtt/async_client.h"
 #include <boost/log/trivial.hpp>
-#include "flurlicht_events.h"
+#include "flurlicht_occupancy.h"
 
 class FLURLICHT_MQTT
 {
 public:
-    FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_EVENTS> occupancy);
+    FLURLICHT_MQTT(std::shared_ptr<FLURLICHT_OCCUPANCY> occupancy);
     bool run();
     static bool parsePayload(std::string msg);
     bool createSensorCallback(std::string topic);
@@ -94,7 +94,7 @@ private:
         void setTOPIC(const std::string &value);
     };
 
-    std::shared_ptr<FLURLICHT_EVENTS> occupancy_;
+    std::shared_ptr<FLURLICHT_OCCUPANCY> occupancy_;
     std::shared_ptr<mqtt::async_client> cli_;
     std::shared_ptr<mqtt::connect_options> connOpts_;
     std::shared_ptr<mqtt_callback> cb_;
