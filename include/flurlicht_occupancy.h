@@ -2,6 +2,7 @@
 #define FLURLICHT_EVENTS_H
 
 #include <boost/thread/mutex.hpp>
+#include <chrono>
 
 class FLURLICHT_OCCUPANCY
 {
