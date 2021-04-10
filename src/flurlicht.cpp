@@ -17,13 +17,15 @@ flurlicht::flurlicht()
     BOOST_LOG_TRIVIAL(debug) << "flurlicht::flurlicht";
     //seed random number generator
     srand(time(NULL));
+    //create occupancy object
     occupancy_ = std::make_shared<FLURLICHT_OCCUPANCY>();
-
+    //create MQTT handler
     mqtt_ = std::make_unique<FLURLICHT_MQTT>(occupancy_);
-
+    //create LED handler
     LEDs_ = make_unique<LEDs>(cLEDPin_,cLEDCOunt_,cLEDStripeType_);
-
+    //create GPIO handler
     Gpio_ = std::make_unique<FLURLICHT_GPIO>(occupancy_);
+    //set the initial state of state machine
     setNextState(ST_OFF);
     BOOST_LOG_TRIVIAL(debug) << "flurlicht::flurlicht done";
 }
