@@ -21,6 +21,8 @@ void ANIMATION_SCANNER::render(fades_t direction)
     const auto led_count = getLEDCount();
     auto pos_bar_back = led_count;
     auto dot_delta = 5;
+    //clear all LEDS
+    setAllLEDsOneValue(0);
     //set initial dot
     setOneLED(0,cMax_brightness_);
     while(0!=pos_bar_back)
