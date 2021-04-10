@@ -14,7 +14,7 @@ public:
 private:
     boost::mutex lock_;
     std::chrono::high_resolution_clock::time_point last_trigger_time_;
-    const int cOccupancyTime_ = 30000;
+    const int cOccupancyTime_ = 60000;
 };
 
 #endif // FLURLICHT_EVENTS_H
