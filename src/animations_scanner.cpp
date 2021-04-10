@@ -20,7 +20,7 @@ void ANIMATION_SCANNER::render(fades_t direction)
     auto pos_dot = 0;
     const auto led_count = getLEDCount();
     auto pos_bar_back = led_count;
-    auto dot_delta = 5;
+    auto dot_delta = 10;
     //clear all LEDS
     setAllLEDsOneValue(0);
     //set initial dot
@@ -34,11 +34,6 @@ void ANIMATION_SCANNER::render(fades_t direction)
         {
             setOneLED(0,cMax_brightness_);
         }
-//        // set old pos to zero if it doesn't delete front bar
-//        if(pos_dot-1>pos_bar_front)
-//        {
-//            setOneLED(pos_dot-1,0);
-//        }
         // check if dot is same pos as bar and update positions
         if(pos_dot==pos_bar_back)
         {
@@ -46,12 +41,12 @@ void ANIMATION_SCANNER::render(fades_t direction)
             pos_dot -= dot_delta;
         }
         //set bar
-//        setRange(pos_bar_back,led_count,cMax_brightness_);
+        setRange(pos_bar_back,led_count,cMax_brightness_);
         // render LEDs
         renderLEDs();
         //update position
         pos_dot++;
-        BOOST_LOG_TRIVIAL(debug) << "positions: dot=" << pos_dot << ", pos_bar=" << pos_bar_back;
+        //BOOST_LOG_TRIVIAL(debug) << "positions: dot=" << pos_dot << ", pos_bar=" << pos_bar_back;
     }
 }
 
