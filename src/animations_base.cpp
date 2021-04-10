@@ -51,10 +51,11 @@ void ANIMATION::shiftLEDsUP()
         std::cout << ledstring_->channel[0].leds[i] << "|";
     }
     std::cout << std::endl;
-    for(auto i=n;i!=0;i--)
+    for(auto i=n;i>0;i--)
     {
         ledstring_->channel[0].leds[i] = ledstring_->channel[0].leds[i-1];
     }
+    ledstring_->channel[0].leds[0] = 0;	
     for(auto i=0;i<n;i++)
     {
         std::cout << ledstring_->channel[0].leds[i] << "|";
