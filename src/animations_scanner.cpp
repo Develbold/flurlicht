@@ -44,12 +44,12 @@ void ANIMATION_SCANNER::render(fades_t direction)
             pos_dot -= dot_delta;
         }
         //set bar
-        setRange(pos_bar_back,led_count,cMax_brightness_);
+//        setRange(pos_bar_back,led_count,cMax_brightness_);
         // render LEDs
         renderLEDs();
         //update position
         pos_dot++;
-//        BOOST_LOG_TRIVIAL(debug) << "positions: dot=" << pos_dot << ", pos_bar=" << pos_bar_back << ", pos_bar_front=" << pos_bar_front;
+        BOOST_LOG_TRIVIAL(debug) << "positions: dot=" << pos_dot << ", pos_bar=" << pos_bar_back;
     }
 }
 
