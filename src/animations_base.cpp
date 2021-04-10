@@ -2,6 +2,7 @@
 #include "flurlicht_tools.h"
 #include <animations_base.h>
 #include <utility>
+#include <iostream>
 
 
 auto ANIMATION::getTimeDelta() -> int
@@ -45,10 +46,20 @@ void ANIMATION::shiftLEDsUP()
 {
     auto n = ledstring_->channel[0].count;
     //auto temp = ledstring_->channel[0].leds[n];
+    for(auto i=0;i<n;i++)
+    {
+        std::cout << ledstring_->channel[0].leds[i] << "|";
+    }
+    std::cout << std::endl;
     for(auto i=n;i!=0;i--)
     {
         ledstring_->channel[0].leds[i] = ledstring_->channel[0].leds[i-1];
     }
+    for(auto i=0;i<n;i++)
+    {
+        std::cout << ledstring_->channel[0].leds[i] << "|";
+    }
+    std::cout << std::endl;
     //ledstring_->channel[0].leds[n-1] = temp;
 }
 
