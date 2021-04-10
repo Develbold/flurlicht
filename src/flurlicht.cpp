@@ -1,6 +1,7 @@
 #include "flurlicht.h"
 #include "flurlicht_tools.h"
 #include "flurlicht_gpio.h"
+#include <time.h>
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -14,6 +15,8 @@ using namespace std;
 flurlicht::flurlicht()
 {
     BOOST_LOG_TRIVIAL(debug) << "flurlicht::flurlicht";
+    //seed random number generator
+    srand(time(NULL));
     occupancy_ = std::make_shared<FLURLICHT_OCCUPANCY>();
 
     mqtt_ = std::make_unique<FLURLICHT_MQTT>(occupancy_);
