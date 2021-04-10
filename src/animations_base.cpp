@@ -27,9 +27,29 @@ void ANIMATION::setOneLED(unsigned pos, led_t value)
     ledstring_->channel[0].leds[pos] = value;
 }
 
+void ANIMATION::setRange(unsigned start, unsigned end, led_t value)
+{
+    for(auto i=start;i<=end;i++)
+    {
+        ledstring_->channel[0].leds[i] = value;
+    }
+}
+
 ANIMATION::led_t ANIMATION::getOneLEDBrightness(unsigned pos)
 {
     return ledstring_->channel[0].leds[pos];
+}
+
+//shift the leds up, without "ringbuffer"
+void ANIMATION::shiftLEDsUP()
+{
+    auto n = ledstring_->channel[0].count;
+    //auto temp = ledstring_->channel[0].leds[n];
+    for(auto i=n;i!=0;i--)
+    {
+        ledstring_->channel[0].leds[i] = ledstring_->channel[0].leds[i-1];
+    }
+    //ledstring_->channel[0].leds[n-1] = temp;
 }
 
 int ANIMATION::getLEDCount()

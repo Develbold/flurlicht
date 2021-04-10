@@ -57,6 +57,8 @@ protected:
     ANIMATION::pwm_steps_t getPWMValue(int pos);
     const static unsigned pwm_table_size=32;
 
+    void shiftLEDsUP();
+    void setRange(unsigned start, unsigned end, led_t value);
 private:
     //leds
     std::shared_ptr<ws2811_t> ledstring_;
