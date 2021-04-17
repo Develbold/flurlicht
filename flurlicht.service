@@ -1,0 +1,11 @@
+[Unit]
+Description=FLurlicht
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/flurlicht
+
+[Install]
+WantedBy=multi-user.target
