@@ -26,6 +26,7 @@ bool FLURLICHT_MQTT::parsePayload(std::string msg)
 }
 
 void FLURLICHT_MQTT::mqtt_callback::reconnect() {
+    BOOST_LOG_TRIVIAL(error) << "MQTT: reconnecting in 2,5s for attempt " << nretry_;
     std::this_thread::sleep_for(std::chrono::milliseconds(2500));
     try {
         cli_.connect(connOpts_, nullptr, *this);
@@ -38,8 +39,6 @@ void FLURLICHT_MQTT::mqtt_callback::reconnect() {
 
 void FLURLICHT_MQTT::mqtt_callback::on_failure(const mqtt::token &tok) {
     BOOST_LOG_TRIVIAL(error) << "MQTT: Connection attempt failed";
-    if (++nretry_ > N_RETRY_ATTEMPTS)
-        exit(1);
     reconnect();
 }
 
