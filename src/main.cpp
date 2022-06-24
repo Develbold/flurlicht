@@ -2,8 +2,14 @@
 #include "flurlicht_mqtt.h"
 #include <iostream>
 
+namespace logging = boost::log;
+
 auto main() -> int
 {
+    logging::core::get()->set_filter
+    (
+        logging::trivial::severity >= logging::trivial::info
+    );
     BOOST_LOG_TRIVIAL(info) << "Flurlicht started";
 
     try

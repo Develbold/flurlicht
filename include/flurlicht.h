@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <boost/log/trivial.hpp>
+#include <boost/log/expressions.hpp>
 #include <memory>
 #include <boost/thread/mutex.hpp>
 #include "leds.h"
