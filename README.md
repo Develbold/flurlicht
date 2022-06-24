@@ -1,6 +1,6 @@
 # flurlicht
 
-Raspberry based controller for ws281x LEDs in combination with PIR sensors. In combination with the arduino based PIR sensor (see [arduino-PIR-MQTT-sensor](https://github.com/Develbold/arduino_pir_mqtt_ha)), this setup hapilly illuminates my hallway ("flur" in german) based on motion detection. Flurlich randomly chooses between predefined animations to add some fun. 
+Raspberry based controller for ws281x LEDs and PIR sensors. In combination with the Arduino based PIR sensor (see [arduino-PIR-MQTT-sensor](https://github.com/Develbold/arduino_pir_mqtt_ha)), this setup happily illuminates my hallway ("flur" in German) based on motion detection. Flurlicht randomly chooses between predefined animations to add some fun.
 
 
 ## Requirements
@@ -9,5 +9,9 @@ Raspberry based controller for ws281x LEDs in combination with PIR sensors. In c
 - cmake
 
 ## Hints
-- Rinning DietPi instead of Raspbian improves the animations. This setup is running on a ancient B+ model flawlessly
-- After compilation, you can autostart flurlicht via the included service file
+- Running DietPi instead of Raspbian improves the animations. This setup is running on a ancient B+ model flawlessly
+- After compilation, you can auto-start flurlicht via the included service file
+
+## Open Tasks
+- MORE animations
+- make flurlicht available for Philips Hue
