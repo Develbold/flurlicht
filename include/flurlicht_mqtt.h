@@ -19,7 +19,7 @@ private:
     const std::string CLIENT_ID = "paho_cpp_async_subcribe";
     const std::string USER = "arduino";
     const std::string PW = "foobar";
-    const std::vector<std::string> TOPICS = {"homeassistant/binary_sensor/pir_front/state","homeassistant/binary_sensor/pir_back/state"};
+    const std::vector<std::string> TOPICS = {"homeassistant/binary_sensor/0010fa6e384a/pir_front/state","homeassistant/binary_sensor/0010fa6e384a/pir_back/state"};
     static const int	QOS = 1;
     static const int	N_RETRY_ATTEMPTS = 5;
 
